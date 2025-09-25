@@ -1,0 +1,58 @@
+﻿<hc:Window x:Class="VNGod.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VNGod"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="gameList" Grid.Row="0" Grid.Column="0" Margin="5" SelectionChanged="gameList_SelectionChanged"/>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Game Details" FontWeight="Bold" FontSize="16" Margin="5"/>
+            <StackPanel Grid.Row="1" x:Name="gameDetailsPanel">
+                <TextBlock Text="Name:" FontWeight="Bold"/>
+                <TextBlock x:Name="gameNameTextBlock"/>
+                <TextBlock Text="Description:" FontWeight="Bold"/>
+                <TextBlock x:Name="gameDescriptionTextBlock"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Border Background="#FF834747" Margin="0,0,0,30" CornerRadius="10,10,10,10">
+                <StackPanel>
+                    <TextBlock TextAlignment="Center" Margin="0,10">Global Options</TextBlock>
+                    <Button x:Name="rescanButton" Content="Rescan Games" Margin="5" Click="rescanButton_Click"/>
+                    <Button x:Name="refreshInfoButton" Content="Refresh Info" Margin="5" Click="refreshInfoButton_Click"/>
+                    <Button x:Name="addNewGameButton" Content="Scan New" Margin="5" Click="addNewGameButton_Click"/>
+                    <Button x:Name="settingsButton" Content="Settings" Margin="5" Click="settingsButton_Click"/>
+
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1" Background="#FF63B573" CornerRadius="10,10,10,10">
+                <StackPanel>
+                    <TextBlock TextAlignment="Center" Margin="0,10">Game Options</TextBlock>
+                    <Button x:Name="playButton" Content="Play" Margin="5" Click="playButton_Click" Foreground="#FF4FDC17"/>
+                    <Button x:Name="openGameFolderButton" Content="Open Folder" Margin="5" Click="openGameFolderButton_Click"/>
+                    <Button x:Name="editGameButton" Content="Edit Info" Margin="5" Click="editGameButton_Click"/>
+                    <Button x:Name="bangumiButton" Content="Bangumi" Margin="5" Click="bangumiButton_Click"/>
+                    <Button x:Name="vndbButton" Content="VNDB" Margin="5" Click="vndbButton_Click"/>
+                    <Button x:Name="syncButton" Content="Sync" Margin="5" Click="syncButton_Click"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</hc:Window>
