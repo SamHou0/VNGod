@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VNGod.Data
 {
-    class Repo : ObservableCollection<Game>
+    public class Repo : ObservableCollection<Game>
     {
         public required string LocalPath { get; set; }
         public string? RemotePath { get; set; } = null;

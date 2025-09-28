@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using HandyControl;
+using HandyControl.Controls;
 using Microsoft.Win32;
 using VNGod.Data;
 using VNGod.Services;
@@ -31,7 +32,7 @@ namespace VNGod
 
         }
 
-        private async void rescanButton_Click(object sender, RoutedEventArgs e)
+        private void rescanButton_Click(object sender, RoutedEventArgs e)
         {
             EnableGlobalButtons(false);
             FileService.ScanGames(Resources["gameRepo"] as Repo ??
@@ -39,9 +40,20 @@ namespace VNGod
             EnableGlobalButtons(true);
         }
 
-        private void refreshInfoButton_Click(object sender, RoutedEventArgs e)
+        private async void refreshInfoButton_Click(object sender, RoutedEventArgs e)
         {
+            foreach (var game in Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo."))
+            {
+                try
+                {
 
+                await NetworkService.GetBangumiInfoAsync(game);
+                }catch(Exception ex)
+                {
+                    Growl.Error(ex.Message);
+                }
+            }
+            FileService.SaveMetadata(Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo."));
         }
 
         private void openGameFolderButton_Click(object sender, RoutedEventArgs e)

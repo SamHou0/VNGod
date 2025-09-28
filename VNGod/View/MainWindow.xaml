@@ -19,7 +19,7 @@
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="gameList" Grid.Row="0" Grid.Column="0" Margin="5" SelectionChanged="gameList_SelectionChanged" ItemsSource="{DynamicResource gameRepo}"/>
+        <ListBox x:Name="gameList" Grid.Row="0" Grid.Column="0" Margin="5" SelectionChanged="gameList_SelectionChanged" ItemsSource="{DynamicResource gameRepo}" DisplayMemberPath="ShortDescription"/>
         <Grid Grid.Row="0" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
