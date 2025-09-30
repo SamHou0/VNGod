@@ -81,11 +81,15 @@ namespace VNGod.Services
                         XmlSerializer serializer = new XmlSerializer(typeof(Game));
                         serializer.Serialize(writer, game);
                     }
+                    // Hide the .vngod file
+                    File.SetAttributes(metadataPath, File.GetAttributes(metadataPath) | FileAttributes.Hidden);
                 }
             }
             // Save Repo Metadata
-            File.WriteAllText(Path.Combine(repo.LocalPath, ".vngodrepo"),
-                repo.RemotePath ?? "");
+            var repoPath = Path.Combine(repo.LocalPath, ".vngodrepo");
+            File.WriteAllText(repoPath, repo.RemotePath ?? "");
+            // Hide the .vngodrepo file
+            File.SetAttributes(repoPath, File.GetAttributes(repoPath) | FileAttributes.Hidden);
         }
         /// <summary>
         /// Read repo metadata from disk.
@@ -94,13 +98,13 @@ namespace VNGod.Services
         /// <exception cref="Exception"></exception>
         private static void GetRepoInformation(Repo repo)
         {
-            if (!File.Exists(Path.Combine(repo.LocalPath, ".vngod")))
+            if (!File.Exists(Path.Combine(repo.LocalPath, ".vngodrepo")))
             {
-                // If no .vngod file exists, create one
+                // If no .vngodrepo file exists, create one
                 SaveMetadata(repo,false);
                 return;
             }
-            repo.RemotePath = File.ReadAllText(Path.Combine(repo.LocalPath, ".vngod"));
+            repo.RemotePath = File.ReadAllText(Path.Combine(repo.LocalPath, ".vngodrepo"));
         }
     }
 }

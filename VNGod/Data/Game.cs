@@ -10,11 +10,13 @@ namespace VNGod.Data
 {
     public class Game : INotifyPropertyChanged
     {
-        public string? _name;
-        public string? _savePath;//Detimine the path of the save files of a game
-        public string? _bangumiID;
-        public string? _vndbID;
-        public TimeSpan _playTime = TimeSpan.Zero;
+        private string? _name;
+        private string? _savePath;//Detimine the path of the save files of a game
+        private string? _executableName;//Detemine the path of the executable file of a game
+        private string? _processName;//Detemine the process name of a game, for time recording purpose
+        private string? _bangumiID;
+        private string? _vndbID;
+        private TimeSpan _playTime = TimeSpan.Zero;
         public required string DirectoryName { get; set; }
         public string? Name
         {
@@ -33,6 +35,24 @@ namespace VNGod.Data
             {
                 _savePath = value;
                 OnPropertyChanged(nameof(SavePath));
+            }
+        }
+        public string? ExecutableName
+        {
+            get { return _executableName; }
+            set
+            {
+                _executableName = value;
+                OnPropertyChanged(nameof(ExecutableName));
+            }
+        }
+        public string? ProcessName
+        {
+            get { return _processName; }
+            set
+            {
+                _processName = value;
+                OnPropertyChanged(nameof(ProcessName));
             }
         }
         public string? BangumiID
@@ -92,6 +112,8 @@ namespace VNGod.Data
                 return $"Cloud Save Path: {(string.IsNullOrEmpty(SavePath) ? "[Not Set]" : SavePath)}" + Environment.NewLine +
                     $"Name: {(string.IsNullOrEmpty(Name) ? "[Unknown]" : Name)}"
                     + Environment.NewLine + $"Directory Name: {DirectoryName}" + Environment.NewLine +
+                    $"Executable Name: {(string.IsNullOrEmpty(ExecutableName) ? "[Not Set]" : ExecutableName)}" + Environment.NewLine +
+                    $"Process Name: {(string.IsNullOrEmpty(ProcessName) ? "[Not Set]" : ProcessName)}" + Environment.NewLine +
                     $"Play Time: {PlayTime}" + Environment.NewLine +
                     $"Bangumi ID: {(string.IsNullOrEmpty(BangumiID) ? "[Unknown]" : BangumiID)}" +
                     Environment.NewLine +

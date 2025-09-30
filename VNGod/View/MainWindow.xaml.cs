@@ -16,6 +16,8 @@ using Microsoft.Win32;
 using VNGod.Data;
 using VNGod.Services;
 using VNGod.Properties;
+using System.IO;
+using VNGod.View;
 
 namespace VNGod
 {
@@ -55,7 +57,7 @@ namespace VNGod
             Growl.Info("Starting info refresh...");
             EnableGlobalButtons(false);
             repoButton.IsEnabled = false;
-            Repo games= Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo.");
+            Repo games = Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo.");
             int count = games.Count;
             int cnt = 0;
             foreach (var game in games)
@@ -74,7 +76,7 @@ namespace VNGod
                     progressBar.Value = (double)cnt / count * 100;
                 }
             }
-            FileService.SaveMetadata(Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo."),true);
+            FileService.SaveMetadata(Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo."), true);
             EnableGlobalButtons(true);
             repoButton.IsEnabled = true;
             Growl.Success("Info refresh complete.");
@@ -82,11 +84,34 @@ namespace VNGod
 
         private void openGameFolderButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Process.Start("explorer.exe", gameList.SelectedItem is Game game ?
+                System.IO.Path.Combine((Resources["gameRepo"] as Repo ?? throw new Exception("Invalid Repo")).LocalPath, game.DirectoryName) :
+                throw new Exception("No game selected."));
         }
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
+            if (Resources["gameRepo"] is Repo repo)
+                if (gameList.SelectedItem is Game game)
+                {
+                    if (string.IsNullOrEmpty(game.ExecutableName))
+                    {
+                        //Choose executable
+                        GameSelectionWindow gameSelectionWindow = new GameSelectionWindow(System.IO.Path.Combine(repo.LocalPath, game.DirectoryName));
+                        gameSelectionWindow.ShowDialog();
+                        if (gameSelectionWindow.DialogResult == true)
+                        {
+                            game.ExecutableName = GameSelectionWindow.Result;
+                        }
+                        else return;
+                    }
+                    // Launch game
+                    Process.Start(new ProcessStartInfo()
+                    {
+                        FileName = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName, game.ExecutableName),
+                        WorkingDirectory = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName)
+                    });
+                }
 
         }
 
