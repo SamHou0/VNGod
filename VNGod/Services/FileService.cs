@@ -67,7 +67,7 @@ namespace VNGod.Services
         /// </summary>
         /// <param name="repo"></param>
         /// <param name="overwrite"></param>
-        public static void SaveMetadata(Repo repo, bool overwrite = false)
+        public static void SaveMetadata(Repo repo, bool overwrite)
         {
             //Save Game Metadata
             foreach (var game in repo)
@@ -97,7 +97,7 @@ namespace VNGod.Services
             if (!File.Exists(Path.Combine(repo.LocalPath, ".vngod")))
             {
                 // If no .vngod file exists, create one
-                SaveMetadata(repo);
+                SaveMetadata(repo,false);
                 return;
             }
             repo.RemotePath = File.ReadAllText(Path.Combine(repo.LocalPath, ".vngod"));

@@ -15,7 +15,6 @@ namespace VNGod.Network.Bangumi
     public class Filter
     {
         public int[] type { get; set; } = [4];
-        public bool nsfw { get; set; } = false;
     }
 #pragma warning disable 8618 // Disable non-nullable field must contain a non-null value when exiting constructor.
     public class SearchResult

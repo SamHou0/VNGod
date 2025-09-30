@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VNGod.Properties;
 
 namespace VNGod
 {
@@ -22,6 +23,13 @@ namespace VNGod
         public SettingsWindow()
         {
             InitializeComponent();
+            bangumiTokenTextBox.Text = Settings.Default.BgmToken;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Settings.Default.BgmToken = bangumiTokenTextBox.Text;
+            Settings.Default.Save();
         }
     }
 }
