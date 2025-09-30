@@ -114,7 +114,7 @@ namespace VNGod.Data
                     + Environment.NewLine + $"Directory Name: {DirectoryName}" + Environment.NewLine +
                     $"Executable Name: {(string.IsNullOrEmpty(ExecutableName) ? "[Not Set]" : ExecutableName)}" + Environment.NewLine +
                     $"Process Name: {(string.IsNullOrEmpty(ProcessName) ? "[Not Set]" : ProcessName)}" + Environment.NewLine +
-                    $"Play Time: {PlayTime}" + Environment.NewLine +
+                    $"Play Time: {(int)PlayTime.TotalHours}:{PlayTime.Minutes:D2}:{PlayTime.Seconds:D2}" + Environment.NewLine +
                     $"Bangumi ID: {(string.IsNullOrEmpty(BangumiID) ? "[Unknown]" : BangumiID)}" +
                     Environment.NewLine +
                     $"VNDB ID: {(string.IsNullOrEmpty(VNDBID) ? "[Unknown]" : VNDBID)}";

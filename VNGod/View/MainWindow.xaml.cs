@@ -18,6 +18,7 @@ using VNGod.Services;
 using VNGod.Properties;
 using System.IO;
 using VNGod.View;
+using System.Windows.Threading;
 
 namespace VNGod
 {
@@ -26,19 +27,44 @@ namespace VNGod
     /// </summary>
     public partial class MainWindow : HandyControl.Controls.Window
     {
+        DispatcherTimer timer = new DispatcherTimer()
+        {
+            IsEnabled = false,
+            Interval = new TimeSpan(0, 0, 1)
+        };
         public MainWindow()
         {
             InitializeComponent();
             EnableGlobalButtons(false);
             // Load repo from settings if available
             string repoPath = Settings.Default.Repo;
-            if (!string.IsNullOrWhiteSpace(repoPath) && System.IO.Directory.Exists(repoPath))
+            if (!string.IsNullOrWhiteSpace(repoPath) && Directory.Exists(repoPath))
             {
                 Resources["gameRepo"] = FileService.InitializeRepo(repoPath);
                 EnableGlobalButtons(true);
             }
+            timer.Tick += Timer_Tick;
         }
-
+        /// <summary>
+        /// Check if the game is still running every second, and update playtime accordingly.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="Exception"></exception>
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            if (gameList.SelectedItem is Game game)
+            {
+                if (Process.GetProcessesByName(game.ProcessName).Length > 0)
+                    game.PlayTime += new TimeSpan(0, 0, 1);
+                else
+                {
+                    timer.Stop();
+                    FileService.SaveMetadata(Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo."), true);
+                    Show();
+                }
+            }
+        }
         private void gameList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -102,10 +128,15 @@ namespace VNGod
                         if (gameSelectionWindow.DialogResult == true)
                         {
                             game.ExecutableName = GameSelectionWindow.Result;
-                            game.ProcessName= System.IO.Path.GetFileNameWithoutExtension(game.ExecutableName);
+                            game.ProcessName = System.IO.Path.GetFileNameWithoutExtension(game.ExecutableName);
                             FileService.SaveMetadata(repo, true);
                         }
                         else return;
+                    }
+                    // If first run, show help
+                    if (Settings.Default.FirstRun)
+                    {
+                        ShowFirstRunHelp();
                     }
                     // Launch game
                     Process.Start(new ProcessStartInfo()
@@ -113,8 +144,17 @@ namespace VNGod
                         FileName = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName, game.ExecutableName),
                         WorkingDirectory = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName)
                     });
+                    timer.Start();
+                    Hide();
                 }
 
+        }
+
+        private static void ShowFirstRunHelp()
+        {
+            System.Windows.MessageBox.Show("Welcome to VNGod! It looks like this is your first time running a game. Please note that VNGod will hide during playing, and it will showup if you close the game. If that doesn't work properly, please edit the process name in 'edit info'.", "First Run Help", MessageBoxButton.OK, MessageBoxImage.Information);
+            Settings.Default.FirstRun = false;
+            Settings.Default.Save();
         }
 
         private void editGameButton_Click(object sender, RoutedEventArgs e)
