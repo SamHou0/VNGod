@@ -64,7 +64,7 @@ namespace VNGod
             {
                 try
                 {
-                    await NetworkService.GetBangumiInfoAsync(game);
+                    await NetworkService.GetBangumiSubjectAsync(game);
                 }
                 catch (Exception ex)
                 {
@@ -102,6 +102,8 @@ namespace VNGod
                         if (gameSelectionWindow.DialogResult == true)
                         {
                             game.ExecutableName = GameSelectionWindow.Result;
+                            game.ProcessName= System.IO.Path.GetFileNameWithoutExtension(game.ExecutableName);
+                            FileService.SaveMetadata(repo, true);
                         }
                         else return;
                     }
@@ -117,7 +119,9 @@ namespace VNGod
 
         private void editGameButton_Click(object sender, RoutedEventArgs e)
         {
-
+            GameEditWindow gameEditWindow = new GameEditWindow(gameList.SelectedItem as Game ?? throw new Exception("No game selected."));
+            gameEditWindow.ShowDialog();
+            FileService.SaveMetadata(Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo."), true);
         }
 
         private void bangumiButton_Click(object sender, RoutedEventArgs e)

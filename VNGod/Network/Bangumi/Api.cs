@@ -43,7 +43,20 @@ namespace VNGod.Network.Bangumi
             var result = System.Text.Json.JsonSerializer.Deserialize<SearchResult>(responseBody, options);
             return result?.data.FirstOrDefault() ?? throw new Exception("No results found.");
         }
-
+        public static async Task<Datum> GetSubjectAsync(string id)
+        {
+            var client = new HttpClient();
+            InitializeClient(client);
+            var response = await client.GetAsync(BaseUrl + $"/v0/subjects/{id}");
+            response.EnsureSuccessStatusCode();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var options = new System.Text.Json.JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var result = System.Text.Json.JsonSerializer.Deserialize<Datum>(responseBody, options);
+            return result ?? throw new Exception("No results found.");
+        }
         private static void InitializeClient(HttpClient client)
         {
             client.DefaultRequestHeaders.UserAgent.Clear();
