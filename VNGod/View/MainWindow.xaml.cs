@@ -27,7 +27,7 @@ namespace VNGod
     /// </summary>
     public partial class MainWindow : HandyControl.Controls.Window
     {
-        DispatcherTimer timer = new DispatcherTimer()
+        readonly DispatcherTimer timer = new()
         {
             IsEnabled = false,
             Interval = new TimeSpan(0, 0, 1)
@@ -40,11 +40,51 @@ namespace VNGod
             string repoPath = Settings.Default.Repo;
             if (!string.IsNullOrWhiteSpace(repoPath) && Directory.Exists(repoPath))
             {
-                Resources["gameRepo"] = FileService.InitializeRepo(repoPath);
-                EnableGlobalButtons(true);
+                InitializeGameRepo(repoPath);
             }
             timer.Tick += Timer_Tick;
         }
+        #region Tools
+        private void InitializeGameRepo(string repoPath)
+        {
+            Resources["gameRepo"] = FileService.InitializeRepo(repoPath);
+            EnableGlobalButtons(true);
+        }
+        private Repo GetRepo()
+        {
+            return Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo.");
+        }
+        private static void ShowFirstRunHelp()
+        {
+            System.Windows.MessageBox.Show("Welcome to VNGod! It looks like this is your first time running a game. Please note that VNGod will hide during playing, and it will showup if you close the game. If that doesn't work properly, please edit the process name in 'edit info'.", "First Run Help", MessageBoxButton.OK, MessageBoxImage.Information);
+            Settings.Default.FirstRun = false;
+            Settings.Default.Save();
+        }
+        private void EnableGlobalButtons(bool enable)
+        {
+            rescanButton.IsEnabled = enable;
+            refreshInfoButton.IsEnabled = enable;
+        }
+        /// <summary>
+        /// Use a dialog to choose the game executable if not set.
+        /// </summary>
+        /// <param name="repo"></param>
+        /// <param name="game"></param>
+        /// <returns></returns>
+        private static bool ChooseGameExecutable(Repo repo, Game game)
+        {
+            GameSelectionWindow gameSelectionWindow = new(System.IO.Path.Combine(repo.LocalPath, game.DirectoryName));
+            gameSelectionWindow.ShowDialog();
+            if (gameSelectionWindow.DialogResult == true)
+            {
+                game.ExecutableName = GameSelectionWindow.Result;
+                game.ProcessName = System.IO.Path.GetFileNameWithoutExtension(game.ExecutableName);
+                FileService.SaveMetadata(repo, true);
+            }
+            else return false;
+            return true;
+        }
+        #endregion
         /// <summary>
         /// Check if the game is still running every second, and update playtime accordingly.
         /// </summary>
@@ -60,30 +100,26 @@ namespace VNGod
                 else
                 {
                     timer.Stop();
-                    FileService.SaveMetadata(Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo."), true);
+                    FileService.SaveMetadata(GetRepo(), true);
                     Show();
                 }
             }
         }
-        private void gameList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
-
-        private void rescanButton_Click(object sender, RoutedEventArgs e)
+        private void RescanButton_Click(object sender, RoutedEventArgs e)
         {
             EnableGlobalButtons(false);
-            FileService.ScanGames(Resources["gameRepo"] as Repo ??
-                throw new Exception("Invalid Repo"));
+            FileService.ScanGames(GetRepo());
             EnableGlobalButtons(true);
         }
 
-        private async void refreshInfoButton_Click(object sender, RoutedEventArgs e)
+        private async void RefreshInfoButton_Click(object sender, RoutedEventArgs e)
         {
             Growl.Info("Starting info refresh...");
             EnableGlobalButtons(false);
             repoButton.IsEnabled = false;
-            Repo games = Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo.");
+            Repo games = GetRepo();
+            // Refresh info for each game, with progress bar
             int count = games.Count;
             int cnt = 0;
             foreach (var game in games)
@@ -102,36 +138,29 @@ namespace VNGod
                     progressBar.Value = (double)cnt / count * 100;
                 }
             }
-            FileService.SaveMetadata(Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo."), true);
+            FileService.SaveMetadata(GetRepo(), true);
             EnableGlobalButtons(true);
             repoButton.IsEnabled = true;
             Growl.Success("Info refresh complete.");
         }
 
-        private void openGameFolderButton_Click(object sender, RoutedEventArgs e)
+
+        private void OpenGameFolderButton_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("explorer.exe", gameList.SelectedItem is Game game ?
-                System.IO.Path.Combine((Resources["gameRepo"] as Repo ?? throw new Exception("Invalid Repo")).LocalPath, game.DirectoryName) :
+                System.IO.Path.Combine(GetRepo().LocalPath, game.DirectoryName) :
                 throw new Exception("No game selected."));
         }
 
-        private void playButton_Click(object sender, RoutedEventArgs e)
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             if (Resources["gameRepo"] is Repo repo)
                 if (gameList.SelectedItem is Game game)
                 {
                     if (string.IsNullOrEmpty(game.ExecutableName))
                     {
-                        //Choose executable
-                        GameSelectionWindow gameSelectionWindow = new GameSelectionWindow(System.IO.Path.Combine(repo.LocalPath, game.DirectoryName));
-                        gameSelectionWindow.ShowDialog();
-                        if (gameSelectionWindow.DialogResult == true)
-                        {
-                            game.ExecutableName = GameSelectionWindow.Result;
-                            game.ProcessName = System.IO.Path.GetFileNameWithoutExtension(game.ExecutableName);
-                            FileService.SaveMetadata(repo, true);
-                        }
-                        else return;
+                        bool isSuccess = ChooseGameExecutable(repo, game);
+                        if (!isSuccess) return;
                     }
                     // If first run, show help
                     if (Settings.Default.FirstRun)
@@ -141,7 +170,7 @@ namespace VNGod
                     // Launch game
                     Process.Start(new ProcessStartInfo()
                     {
-                        FileName = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName, game.ExecutableName),
+                        FileName = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName, game.ExecutableName??throw new Exception("Executable not set.")),
                         WorkingDirectory = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName)
                     });
                     timer.Start();
@@ -150,21 +179,15 @@ namespace VNGod
 
         }
 
-        private static void ShowFirstRunHelp()
-        {
-            System.Windows.MessageBox.Show("Welcome to VNGod! It looks like this is your first time running a game. Please note that VNGod will hide during playing, and it will showup if you close the game. If that doesn't work properly, please edit the process name in 'edit info'.", "First Run Help", MessageBoxButton.OK, MessageBoxImage.Information);
-            Settings.Default.FirstRun = false;
-            Settings.Default.Save();
-        }
 
-        private void editGameButton_Click(object sender, RoutedEventArgs e)
+        private void EditGameButton_Click(object sender, RoutedEventArgs e)
         {
-            GameEditWindow gameEditWindow = new GameEditWindow(gameList.SelectedItem as Game ?? throw new Exception("No game selected."));
+            GameEditWindow gameEditWindow = new(gameList.SelectedItem as Game ?? throw new Exception("No game selected."));
             gameEditWindow.ShowDialog();
-            FileService.SaveMetadata(Resources["gameRepo"] as Repo ?? throw new Exception("Error getting repo."), true);
+            FileService.SaveMetadata(GetRepo(), true);
         }
 
-        private void bangumiButton_Click(object sender, RoutedEventArgs e)
+        private void BangumiButton_Click(object sender, RoutedEventArgs e)
         {
             Game game = gameList.SelectedItem as Game ?? throw new Exception("No game selected.");
             if (!string.IsNullOrEmpty(game.BangumiID))
@@ -178,31 +201,32 @@ namespace VNGod
             }
         }
 
-        private void vndbButton_Click(object sender, RoutedEventArgs e)
+        private void VndbButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void settingsButton_Click(object sender, RoutedEventArgs e)
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow settingsWindow = new SettingsWindow();
+            SettingsWindow settingsWindow = new();
             settingsWindow.ShowDialog();
         }
 
-        private void syncButton_Click(object sender, RoutedEventArgs e)
+        private void SyncButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void repoButton_Click(object sender, RoutedEventArgs e)
+        private void RepoButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFolderDialog openFolderDialog = new OpenFolderDialog();
-            openFolderDialog.Multiselect = false;
-            openFolderDialog.DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            OpenFolderDialog openFolderDialog = new()
+            {
+                Multiselect = false,
+                DefaultDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
             if (openFolderDialog.ShowDialog() == true)
             {
-                Resources["gameRepo"] = FileService.InitializeRepo(openFolderDialog.FolderName);
-                EnableGlobalButtons(true);
+                InitializeGameRepo(openFolderDialog.FolderName);
                 // Save repo path to settings
                 Settings.Default.Repo = openFolderDialog.FolderName;
                 Settings.Default.Save();
@@ -213,10 +237,5 @@ namespace VNGod
         /// Enable or disable buttons that require a repo to be loaded
         /// </summary>
         /// <param name="enable"></param>
-        private void EnableGlobalButtons(bool enable)
-        {
-            rescanButton.IsEnabled = enable;
-            refreshInfoButton.IsEnabled = enable;
-        }
     }
 }

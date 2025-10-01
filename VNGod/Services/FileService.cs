@@ -18,7 +18,7 @@ namespace VNGod.Services
         /// <returns></returns>
         public static Repo InitializeRepo(string path)
         {
-            Repo repo = new Repo() { LocalPath = path };
+            Repo repo = new() { LocalPath = path };
             GetRepoInformation(repo);
             ScanGames(repo);
             return repo;
@@ -39,9 +39,9 @@ namespace VNGod.Services
                     // Check if .vngod file exists
                     if (File.Exists(Path.Combine(dir, ".vngod")))
                     {
-                        using (StreamReader reader = new StreamReader(Path.Combine(dir, ".vngod")))
+                        using (StreamReader reader = new(Path.Combine(dir, ".vngod")))
                         {
-                            XmlSerializer serializer = new XmlSerializer(typeof(Game));
+                            XmlSerializer serializer = new(typeof(Game));
                             Game game = (Game?)serializer.Deserialize(reader) ?? throw new Exception("Null game");
                             repo.Add(game);
                         }
@@ -76,9 +76,9 @@ namespace VNGod.Services
                 var metadataPath = Path.Combine(gameDir, ".vngod");
                 if (!File.Exists(metadataPath) || overwrite)
                 {
-                    using (StreamWriter writer = new StreamWriter(metadataPath))
+                    using (StreamWriter writer = new(metadataPath))
                     {
-                        XmlSerializer serializer = new XmlSerializer(typeof(Game));
+                        XmlSerializer serializer = new(typeof(Game));
                         serializer.Serialize(writer, game);
                     }
                     // Hide the .vngod file
