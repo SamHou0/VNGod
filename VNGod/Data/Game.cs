@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VNGod.Resource.Strings;
 
 namespace VNGod.Data
 {
@@ -109,15 +110,15 @@ namespace VNGod.Data
         {
             get
             {
-                return $"Cloud Save Path: {(string.IsNullOrEmpty(SavePath) ? "[Not Set]" : SavePath)}" + Environment.NewLine +
-                    $"Name: {(string.IsNullOrEmpty(Name) ? "[Unknown]" : Name)}"
-                    + Environment.NewLine + $"Directory Name: {DirectoryName}" + Environment.NewLine +
-                    $"Executable Name: {(string.IsNullOrEmpty(ExecutableName) ? "[Not Set]" : ExecutableName)}" + Environment.NewLine +
-                    $"Process Name: {(string.IsNullOrEmpty(ProcessName) ? "[Not Set]" : ProcessName)}" + Environment.NewLine +
-                    $"Play Time: {(int)PlayTime.TotalHours}:{PlayTime.Minutes:D2}:{PlayTime.Seconds:D2}" + Environment.NewLine +
-                    $"Bangumi ID: {(string.IsNullOrEmpty(BangumiID) ? "[Unknown]" : BangumiID)}" +
+                return $"{Strings.SavePath} {(string.IsNullOrEmpty(SavePath) ? Strings.NotSet : SavePath)}" + Environment.NewLine +
+                    $"{Strings.Name} {(string.IsNullOrEmpty(Name) ? Strings.NotSet : Name)}"
+                    + Environment.NewLine + $"{Strings.DirectoryName} {DirectoryName}" + Environment.NewLine +
+                    $"{Strings.ExecutableName} {(string.IsNullOrEmpty(ExecutableName) ? Strings.NotSet : ExecutableName)}" + Environment.NewLine +
+                    $"{Strings.ProcessName} {(string.IsNullOrEmpty(ProcessName) ? Strings.NotSet : ProcessName)}" + Environment.NewLine +
+                    $"{Strings.PlayTime} {(int)PlayTime.TotalHours}:{PlayTime.Minutes:D2}:{PlayTime.Seconds:D2}" + Environment.NewLine +
+                    $"{Strings.BangumiID} {(string.IsNullOrEmpty(BangumiID) ? Strings.NotSet : BangumiID)}" +
                     Environment.NewLine +
-                    $"VNDB ID: {(string.IsNullOrEmpty(VNDBID) ? "[Unknown]" : VNDBID)}";
+                    $"{Strings.VNDBID} {(string.IsNullOrEmpty(VNDBID) ? Strings.NotSet : VNDBID)}";
             }
         }
     }

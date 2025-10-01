@@ -7,6 +7,7 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:data="clr-namespace:VNGod.Data"
         xmlns:conv="clr-namespace:VNGod.Converter"
+        xmlns:strings="clr-namespace:VNGod.Resource.Strings"
         mc:Ignorable="d"
         Title="GameEditWindow" Height="450" Width="400">
     <Window.Resources>
@@ -14,14 +15,14 @@
     </Window.Resources>
     <Grid>
         <StackPanel Orientation="Vertical" Margin="10">
-            <TextBox hc:TitleElement.Title="Bangumi ID" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding BangumiID,Mode=TwoWay}"/>
-            <TextBox hc:TitleElement.Title="VNDB ID" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding VNDBID,Mode=TwoWay}"/>
-            <Button x:Name="getInfoButton" Click="getInfoButton_Click" >Get Info</Button>
-            <TextBox hc:TitleElement.Title="Name" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding Name,Mode=TwoWay}"/>
-            <TextBox hc:TitleElement.Title="Executable Name" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding ExecutableName,Mode=TwoWay}"/>
-            <TextBox hc:TitleElement.Title="Process Name" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding ProcessName,Mode=TwoWay}"/>
-            <TextBox hc:TitleElement.Title="Save Path" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding SavePath,Mode=TwoWay}"/>
-            <TextBox hc:TitleElement.Title="Play Time" Text="{Binding PlayTime,Mode=TwoWay,Converter={StaticResource timeSpanToStringConverter}}" Margin="10" Style="{StaticResource TextBoxExtend}" hc:TitleElement.TitlePlacement="Left"/>
+            <TextBox hc:TitleElement.Title="{x:Static strings:Strings.BangumiID}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding BangumiID,Mode=TwoWay}"/>
+            <TextBox hc:TitleElement.Title="{x:Static strings:Strings.VNDBID}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding VNDBID,Mode=TwoWay}"/>
+            <Button x:Name="getInfoButton" Click="getInfoButton_Click" Content="{x:Static strings:Strings.GetInfo}"/>
+            <TextBox hc:TitleElement.Title="{x:Static strings:Strings.Name}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding Name,Mode=TwoWay}"/>
+            <TextBox hc:TitleElement.Title="{x:Static strings:Strings.ExecutableName}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding ExecutableName,Mode=TwoWay}"/>
+            <TextBox hc:TitleElement.Title="{x:Static strings:Strings.ProcessName}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding ProcessName,Mode=TwoWay}"/>
+            <TextBox hc:TitleElement.Title="{x:Static strings:Strings.SavePath}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding SavePath,Mode=TwoWay}"/>
+            <TextBox hc:TitleElement.Title="{x:Static strings:Strings.PlayTime}" Text="{Binding PlayTime,Mode=TwoWay,Converter={StaticResource timeSpanToStringConverter}}" Margin="10" Style="{StaticResource TextBoxExtend}" hc:TitleElement.TitlePlacement="Left"/>
         </StackPanel>
     </Grid>
 </hc:Window>

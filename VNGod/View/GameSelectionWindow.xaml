@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:local="clr-namespace:VNGod.View"
+        xmlns:strings="clr-namespace:VNGod.Resource.Strings"
         mc:Ignorable="d"
         Title="GameSelectionWindow" Height="450" Width="450">
     <Grid>
@@ -13,6 +14,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ListBox x:Name="gameListBox" SelectionChanged="gameListBox_SelectionChanged"/>
-        <TextBlock Grid.Row="1" Padding="0,20" FontSize="15px" TextAlignment="Center">Click to select one of the process. This will be remembered.</TextBlock>
+        <TextBlock Grid.Row="1" Padding="0,20" FontSize="15px" TextAlignment="Center" Text="{x:Static strings:Strings.SelectProcessTip}"/>
     </Grid>
 </hc:Window>

@@ -1,24 +1,14 @@
-﻿using System.Configuration;
-using System.Diagnostics;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using HandyControl;
-using HandyControl.Controls;
+﻿using HandyControl.Controls;
 using Microsoft.Win32;
-using VNGod.Data;
-using VNGod.Services;
-using VNGod.Properties;
+using System.Diagnostics;
 using System.IO;
-using VNGod.View;
+using System.Windows;
 using System.Windows.Threading;
+using VNGod.Data;
+using VNGod.Properties;
+using VNGod.Resource.Strings;
+using VNGod.Services;
+using VNGod.View;
 
 namespace VNGod
 {
@@ -56,7 +46,7 @@ namespace VNGod
         }
         private static void ShowFirstRunHelp()
         {
-            System.Windows.MessageBox.Show("Welcome to VNGod! It looks like this is your first time running a game. Please note that VNGod will hide during playing, and it will showup if you close the game. If that doesn't work properly, please edit the process name in 'edit info'.", "First Run Help", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Windows.MessageBox.Show(Strings.Welcome, "First Run Help", MessageBoxButton.OK, MessageBoxImage.Information);
             Settings.Default.FirstRun = false;
             Settings.Default.Save();
         }
@@ -170,7 +160,7 @@ namespace VNGod
                     // Launch game
                     Process.Start(new ProcessStartInfo()
                     {
-                        FileName = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName, game.ExecutableName??throw new Exception("Executable not set.")),
+                        FileName = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName, game.ExecutableName ?? throw new Exception("Executable not set.")),
                         WorkingDirectory = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName)
                     });
                     timer.Start();
@@ -196,7 +186,7 @@ namespace VNGod
             }
             else
             {
-                Growl.Warning("This game does not have a Bangumi ID.");
+                Growl.Warning(Strings.NoBgmID);
                 return;
             }
         }
