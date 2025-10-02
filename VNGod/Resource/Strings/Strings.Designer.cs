@@ -187,6 +187,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        public static string NoSavePath {
+            get {
+                return ResourceManager.GetString("NoSavePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 [Not Set] 的本地化字符串。
         /// </summary>
         public static string NotSet {
@@ -322,7 +331,7 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
-        ///   查找类似 VNDB ID 的本地化字符串。
+        ///   查找类似 VNDB ID: 的本地化字符串。
         /// </summary>
         public static string VNDBID {
             get {

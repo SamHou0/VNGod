@@ -58,5 +58,41 @@ namespace VNGod.Properties {
                 this["FirstRun"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WebDAVUrl {
+            get {
+                return ((string)(this["WebDAVUrl"]));
+            }
+            set {
+                this["WebDAVUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WebDAVUsername {
+            get {
+                return ((string)(this["WebDAVUsername"]));
+            }
+            set {
+                this["WebDAVUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WebDAVPassword {
+            get {
+                return ((string)(this["WebDAVPassword"]));
+            }
+            set {
+                this["WebDAVPassword"] = value;
+            }
+        }
     }
 }

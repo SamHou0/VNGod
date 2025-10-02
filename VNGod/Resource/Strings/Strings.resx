@@ -226,4 +226,7 @@
     <value>VNDB Token:</value>
     <comment>@Invariant</comment>
   </data>
+  <data name="NoSavePath" xml:space="preserve">
+    <value>Save path not set!</value>
+  </data>
 </root>

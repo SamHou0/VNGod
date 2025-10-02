@@ -74,14 +74,13 @@ namespace VNGod
             else return false;
             return true;
         }
-        #endregion
         /// <summary>
         /// Check if the game is still running every second, and update playtime accordingly.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         /// <exception cref="Exception"></exception>
-        private void Timer_Tick(object? sender, EventArgs e)
+        private async void Timer_Tick(object? sender, EventArgs e)
         {
             if (gameList.SelectedItem is Game game)
             {
@@ -91,11 +90,14 @@ namespace VNGod
                 {
                     timer.Stop();
                     FileService.SaveMetadata(GetRepo(), true);
+                    playButton.IsEnabled = true;
                     Show();
+                    await SyncGameSaveAsync();
                 }
             }
         }
 
+        #endregion
         private void RescanButton_Click(object sender, RoutedEventArgs e)
         {
             EnableGlobalButtons(false);
@@ -116,7 +118,8 @@ namespace VNGod
             {
                 try
                 {
-                    await NetworkService.GetBangumiSubjectAsync(game);
+                    if (string.IsNullOrEmpty(game.BangumiID) == false)
+                        await NetworkService.GetBangumiSubjectAsync(game);
                 }
                 catch (Exception ex)
                 {
@@ -142,7 +145,7 @@ namespace VNGod
                 throw new Exception("No game selected."));
         }
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        private async void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             if (Resources["gameRepo"] is Repo repo)
                 if (gameList.SelectedItem is Game game)
@@ -157,12 +160,17 @@ namespace VNGod
                     {
                         ShowFirstRunHelp();
                     }
+                    EnableGlobalButtons(false);
+                    playButton.IsEnabled = false;
+                    // Sync Save
+                    await SyncGameSaveAsync();
                     // Launch game
                     Process.Start(new ProcessStartInfo()
                     {
-                        FileName = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName, game.ExecutableName ?? throw new Exception("Executable not set.")),
-                        WorkingDirectory = System.IO.Path.Combine(repo.LocalPath, game.DirectoryName)
+                        FileName = Path.Combine(repo.LocalPath, game.DirectoryName, game.ExecutableName ?? throw new Exception("Executable not set.")),
+                        WorkingDirectory = Path.Combine(repo.LocalPath, game.DirectoryName)
                     });
+                    EnableGlobalButtons(true);
                     timer.Start();
                     Hide();
                 }
@@ -200,11 +208,44 @@ namespace VNGod
         {
             SettingsWindow settingsWindow = new();
             settingsWindow.ShowDialog();
+            WebDavService.InitializeClient();// Reinitialize WebDAV client with new settings
         }
 
-        private void SyncButton_Click(object sender, RoutedEventArgs e)
+        private async void SyncButton_Click(object sender, RoutedEventArgs e)
         {
+            await SyncGameSaveAsync();
+        }
+        /// <summary>
+        /// Sync current game's save file to WebDAV server
+        /// </summary>
+        /// <returns></returns>
+        private async Task SyncGameSaveAsync()
+        {
+            if (string.IsNullOrEmpty(GetCurrentGame().SavePath))
+            {
+                Growl.Warning(Strings.NoSavePath);
+                return;
+            }
+            syncButton.IsEnabled = false;
+            Growl.Info("Starting sync...");
+            try
+            {
+                if (await WebDavService.SyncGameAsync(GetCurrentGame()) == false) throw new Exception("Webdav Falied. Offline or invalid config. See logs for more detail.");
+                else Growl.Success("Sync Success!");
+            }
+            catch (Exception ex)
+            {
+                Growl.Error(ex.Message);
+            }
+            finally
+            {
+                syncButton.IsEnabled = true;
+            }
+        }
 
+        private Game GetCurrentGame()
+        {
+            return gameList.SelectedItem as Game ?? throw new Exception("No game selected.");
         }
 
         private void RepoButton_Click(object sender, RoutedEventArgs e)

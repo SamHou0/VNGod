@@ -23,12 +23,22 @@ namespace VNGod
         public SettingsWindow()
         {
             InitializeComponent();
+            // Load settings
+            webDavUrlTextBox.Text =Settings.Default.WebDAVUrl;
+            webDavUsernameTextBox.Text = Settings.Default.WebDAVUsername;
+            webDavPasswordBox.Password = Settings.Default.WebDAVPassword;
             bangumiTokenTextBox.Text = Settings.Default.BgmToken;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            // WebDAV settings
+            Settings.Default.WebDAVUrl = webDavUrlTextBox.Text;
+            Settings.Default.WebDAVUsername = webDavUsernameTextBox.Text;
+            Settings.Default.WebDAVPassword = webDavPasswordBox.Password;
+            // Bangumi token
             Settings.Default.BgmToken = bangumiTokenTextBox.Text;
+
             Settings.Default.Save();
         }
     }
