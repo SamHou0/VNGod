@@ -32,7 +32,8 @@ namespace VNGod
             if (!string.IsNullOrWhiteSpace(repoPath) && Directory.Exists(repoPath))
             {
                 InitializeGameRepo(repoPath);
-                SaveAndSync(false);
+                // Local may be missing, pull remote changes first
+                SaveAndSync(false, true);
             }
             timer.Tick += Timer_Tick;
         }
@@ -107,18 +108,20 @@ namespace VNGod
         /// Save metadata and sync to WebDAV server if initialized.
         /// </summary>
         /// <param name="overwrite">Determine if local data is updated. Always overwrite remote if true. Only set to false when initializing or pulling remote change by hand.</param>
-        private async void SaveAndSync(bool overwrite)
+        /// <param name="missingLocal">Determine if local data is missing. Set to true to pull remote change first. </param>
+        private async void SaveAndSync(bool overwrite, bool missingLocal = false)
         {
             Repo repo = GetRepo();
-            FileService.SaveMetadata(repo, overwrite);
+            if (!missingLocal)
+                FileService.SaveMetadata(repo, overwrite);
             if (WebDavService.IsInitialized)
             {
                 if (await WebDavService.SyncMetadataAsync(repo))
                     Growl.Success("WebDAV sync success!");
                 else Growl.Warning("WebDAV sync failed. See logs for more detail.");
-                int index=gameList.SelectedIndex;
+                int index = gameList.SelectedIndex;
                 FileService.ReadMetadata(repo);
-                if(index>=0) gameList.SelectedIndex = index;
+                if (index >= 0) gameList.SelectedIndex = index;
             }
         }
         /// <summary>
