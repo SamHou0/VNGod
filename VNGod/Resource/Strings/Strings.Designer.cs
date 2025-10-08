@@ -187,7 +187,7 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Save path not set! 的本地化字符串。
         /// </summary>
         public static string NoSavePath {
             get {
@@ -259,7 +259,7 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Refresh Info 的本地化字符串。
+        ///   查找类似 Get missing Info 的本地化字符串。
         /// </summary>
         public static string RefreshInfo {
             get {
@@ -309,6 +309,15 @@ namespace VNGod.Resource.Strings {
         public static string Sync {
             get {
                 return ResourceManager.GetString("Sync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 [Unknown]  的本地化字符串。
+        /// </summary>
+        public static string Unknown {
+            get {
+                return ResourceManager.GetString("Unknown", resourceCulture);
             }
         }
         

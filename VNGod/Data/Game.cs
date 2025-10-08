@@ -94,7 +94,7 @@ namespace VNGod.Data
         public override string ToString()
         {
             // Display Name if exists, otherwise DirectoryName
-            if (string.IsNullOrEmpty(Name)) return "[Unknown] " + DirectoryName;
+            if (string.IsNullOrEmpty(Name)) return Strings.Unknown + DirectoryName;
             else return Name;
         }
         public string ShortDescription
@@ -102,7 +102,7 @@ namespace VNGod.Data
             get
             {
                 // Same as tostring
-                if (string.IsNullOrEmpty(Name)) return "[Unknown] " + DirectoryName;
+                if (string.IsNullOrEmpty(Name)) return Strings.Unknown + DirectoryName;
                 else return Name;
             }
         }

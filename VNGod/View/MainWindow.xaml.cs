@@ -225,7 +225,7 @@ namespace VNGod
             });
             EnableGlobalButtons(true);
             Hide();
-            Thread.Sleep(1000); // Wait for the game to launch
+            Thread.Sleep(2000); // Wait for the game to launch
             timer.Start();
         }
 

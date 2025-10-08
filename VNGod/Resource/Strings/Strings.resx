@@ -157,7 +157,7 @@
     <value>Rescan Games</value>
   </data>
   <data name="RefreshInfo" xml:space="preserve">
-    <value>Refresh Info</value>
+    <value>Get missing Info</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
@@ -228,5 +228,8 @@
   </data>
   <data name="NoSavePath" xml:space="preserve">
     <value>Save path not set!</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>[Unknown] </value>
   </data>
 </root>

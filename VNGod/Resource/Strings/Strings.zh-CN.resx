@@ -157,7 +157,7 @@
     <value>重新扫描游戏</value>
   </data>
   <data name="RefreshInfo" xml:space="preserve">
-    <value>重新获取信息</value>
+    <value>获取未知信息</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>设置</value>
@@ -210,5 +210,8 @@
   </data>
   <data name="NoSavePath" xml:space="preserve">
     <value>未设定存档路径！</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>【未知】 </value>
   </data>
 </root>

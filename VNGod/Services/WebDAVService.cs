@@ -34,6 +34,12 @@ namespace VNGod.Services
         /// <returns></returns>
         public async static Task<bool> InitializeClient()
         {
+            if (string.IsNullOrEmpty(Settings.Default.WebDAVUrl) || string.IsNullOrEmpty(Settings.Default.WebDAVUsername) || string.IsNullOrEmpty(Settings.Default.WebDAVPassword))
+            {
+                // Clear old client
+                client = null;
+                return false;
+            }
             var clientParams = new WebDavClientParams
             {
                 BaseAddress = new Uri(Settings.Default.WebDAVUrl),
@@ -48,6 +54,7 @@ namespace VNGod.Services
                     return true;
                 }
             }
+            client = null;
             return false;
         }
         public static async Task<bool> TestConnectionAsync(WebDavClient client)
