@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VNGod.Properties;
 
@@ -24,7 +15,7 @@ namespace VNGod
         {
             InitializeComponent();
             // Load settings
-            webDavUrlTextBox.Text =Settings.Default.WebDAVUrl;
+            webDavUrlTextBox.Text = Settings.Default.WebDAVUrl;
             webDavUsernameTextBox.Text = Settings.Default.WebDAVUsername;
             webDavPasswordBox.Password = Settings.Default.WebDAVPassword;
             bangumiTokenTextBox.Text = Settings.Default.BgmToken;
@@ -40,6 +31,21 @@ namespace VNGod
             Settings.Default.BgmToken = bangumiTokenTextBox.Text;
 
             Settings.Default.Save();
+        }
+        private void OpenLogButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start("explorer.exe", System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs"));
+            }
+            catch (Exception ex)
+            {
+                HandyControl.Controls.MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void ThrowExceptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new Exception("This is a test exception.");
         }
     }
 }

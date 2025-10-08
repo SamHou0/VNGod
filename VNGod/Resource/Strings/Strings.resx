@@ -232,4 +232,34 @@
   <data name="Unknown" xml:space="preserve">
     <value>[Unknown] </value>
   </data>
+  <data name="WebDAVSyncSuccess" xml:space="preserve">
+    <value>WebDAV metadata sync success!</value>
+  </data>
+  <data name="WebDAVSyncFailed" xml:space="preserve">
+    <value>WebDAV metadata sync failed. See logs for more detail.</value>
+  </data>
+  <data name="StartingSync" xml:space="preserve">
+    <value>Starting game save sync.</value>
+  </data>
+  <data name="GameSaveSyncSuccess" xml:space="preserve">
+    <value>Game save sync success!</value>
+  </data>
+  <data name="GameSaveSyncFail" xml:space="preserve">
+    <value>Failed to sync game save. Check config and See logs for more detail.</value>
+  </data>
+  <data name="StartingInfoRefresh" xml:space="preserve">
+    <value>Starting info refresh.</value>
+  </data>
+  <data name="InfoRefreshComplete" xml:space="preserve">
+    <value>Info refresh complete.</value>
+  </data>
+  <data name="Debug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="OpenLog" xml:space="preserve">
+    <value>Open Log folder</value>
+  </data>
+  <data name="ThrowTestException" xml:space="preserve">
+    <value>Throw test exception</value>
+  </data>
 </root>

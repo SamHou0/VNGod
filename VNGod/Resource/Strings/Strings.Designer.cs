@@ -97,6 +97,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Debug 的本地化字符串。
+        /// </summary>
+        public static string Debug {
+            get {
+                return ResourceManager.GetString("Debug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Description: 的本地化字符串。
         /// </summary>
         public static string Description {
@@ -151,6 +160,24 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Failed to sync game save. Check config and See logs for more detail. 的本地化字符串。
+        /// </summary>
+        public static string GameSaveSyncFail {
+            get {
+                return ResourceManager.GetString("GameSaveSyncFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Game save sync success! 的本地化字符串。
+        /// </summary>
+        public static string GameSaveSyncSuccess {
+            get {
+                return ResourceManager.GetString("GameSaveSyncSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Get Info 的本地化字符串。
         /// </summary>
         public static string GetInfo {
@@ -165,6 +192,15 @@ namespace VNGod.Resource.Strings {
         public static string GlobalOptions {
             get {
                 return ResourceManager.GetString("GlobalOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Info refresh complete. 的本地化字符串。
+        /// </summary>
+        public static string InfoRefreshComplete {
+            get {
+                return ResourceManager.GetString("InfoRefreshComplete", resourceCulture);
             }
         }
         
@@ -210,6 +246,15 @@ namespace VNGod.Resource.Strings {
         public static string OpenFolder {
             get {
                 return ResourceManager.GetString("OpenFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open Log folder 的本地化字符串。
+        /// </summary>
+        public static string OpenLog {
+            get {
+                return ResourceManager.GetString("OpenLog", resourceCulture);
             }
         }
         
@@ -304,11 +349,38 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Starting info refresh. 的本地化字符串。
+        /// </summary>
+        public static string StartingInfoRefresh {
+            get {
+                return ResourceManager.GetString("StartingInfoRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Starting game save sync. 的本地化字符串。
+        /// </summary>
+        public static string StartingSync {
+            get {
+                return ResourceManager.GetString("StartingSync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Sync 的本地化字符串。
         /// </summary>
         public static string Sync {
             get {
                 return ResourceManager.GetString("Sync", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Throw test exception 的本地化字符串。
+        /// </summary>
+        public static string ThrowTestException {
+            get {
+                return ResourceManager.GetString("ThrowTestException", resourceCulture);
             }
         }
         
@@ -363,6 +435,24 @@ namespace VNGod.Resource.Strings {
         public static string WebDAVConfig {
             get {
                 return ResourceManager.GetString("WebDAVConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 WebDAV metadata sync failed. See logs for more detail. 的本地化字符串。
+        /// </summary>
+        public static string WebDAVSyncFailed {
+            get {
+                return ResourceManager.GetString("WebDAVSyncFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 WebDAV metadata sync success! 的本地化字符串。
+        /// </summary>
+        public static string WebDAVSyncSuccess {
+            get {
+                return ResourceManager.GetString("WebDAVSyncSuccess", resourceCulture);
             }
         }
         

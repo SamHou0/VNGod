@@ -9,25 +9,33 @@
         mc:Ignorable="d"
         Title="SettingsWindow" Height="450" Width="400" Closing="Window_Closing">
     <Grid>
-        <StackPanel>
-            <GroupBox Header="{x:Static strings:Strings.WebDAVConfig}">
-                <StackPanel>
-                    <TextBlock Text="{x:Static strings:Strings.WebDAVUrl}" Margin="5" TextAlignment="Center"/>
-                    <TextBox x:Name="webDavUrlTextBox" Margin="5"/>
-                    <TextBlock Text="{x:Static strings:Strings.Username}" Margin="5" TextAlignment="Center"/>
-                    <TextBox x:Name="webDavUsernameTextBox" Margin="5"/>
-                    <TextBlock Text="{x:Static strings:Strings.Password}" Margin="5" TextAlignment="Center"/>
-                    <PasswordBox x:Name="webDavPasswordBox" Margin="5"/>
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Header="{x:Static strings:Strings.Authorization}" Margin="0,10,0,0">
-                <StackPanel>
-                    <TextBlock Text="{x:Static strings:Strings.BangumiToken}" Margin="5" TextAlignment="Center"/>
-                    <TextBox x:Name="bangumiTokenTextBox" Margin="5"/>
-                    <TextBlock Text="{x:Static strings:Strings.VNDBToken}" Margin="5" TextAlignment="Center"/>
-                    <TextBox x:Name="vndbTokenTextBox" Margin="5"/>
-                </StackPanel>
-            </GroupBox>
-        </StackPanel>
+        <hc:ScrollViewer>
+            <StackPanel>
+                <GroupBox Header="{x:Static strings:Strings.WebDAVConfig}">
+                    <StackPanel>
+                        <TextBlock Text="{x:Static strings:Strings.WebDAVUrl}" Margin="5" TextAlignment="Center"/>
+                        <TextBox x:Name="webDavUrlTextBox" Margin="5"/>
+                        <TextBlock Text="{x:Static strings:Strings.Username}" Margin="5" TextAlignment="Center"/>
+                        <TextBox x:Name="webDavUsernameTextBox" Margin="5"/>
+                        <TextBlock Text="{x:Static strings:Strings.Password}" Margin="5" TextAlignment="Center"/>
+                        <PasswordBox x:Name="webDavPasswordBox" Margin="5"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="{x:Static strings:Strings.Authorization}" Margin="0,10,0,0">
+                    <StackPanel>
+                        <TextBlock Text="{x:Static strings:Strings.BangumiToken}" Margin="5" TextAlignment="Center"/>
+                        <TextBox x:Name="bangumiTokenTextBox" Margin="5"/>
+                        <TextBlock Text="{x:Static strings:Strings.VNDBToken}" Margin="5" TextAlignment="Center"/>
+                        <TextBox x:Name="vndbTokenTextBox" Margin="5"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="{x:Static strings:Strings.Debug}">
+                    <StackPanel>
+                        <Button x:Name="openLogButton" Content="{x:Static strings:Strings.OpenLog}" Margin="5" Click="OpenLogButton_Click"/>
+                        <Button x:Name="throwExceptionButton" Content="{x:Static strings:Strings.ThrowTestException}" Margin="5" Click="ThrowExceptionButton_Click"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </hc:ScrollViewer>
     </Grid>
 </hc:Window>

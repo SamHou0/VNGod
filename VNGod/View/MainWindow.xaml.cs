@@ -117,8 +117,8 @@ namespace VNGod
             if (WebDavService.IsInitialized)
             {
                 if (await WebDavService.SyncMetadataAsync(repo))
-                    Growl.Success("WebDAV sync success!");
-                else Growl.Warning("WebDAV sync failed. See logs for more detail.");
+                    Growl.Success(Strings.WebDAVSyncSuccess);
+                else Growl.Warning(Strings.WebDAVSyncFailed);
                 int index = gameList.SelectedIndex;
                 FileService.ReadMetadata(repo);
                 if (index >= 0) gameList.SelectedIndex = index;
@@ -136,20 +136,12 @@ namespace VNGod
                 return;
             }
             syncButton.IsEnabled = false;
-            Growl.Info("Starting sync...");
-            try
-            {
-                if (await WebDavService.SyncGameAsync(GetCurrentGame()) == false) throw new Exception("Webdav Falied. Offline or invalid config. See logs for more detail.");
-                else Growl.Success("Sync Success!");
-            }
-            catch (Exception ex)
-            {
-                Growl.Error(ex.Message);
-            }
-            finally
-            {
-                syncButton.IsEnabled = true;
-            }
+            Growl.Info(Strings.StartingSync);
+            if (await WebDavService.SyncGameAsync(GetCurrentGame()))
+                Growl.Success(Strings.GameSaveSyncSuccess);
+            else
+                Growl.Error(Strings.GameSaveSyncFail);
+            syncButton.IsEnabled = true;
         }
         #endregion
         private void RescanButton_Click(object sender, RoutedEventArgs e)
@@ -161,7 +153,7 @@ namespace VNGod
 
         private async void RefreshInfoButton_Click(object sender, RoutedEventArgs e)
         {
-            Growl.Info("Starting info refresh...");
+            Growl.Info(Strings.StartingInfoRefresh);
             EnableGlobalButtons(false);
             repoButton.IsEnabled = false;
             Repo games = GetRepo();
@@ -188,7 +180,7 @@ namespace VNGod
             SaveAndSync(true);
             EnableGlobalButtons(true);
             repoButton.IsEnabled = true;
-            Growl.Success("Info refresh complete.");
+            Growl.Success(Strings.InfoRefreshComplete);
         }
 
 
@@ -232,7 +224,7 @@ namespace VNGod
 
         private void EditGameButton_Click(object sender, RoutedEventArgs e)
         {
-            GameEditWindow gameEditWindow = new(gameList.SelectedItem as Game ?? throw new Exception("No game selected."));
+            GameEditWindow gameEditWindow = new(GetCurrentGame());
             gameEditWindow.ShowDialog();
             SaveAndSync(true);
         }
