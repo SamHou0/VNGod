@@ -17,7 +17,10 @@
         <StackPanel Orientation="Vertical" Margin="10">
             <TextBox hc:TitleElement.Title="{x:Static strings:Strings.BangumiID}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding BangumiID,Mode=TwoWay}"/>
             <TextBox hc:TitleElement.Title="{x:Static strings:Strings.VNDBID}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding VNDBID,Mode=TwoWay}"/>
-            <Button x:Name="getInfoButton" Click="getInfoButton_Click" Content="{x:Static strings:Strings.GetInfo}"/>
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                <Button x:Name="getBangumiInfoButton" Click="GetBangumiInfoButton_Click" Content="{x:Static strings:Strings.GetBangumiInfo}" Margin="10"/>
+                <Button x:Name="getVNDBInfoButton" Click="GetVNDBInfoButton_Click" Content="{x:Static strings:Strings.GetVNDBInfo}" Margin="10"/>
+            </StackPanel>
             <TextBox hc:TitleElement.Title="{x:Static strings:Strings.Name}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding Name,Mode=TwoWay}"/>
             <TextBox hc:TitleElement.Title="{x:Static strings:Strings.ExecutableName}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding ExecutableName,Mode=TwoWay}"/>
             <TextBox hc:TitleElement.Title="{x:Static strings:Strings.ProcessName}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding ProcessName,Mode=TwoWay}"/>

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning disable IDE1006 // Naming Styles
 namespace VNGod.Network.Bangumi
 {
     public class SearchModel
@@ -16,7 +17,6 @@ namespace VNGod.Network.Bangumi
     {
         public int[] type { get; set; } = [4];
     }
-#pragma warning disable 8618 // Disable non-nullable field must contain a non-null value when exiting constructor.
     public class SearchResult
     {
         public Datum[] data { get; set; }
@@ -100,5 +100,7 @@ namespace VNGod.Network.Bangumi
         public string key { get; set; }
         public object value { get; set; }
     }
-#pragma warning restore 8618
+
 }
+#pragma warning restore IDE1006 // Naming Styles
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

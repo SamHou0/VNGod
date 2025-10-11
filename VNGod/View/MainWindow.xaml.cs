@@ -162,20 +162,21 @@ namespace VNGod
             int cnt = 0;
             foreach (var game in games)
             {
-                try
+                // First try Bangumi, then VNDB
+                if (string.IsNullOrEmpty(game.BangumiID))
                 {
-                    if (string.IsNullOrEmpty(game.BangumiID))
-                        await NetworkService.GetBangumiSubjectAsync(game);
+                    await NetworkService.GetBangumiSubjectAsync(game, true);
+                    if (string.IsNullOrEmpty(game.Name))
+                    {
+                        Growl.Warning("No Bangumi info found for " + game.DirectoryName + ", trying VNDB...");
+                        await NetworkService.GetVNDBSubjectAsync(game, true);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Growl.Error(ex.Message);
-                }
-                finally
-                {
-                    cnt++;
-                    progressBar.Value = (double)cnt / count * 100;
-                }
+                // No need to overwrite
+                if(string.IsNullOrEmpty(game.VNDBID))
+                    await NetworkService.GetVNDBSubjectAsync(game, false);
+                cnt++;
+                progressBar.Value = (double)cnt / count * 100;
             }
             SaveAndSync(true);
             EnableGlobalButtons(true);
@@ -231,7 +232,7 @@ namespace VNGod
 
         private void BangumiButton_Click(object sender, RoutedEventArgs e)
         {
-            Game game = gameList.SelectedItem as Game ?? throw new Exception("No game selected.");
+            Game game = GetCurrentGame();
             if (!string.IsNullOrEmpty(game.BangumiID))
             {
                 Process.Start("explorer.exe", "https://bgm.tv/subject/" + game.BangumiID);
@@ -245,7 +246,16 @@ namespace VNGod
 
         private void VndbButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Game game = GetCurrentGame();
+            if (!string.IsNullOrEmpty(game.VNDBID))
+            {
+                Process.Start("explorer.exe", "https://vndb.org/" + game.VNDBID);
+            }
+            else
+            {
+                Growl.Warning(Strings.NoVNDBID);
+                return;
+            }
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)

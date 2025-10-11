@@ -19,6 +19,7 @@ namespace VNGod
             webDavUsernameTextBox.Text = Settings.Default.WebDAVUsername;
             webDavPasswordBox.Password = Settings.Default.WebDAVPassword;
             bangumiTokenTextBox.Text = Settings.Default.BgmToken;
+            vndbTokenTextBox.Text = Settings.Default.VNDBToken;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -27,9 +28,9 @@ namespace VNGod
             Settings.Default.WebDAVUrl = webDavUrlTextBox.Text;
             Settings.Default.WebDAVUsername = webDavUsernameTextBox.Text;
             Settings.Default.WebDAVPassword = webDavPasswordBox.Password;
-            // Bangumi token
+            // Tokens
             Settings.Default.BgmToken = bangumiTokenTextBox.Text;
-
+            Settings.Default.VNDBToken = vndbTokenTextBox.Text;
             Settings.Default.Save();
         }
         private void OpenLogButton_Click(object sender, RoutedEventArgs e)

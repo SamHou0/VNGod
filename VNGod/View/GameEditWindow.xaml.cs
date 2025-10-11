@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using HandyControl.Controls;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using VNGod.Data;
 using VNGod.Services;
 
@@ -27,12 +17,30 @@ namespace VNGod.View
             DataContext = game;
         }
 
-        private async void getInfoButton_Click(object sender, RoutedEventArgs e)
+        private Game GetGame()
         {
-            getInfoButton.IsEnabled = false;
-            Game game = DataContext as Game ?? throw new Exception("Error getting game.");
-            game = await NetworkService.GetBangumiInfoAsync(game);
-            getInfoButton.IsEnabled = true;
+            return DataContext as Game ?? throw new Exception("Error getting game.");
+        }
+        private void EnableGetInfoButtons(bool isEnabled)
+        {
+            getBangumiInfoButton.IsEnabled = isEnabled;
+            getVNDBInfoButton.IsEnabled = isEnabled;
+        }
+        private async void GetBangumiInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            EnableGetInfoButtons(false);
+            if (!await NetworkService.GetBangumiInfoAsync(GetGame(), true))
+                Growl.Error(VNGod.Resource.Strings.Strings.GetBangumiInfoFail);
+            EnableGetInfoButtons(true);
+
+        }
+
+        private async void GetVNDBInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            EnableGetInfoButtons(false);
+            if (!await NetworkService.GetVNDBInfoAsync(GetGame(), true))
+                Growl.Error(VNGod.Resource.Strings.Strings.GetVNDBInfoFail);
+            EnableGetInfoButtons(true);
         }
     }
 }

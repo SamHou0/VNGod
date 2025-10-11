@@ -187,8 +187,8 @@
   <data name="VNDBID" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="GetInfo" xml:space="preserve">
-    <value>获取信息</value>
+  <data name="GetBangumiInfo" xml:space="preserve">
+    <value>获取 Bangumi 信息</value>
   </data>
   <data name="SelectProcessTip" xml:space="preserve">
     <value>单击以选择一个可执行文件。这只需执行一次。</value>
@@ -202,11 +202,11 @@
   <data name="Password" xml:space="preserve">
     <value>密码：</value>
   </data>
-  <data name="VNDBToken" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
   <data name="Authorization" xml:space="preserve">
     <value>认证</value>
+  </data>
+  <data name="VNDBToken" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="NoSavePath" xml:space="preserve">
     <value>未设定存档路径！</value>
@@ -243,5 +243,17 @@
   </data>
   <data name="ThrowTestException" xml:space="preserve">
     <value>抛出测试异常</value>
+  </data>
+  <data name="GetVNDBInfo" xml:space="preserve">
+    <value>获取 VNDB 信息</value>
+  </data>
+  <data name="NoVNDBID" xml:space="preserve">
+    <value>该游戏没有 VNDB ID。</value>
+  </data>
+  <data name="GetBangumiInfoFail" xml:space="preserve">
+    <value>获取 Bangumi 信息失败。检查日志了解更多。</value>
+  </data>
+  <data name="GetVNDBInfoFail" xml:space="preserve">
+    <value>获取 VNDB 信息失败。检查日志了解更多。</value>
   </data>
 </root>

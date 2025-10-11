@@ -12,7 +12,7 @@ A visual novel manager, but simple and effective.
 - [x] Organize your novels
 - [x] Automatically match entries in:
   - [x] [Bangumi](https://bgm.tv)
-  - [ ] [vndb](https://vndb.org)
+  - [x] [vndb](https://vndb.org)
 - [x] Open folder, game and entry page quickly
 - [x] Record your playing time
 - [x] Sync your saves and scanned files to WebDAV

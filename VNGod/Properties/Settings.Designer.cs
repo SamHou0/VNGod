@@ -94,5 +94,17 @@ namespace VNGod.Properties {
                 this["WebDAVPassword"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string VNDBToken {
+            get {
+                return ((string)(this["VNDBToken"]));
+            }
+            set {
+                this["VNDBToken"] = value;
+            }
+        }
     }
 }

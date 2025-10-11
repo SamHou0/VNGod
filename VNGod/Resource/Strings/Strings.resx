@@ -196,8 +196,8 @@
     <value>VNDB ID:</value>
     <comment>@Invariant</comment>
   </data>
-  <data name="GetInfo" xml:space="preserve">
-    <value>Get Info</value>
+  <data name="GetBangumiInfo" xml:space="preserve">
+    <value>Get Bangumi Info</value>
   </data>
   <data name="SelectProcessTip" xml:space="preserve">
     <value>Click to select one of the exe. This will be remembered.</value>
@@ -261,5 +261,17 @@
   </data>
   <data name="ThrowTestException" xml:space="preserve">
     <value>Throw test exception</value>
+  </data>
+  <data name="GetVNDBInfo" xml:space="preserve">
+    <value>Get VNDB Info</value>
+  </data>
+  <data name="NoVNDBID" xml:space="preserve">
+    <value>This game does not have a VNDB ID.</value>
+  </data>
+  <data name="GetBangumiInfoFail" xml:space="preserve">
+    <value>Failed to get Bangumi info.See log for more info.</value>
+  </data>
+  <data name="GetVNDBInfoFail" xml:space="preserve">
+    <value>Failed to get VNDB info.See log for more info.</value>
   </data>
 </root>

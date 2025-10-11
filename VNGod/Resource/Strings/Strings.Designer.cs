@@ -178,11 +178,38 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Get Info 的本地化字符串。
+        ///   查找类似 Get Bangumi Info 的本地化字符串。
         /// </summary>
-        public static string GetInfo {
+        public static string GetBangumiInfo {
             get {
-                return ResourceManager.GetString("GetInfo", resourceCulture);
+                return ResourceManager.GetString("GetBangumiInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to get Bangumi info.See log for more info. 的本地化字符串。
+        /// </summary>
+        public static string GetBangumiInfoFail {
+            get {
+                return ResourceManager.GetString("GetBangumiInfoFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Get VNDB Info 的本地化字符串。
+        /// </summary>
+        public static string GetVNDBInfo {
+            get {
+                return ResourceManager.GetString("GetVNDBInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to get VNDB info.See log for more info. 的本地化字符串。
+        /// </summary>
+        public static string GetVNDBInfoFail {
+            get {
+                return ResourceManager.GetString("GetVNDBInfoFail", resourceCulture);
             }
         }
         
@@ -237,6 +264,15 @@ namespace VNGod.Resource.Strings {
         public static string NotSet {
             get {
                 return ResourceManager.GetString("NotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This game does not have a VNDB ID. 的本地化字符串。
+        /// </summary>
+        public static string NoVNDBID {
+            get {
+                return ResourceManager.GetString("NoVNDBID", resourceCulture);
             }
         }
         
