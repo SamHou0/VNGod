@@ -1,5 +1,7 @@
 # VNGod
 
+English | [中文](https://vngod.samhou.moe)
+
 A visual novel manager, but simple and effective.
 
 ![GitHub License](https://img.shields.io/github/license/SamHou0/VNGod) [![.NET](https://github.com/SamHou0/VNGod/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/SamHou0/VNGod/actions/workflows/dotnet-desktop.yml) ![GitHub Release](https://img.shields.io/github/v/release/SamHou0/VNGod)
