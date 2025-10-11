@@ -6,6 +6,9 @@ hero:
   name: "VNGod"
   text: "简洁有用的视觉小说管理器"
   tagline: 快速 & 效率
+  image:
+    src: /img/screenshot.png
+    alt: Loge and screenshot
   actions:
     - theme: brand
       text: 快速开始

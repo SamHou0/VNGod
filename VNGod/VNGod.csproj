@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resource\vngod.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resource\vngod.ico" />
   </ItemGroup>
 
   <ItemGroup>

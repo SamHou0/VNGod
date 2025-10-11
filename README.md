@@ -4,10 +4,15 @@ English | [中文](https://vngod.samhou.moe)
 
 A visual novel manager, but simple and effective.
 
+![MainWindow](docs/img/design.png)
+
 ![GitHub License](https://img.shields.io/github/license/SamHou0/VNGod) [![.NET](https://github.com/SamHou0/VNGod/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/SamHou0/VNGod/actions/workflows/dotnet-desktop.yml) ![GitHub Release](https://img.shields.io/github/v/release/SamHou0/VNGod)
 
 > [!WARNING]
 > This app is currently in development. Data loss during WebDAV sync may happen. Always backup your save from time to time if you choose to test it. Thanks for your participation!
+
+> [!NOTE]
+> This app is designed for Chinese users. So the default game display name is Chinese.
 
 ## Features
 
@@ -60,7 +65,7 @@ A visual novel manager, but simple and effective.
 
 4. Choose the base folder by clicking `Open Repo` (in English)
 
-![Choose open repo](img/OpenRepo.png)
+![Choose open repo](docs/img/OpenRepo.png)
 
 5. (Optional) Configure your WebDAV and Bangumi Token in setting.
 
@@ -73,7 +78,7 @@ A visual novel manager, but simple and effective.
 6. Click `Get missing Info` to scan games. If WebDAV configured, it will sync automatically.
 7. Click `Edit Info` to edit games' info if it's wrong or missing. You can set a Bangumi ID and click `Get Info` to get the game's name automatically.
 
-![Edit game](img/EditGame.png)
+![Edit game](docs/img/EditGame.png)
 > [!NOTE]
 > To use cloud save sync, find and set a save path. Make sure the path match on your different computers.
 

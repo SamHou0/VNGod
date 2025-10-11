@@ -10,7 +10,6 @@ export default defineConfig({
     hostname: 'https://vngod.samhou.moe'
   },
   lastUpdated: true,
-  cleanUrls: true,
   markdown: {
     lineNumbers: true
   },
@@ -21,13 +20,19 @@ export default defineConfig({
       { text: '文档', link: '/description' },
       { text: '下载', link: '/download' }
     ],
-
+    logo: 'favicon.ico',
     sidebar: [
       {
         text: '从这里开始',
         items: [
           { text: '简介', link: '/description' },
           { text: '快速开始', link: '/start' }
+        ]
+      },
+      {
+        text: '开发',
+        items: [
+          { text: '开发环境', link: '/development' }
         ]
       }
     ],
