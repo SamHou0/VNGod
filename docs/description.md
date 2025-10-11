@@ -1,6 +1,8 @@
 
 # 简介
 
+![Design](img/design.png)
+
 ![GitHub License](https://img.shields.io/github/license/SamHou0/VNGod)
 
 [![.NET](https://github.com/SamHou0/VNGod/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/SamHou0/VNGod/actions/workflows/dotnet-desktop.yml)

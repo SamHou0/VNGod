@@ -7,7 +7,7 @@ hero:
   text: "简洁有用的视觉小说管理器"
   tagline: 快速 & 效率
   image:
-    src: /img/screenshot.png
+    src: /screenshot.png
     alt: Loge and screenshot
   actions:
     - theme: brand
