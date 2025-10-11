@@ -3,8 +3,10 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 using VNGod.Data;
+using VNGod.Network;
 using VNGod.Properties;
 using VNGod.Resource.Strings;
 using VNGod.Services;
@@ -173,7 +175,7 @@ namespace VNGod
                     }
                 }
                 // No need to overwrite
-                if(string.IsNullOrEmpty(game.VNDBID))
+                if (string.IsNullOrEmpty(game.VNDBID))
                     await NetworkService.GetVNDBSubjectAsync(game, false);
                 cnt++;
                 progressBar.Value = (double)cnt / count * 100;
@@ -286,6 +288,17 @@ namespace VNGod
                 // Save repo path to settings
                 Settings.Default.Repo = openFolderDialog.FolderName;
                 Settings.Default.Save();
+            }
+        }
+
+        private async void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (IsVisible == true)
+            {
+                Background = new ImageBrush(await RandomImage.GetImageAsync())
+                {
+                    Stretch = Stretch.UniformToFill
+                };
             }
         }
     }

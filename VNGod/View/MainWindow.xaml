@@ -9,7 +9,7 @@
         xmlns:strings="clr-namespace:VNGod.Resource.Strings"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
-        Title="VNGod" Height="600" Width="800">
+        Title="VNGod" Height="600" Width="800" IsVisibleChanged="Window_IsVisibleChanged">
     <Window.Resources>
         <data:Repo x:Key="gameRepo"/>
         <cv:NullToBool x:Key="nullToBoolConverter"/>
@@ -20,7 +20,9 @@
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="gameList" Grid.Row="0" Grid.Column="0" Margin="5" ItemsSource="{DynamicResource gameRepo}" DisplayMemberPath="ShortDescription"/>
+        <Rectangle Fill="#90000000" Grid.ColumnSpan="3"/>
+        <Rectangle Fill="#80000000" Grid.Column="2"/>
+        <ListBox x:Name="gameList" Grid.Row="0" Grid.Column="0" Margin="5" ItemsSource="{DynamicResource gameRepo}" Opacity="0.85" DisplayMemberPath="ShortDescription"/>
         <hc:ScrollViewer Grid.Row="0" Grid.Column="1">
         <Grid >
             <Grid.RowDefinitions>
