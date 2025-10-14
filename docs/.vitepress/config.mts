@@ -5,7 +5,7 @@ export default defineConfig({
   lang: 'zh-CN',
   titleTemplate: 'VNGod',
   title: "VNGod",
-  description: "A visual novel manager, but simple and effective.",
+  description: "简洁有用的视觉小说管理器",
   sitemap: {
     hostname: 'https://vngod.samhou.moe'
   },
@@ -32,7 +32,8 @@ export default defineConfig({
       {
         text: '开发',
         items: [
-          { text: '开发环境', link: '/development' }
+          { text: '开发环境', link: '/development' },
+          { text: '参与贡献', link: '/contribute' }
         ]
       }
     ],
