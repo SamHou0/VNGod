@@ -98,11 +98,11 @@ namespace VNGod.Services
         /// <param name="repo"></param>
         public static void ReadMetadata(Repo repo)
         {
-            for(int i=0; i < repo.Count; i++)
+            logger.Info("Reading metadata from " + repo.LocalPath);
+            for (int i = 0; i < repo.Count; i++)
             {
                 Game game = repo[i];
                 var metaDataPath = Path.Combine(repo.LocalPath, game.DirectoryName, ".vngod");
-                logger.Info("Reading metadata from " + metaDataPath);
                 try
                 {
                     using StreamReader reader = new(metaDataPath);
@@ -116,7 +116,7 @@ namespace VNGod.Services
                     throw readEx;
                 }
             }
-            
+
         }
         /// <summary>
         /// Read repo metadata from disk.
