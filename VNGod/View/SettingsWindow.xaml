@@ -33,6 +33,7 @@
                     <StackPanel>
                         <Button x:Name="openLogButton" Content="{x:Static strings:Strings.OpenLog}" Margin="5" Click="OpenLogButton_Click"/>
                         <Button x:Name="throwExceptionButton" Content="{x:Static strings:Strings.ThrowTestException}" Margin="5" Click="ThrowExceptionButton_Click"/>
+                        <Button x:Name="runTokenTestButton" Content="{x:Static strings:Strings.RunTokenTest}" Click="RunTokenTestButton_Click"/>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>

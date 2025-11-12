@@ -256,4 +256,7 @@
   <data name="GetVNDBInfoFail" xml:space="preserve">
     <value>获取 VNDB 信息失败。检查日志了解更多。</value>
   </data>
+  <data name="RunTokenTest" xml:space="preserve">
+    <value>运行认证测试</value>
+  </data>
 </root>

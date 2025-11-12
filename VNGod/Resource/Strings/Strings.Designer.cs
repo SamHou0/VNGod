@@ -358,6 +358,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        public static string RunTokenTest {
+            get {
+                return ResourceManager.GetString("RunTokenTest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Save Path: 的本地化字符串。
         /// </summary>
         public static string SavePath {

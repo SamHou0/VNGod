@@ -3,6 +3,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Shapes;
 using VNGod.Properties;
+using VNGod.Data;
+using VNGod.Services;
 
 namespace VNGod
 {
@@ -47,6 +49,22 @@ namespace VNGod
         private void ThrowExceptionButton_Click(object sender, RoutedEventArgs e)
         {
             throw new Exception("This is a test exception.");
+        }
+
+        private async void RunTokenTestButton_Click(object sender, RoutedEventArgs e)
+        {
+            Game testGame = new Game
+            {
+                DirectoryName = "Summer Pockets"
+            };
+            if (await NetworkService.GetBangumiSubjectAsync(testGame, true))
+            {
+                MessageBox.Show(testGame.Name + " " + testGame.BangumiID, "Success");
+            }
+            else
+            {
+                MessageBox.Show("Failed to get Bangumi info. Please check your token and network connection.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
