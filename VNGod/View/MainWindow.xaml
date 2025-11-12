@@ -13,6 +13,9 @@
     <Window.Resources>
         <data:Repo x:Key="gameRepo"/>
         <cv:NullToBool x:Key="nullToBoolConverter"/>
+        <ContextMenu x:Key="gameItemContextMenu">
+            <MenuItem Name="ignoreGameItem" Header="{x:Static strings:Strings.IgnoreGame}" Click="IgnoreGameItem_Click"/>
+        </ContextMenu>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -22,7 +25,13 @@
         </Grid.ColumnDefinitions>
         <Rectangle Fill="#90000000" Grid.ColumnSpan="3"/>
         <Rectangle Fill="#80000000" Grid.Column="2"/>
-        <ListBox x:Name="gameList" Grid.Row="0" Grid.Column="0" Margin="5" ItemsSource="{DynamicResource gameRepo}" Opacity="0.85" DisplayMemberPath="ShortDescription"/>
+        <ListBox x:Name="gameList" Grid.Row="0" Grid.Column="0" Margin="5" ItemsSource="{DynamicResource gameRepo}" Opacity="0.85" DisplayMemberPath="ShortDescription">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBaseStyle}">
+                    <Setter Property="ContextMenu" Value="{StaticResource gameItemContextMenu}"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
         <hc:ScrollViewer Grid.Row="0" Grid.Column="1">
         <Grid >
             <Grid.RowDefinitions>

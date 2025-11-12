@@ -223,6 +223,24 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Ignore Game 的本地化字符串。
+        /// </summary>
+        public static string IgnoreGame {
+            get {
+                return ResourceManager.GetString("IgnoreGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Really want to ignore the game? If you want to get it back, delete .vngodignore under the game dir. 的本地化字符串。
+        /// </summary>
+        public static string IgnoreGameWarning {
+            get {
+                return ResourceManager.GetString("IgnoreGameWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Info refresh complete. 的本地化字符串。
         /// </summary>
         public static string InfoRefreshComplete {
@@ -358,7 +376,7 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Run token test 的本地化字符串。
         /// </summary>
         public static string RunTokenTest {
             get {
@@ -480,6 +498,15 @@ namespace VNGod.Resource.Strings {
         public static string WebDAVConfig {
             get {
                 return ResourceManager.GetString("WebDAVConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 WebDAV initialize failed. Check your setting or network. See log for more information. 的本地化字符串。
+        /// </summary>
+        public static string WebDAVInitFailed {
+            get {
+                return ResourceManager.GetString("WebDAVInitFailed", resourceCulture);
             }
         }
         

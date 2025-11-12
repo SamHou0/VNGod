@@ -24,19 +24,12 @@ namespace VNGod
             IsEnabled = false,
             Interval = new TimeSpan(0, 0, 1)
         };
+        private bool firstLaunch = true;
+
         public MainWindow()
         {
             InitializeComponent();
             EnableGlobalButtons(false);
-            // Load repo from settings if available
-            string repoPath = Settings.Default.Repo;
-            Task.Run(WebDavService.InitializeClient).Wait();
-            if (!string.IsNullOrWhiteSpace(repoPath) && Directory.Exists(repoPath))
-            {
-                InitializeGameRepo(repoPath);
-                // Local may be missing, pull remote changes first
-                SaveAndSync(false, true);
-            }
             timer.Tick += Timer_Tick;
         }
         #region Tools
@@ -75,7 +68,7 @@ namespace VNGod
             {
                 game.ExecutableName = GameSelectionWindow.Result;
                 game.ProcessName = Path.GetFileNameWithoutExtension(game.ExecutableName);
-                SaveAndSync(true);
+                SaveAndSync(true).Wait();
             }
             else return false;
             return true;
@@ -95,7 +88,7 @@ namespace VNGod
                 else
                 {
                     timer.Stop();
-                    SaveAndSync(true);
+                    await SaveAndSync(true);
                     playButton.IsEnabled = true;
                     Show();
                     await SyncGameSaveAsync();
@@ -111,7 +104,7 @@ namespace VNGod
         /// </summary>
         /// <param name="overwrite">Determine if local data is updated. Always overwrite remote if true. Only set to false when initializing or pulling remote change by hand.</param>
         /// <param name="missingLocal">Determine if local data is missing. Set to true to pull remote change first. </param>
-        private async void SaveAndSync(bool overwrite, bool missingLocal = false)
+        private async Task SaveAndSync(bool overwrite, bool missingLocal = false)
         {
             Repo repo = GetRepo();
             if (!missingLocal)
@@ -122,7 +115,7 @@ namespace VNGod
                     Growl.Success(Strings.WebDAVSyncSuccess);
                 else Growl.Warning(Strings.WebDAVSyncFailed);
                 int index = gameList.SelectedIndex;
-                FileService.ReadMetadata(repo);
+                FileService.ScanGames(repo);
                 if (index >= 0) gameList.SelectedIndex = index;
             }
         }
@@ -180,7 +173,7 @@ namespace VNGod
                 cnt++;
                 progressBar.Value = (double)cnt / count * 100;
             }
-            SaveAndSync(true);
+            await SaveAndSync(true);
             EnableGlobalButtons(true);
             repoButton.IsEnabled = true;
             Growl.Success(Strings.InfoRefreshComplete);
@@ -225,11 +218,11 @@ namespace VNGod
         }
 
 
-        private void EditGameButton_Click(object sender, RoutedEventArgs e)
+        private async void EditGameButton_Click(object sender, RoutedEventArgs e)
         {
             GameEditWindow gameEditWindow = new(GetCurrentGame());
             gameEditWindow.ShowDialog();
-            SaveAndSync(true);
+            await SaveAndSync(true);
         }
 
         private void BangumiButton_Click(object sender, RoutedEventArgs e)
@@ -284,7 +277,7 @@ namespace VNGod
             if (openFolderDialog.ShowDialog() == true)
             {
                 InitializeGameRepo(openFolderDialog.FolderName);
-                SaveAndSync(false);
+                SaveAndSync(false).Wait();
                 // Save repo path to settings
                 Settings.Default.Repo = openFolderDialog.FolderName;
                 Settings.Default.Save();
@@ -293,6 +286,25 @@ namespace VNGod
 
         private async void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (firstLaunch)
+            {
+                // Load repo from settings if available
+                string repoPath = Settings.Default.Repo;
+                if (!string.IsNullOrWhiteSpace(repoPath) && Directory.Exists(repoPath))
+                {
+                    InitializeGameRepo(repoPath);
+                    // Local may be missing, pull remote changes first
+                    if (await WebDavService.InitializeClient())
+                    {
+                        await SaveAndSync(false, true);
+                    }
+                    else if (!string.IsNullOrEmpty(Settings.Default.WebDAVUrl))
+                    {
+                        Growl.Warning(Strings.WebDAVInitFailed);
+                    }
+                }
+                firstLaunch = false;
+            }
             if (IsVisible == true)
             {
                 Background = new ImageBrush(await RandomImage.GetImageAsync())
@@ -300,6 +312,13 @@ namespace VNGod
                     Stretch = Stretch.UniformToFill
                 };
             }
+        }
+
+        private void IgnoreGameItem_Click(object sender, RoutedEventArgs e)
+        {
+            Repo repo = GetRepo();
+            FileService.AddGameIgnore(repo, GetCurrentGame());
+            repo.Remove(GetCurrentGame());
         }
     }
 }

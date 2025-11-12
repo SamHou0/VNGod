@@ -277,4 +277,13 @@
   <data name="RunTokenTest" xml:space="preserve">
     <value>Run token test</value>
   </data>
+  <data name="IgnoreGame" xml:space="preserve">
+    <value>Ignore Game</value>
+  </data>
+  <data name="IgnoreGameWarning" xml:space="preserve">
+    <value>Really want to ignore the game? If you want to get it back, delete .vngodignore under the game dir.</value>
+  </data>
+  <data name="WebDAVInitFailed" xml:space="preserve">
+    <value>WebDAV initialize failed. Check your setting or network. See log for more information.</value>
+  </data>
 </root>
