@@ -286,4 +286,7 @@
   <data name="WebDAVInitFailed" xml:space="preserve">
     <value>WebDAV initialize failed. Check your setting or network. See log for more information.</value>
   </data>
+  <data name="GetIcon" xml:space="preserve">
+    <value>Get game icons</value>
+  </data>
 </root>

@@ -25,33 +25,46 @@
         </Grid.ColumnDefinitions>
         <Rectangle Fill="#90000000" Grid.ColumnSpan="3"/>
         <Rectangle Fill="#80000000" Grid.Column="2"/>
-        <ListBox x:Name="gameList" Grid.Row="0" Grid.Column="0" Margin="5" ItemsSource="{DynamicResource gameRepo}" Opacity="0.85" DisplayMemberPath="ShortDescription">
+        <ListBox x:Name="gameList" Grid.Row="0" Grid.Column="0" Margin="5" ItemsSource="{DynamicResource gameRepo}" Opacity="0.85">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBaseStyle}">
                     <Setter Property="ContextMenu" Value="{StaticResource gameItemContextMenu}"/>
                 </Style>
             </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding Icon}" Width="32" Height="32"/>
+                        <TextBlock Text="{Binding ShortDescription}" FontSize="12" TextWrapping="WrapWithOverflow" TextAlignment="Center" Margin="10,10,0,10" Grid.Column="1"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
         <hc:ScrollViewer Grid.Row="0" Grid.Column="1">
-        <Grid >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="{x:Static strings:Strings.GameDtails}" FontWeight="Bold" FontSize="16" Margin="5"/>
-            <StackPanel Grid.Row="1" x:Name="gameDetailsPanel">
-                <TextBlock Text="{x:Static strings:Strings.Name}" FontWeight="Bold"/>
-                <TextBlock x:Name="gameNameTextBlock" Margin="0,10,0,30" Text="{Binding SelectedItem, ElementName=gameList}" FontSize="24"/>
-                <TextBlock Text="{x:Static strings:Strings.Description}" FontWeight="Bold"/>
-                <TextBlock x:Name="gameDescriptionTextBlock" Margin="0,10,0,0" Text="{Binding SelectedItem.Description, ElementName=gameList}" FontSize="16" LineHeight="50"/>
-            </StackPanel>
-        </Grid>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{x:Static strings:Strings.GameDtails}" FontWeight="Bold" FontSize="16" Margin="5"/>
+                <StackPanel Grid.Row="1" x:Name="gameDetailsPanel">
+                    <TextBlock Text="{x:Static strings:Strings.Name}" FontWeight="Bold"/>
+                    <TextBlock x:Name="gameNameTextBlock" Margin="0,10,0,30" Text="{Binding SelectedItem, ElementName=gameList}" FontSize="24"/>
+                    <TextBlock Text="{x:Static strings:Strings.Description}" FontWeight="Bold"/>
+                    <TextBlock x:Name="gameDescriptionTextBlock" Margin="0,10,0,0" Text="{Binding SelectedItem.Description, ElementName=gameList}" FontSize="16" LineHeight="50"/>
+                </StackPanel>
+            </Grid>
         </hc:ScrollViewer>
         <hc:FlexPanel Grid.Column="2" FlexDirection="Column" JustifyContent="SpaceAround" AlignItems="Stretch">
             <StackPanel hc:FlexPanel.FlexShrink="0">
                 <TextBlock TextAlignment="Center" Margin="0,10" Text="{x:Static strings:Strings.GlobalOptions}"/>
                 <Button x:Name="rescanButton" Content="{x:Static strings:Strings.RescanGames}" Margin="5" Click="RescanButton_Click"/>
                 <Button x:Name="refreshInfoButton" Content="{x:Static strings:Strings.RefreshInfo}" Margin="5" Click="RefreshInfoButton_Click"/>
+                <Button x:Name="getIconButton" Content="{x:Static strings:Strings.GetIcon}" Margin="5" Click="GetIconButton_Click"/>
                 <Button x:Name="settingsButton" Content="{x:Static strings:Strings.Settings}" Margin="5" Click="SettingsButton_Click"/>
                 <Button x:Name="repoButton" Content="{x:Static strings:Strings.OpenRepo}" Margin="5" Click="RepoButton_Click"/>
             </StackPanel>

@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using VNGod.Data;
 using log4net.Core;
 using log4net;
+using System.Windows.Media;
 
 namespace VNGod.Services
 {
@@ -108,6 +109,36 @@ namespace VNGod.Services
         public static void AddGameIgnore(Repo repo,Game game)
         {
             File.Create(Path.Combine(repo.LocalPath, game.DirectoryName, ".vngodignore")).Dispose();
+        }
+
+        /// <summary>
+        /// Load metadata for all games in the repo from their .vngod files.
+        /// </summary>
+        /// <param name="repo"></param>
+        public static void ReadMetadata(Repo repo)
+        {
+            logger.Info("Reading metadata from " + repo.LocalPath);
+            for (int i = 0; i < repo.Count; i++)
+            {
+                Game game = repo[i];
+                var metaDataPath = Path.Combine(repo.LocalPath, game.DirectoryName, ".vngod");
+                try
+                {
+                    using StreamReader reader = new(metaDataPath);
+                    XmlSerializer serializer = new(typeof(Game));
+                    //Save the icon to prevent data loss
+                    ImageSource? icon = repo[i].Icon;
+                    repo[i] = (Game?)serializer.Deserialize(reader) ?? throw new Exception("Null game");
+                    repo[i].Icon = icon;
+                }
+                catch (Exception ex)
+                {
+                    Exception readEx = new($"Failed to read .vngod file in {metaDataPath}. Not a valid game directory.\n{ex.Message}");
+                    logger.Error(readEx.Message, readEx);
+                    throw readEx;
+                }
+            }
+
         }
         /// <summary>
         /// Read repo metadata from disk.

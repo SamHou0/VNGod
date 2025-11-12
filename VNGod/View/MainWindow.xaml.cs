@@ -115,7 +115,7 @@ namespace VNGod
                     Growl.Success(Strings.WebDAVSyncSuccess);
                 else Growl.Warning(Strings.WebDAVSyncFailed);
                 int index = gameList.SelectedIndex;
-                FileService.ScanGames(repo);
+                FileService.ReadMetadata(repo);
                 if (index >= 0) gameList.SelectedIndex = index;
             }
         }
@@ -303,6 +303,7 @@ namespace VNGod
                         Growl.Warning(Strings.WebDAVInitFailed);
                     }
                 }
+                GetIconButton_Click(this, new());
                 firstLaunch = false;
             }
             if (IsVisible == true)
@@ -319,6 +320,12 @@ namespace VNGod
             Repo repo = GetRepo();
             FileService.AddGameIgnore(repo, GetCurrentGame());
             repo.Remove(GetCurrentGame());
+        }
+        private void GetIconButton_Click(object sender, RoutedEventArgs e)
+        {
+            getIconButton.IsEnabled = false;
+            IconService.GetIcons(GetRepo());
+            getIconButton.IsEnabled = true;
         }
     }
 }

@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Xml.Serialization;
 using VNGod.Resource.Strings;
 
 namespace VNGod.Data
@@ -14,6 +16,7 @@ namespace VNGod.Data
         private string? _name;
         private string? _savePath;//Detimine the path of the save files of a game
         private string? _executableName;//Detemine the path of the executable file of a game
+        private ImageSource? _icon;//Icon of the game
         private string? _processName;//Detemine the process name of a game, for time recording purpose
         private string? _bangumiID;
         private string? _vndbID;
@@ -45,6 +48,16 @@ namespace VNGod.Data
             {
                 _executableName = value;
                 OnPropertyChanged(nameof(ExecutableName));
+            }
+        }
+        [XmlIgnore]
+        public ImageSource? Icon
+        {
+            get { return _icon; }
+            set
+            {
+                _icon = value;
+                OnPropertyChanged(nameof(Icon));
             }
         }
         public string? ProcessName

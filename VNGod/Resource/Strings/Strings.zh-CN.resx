@@ -268,4 +268,7 @@
   <data name="WebDAVInitFailed" xml:space="preserve">
     <value>WebDAV 初始化失败。检查你的设置。查看日志了解更多信息。</value>
   </data>
+  <data name="GetIcon" xml:space="preserve">
+    <value>获取游戏图标</value>
+  </data>
 </root>

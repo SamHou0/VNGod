@@ -196,6 +196,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Get game icons 的本地化字符串。
+        /// </summary>
+        public static string GetIcon {
+            get {
+                return ResourceManager.GetString("GetIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Get VNDB Info 的本地化字符串。
         /// </summary>
         public static string GetVNDBInfo {
