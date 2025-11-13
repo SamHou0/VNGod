@@ -97,6 +97,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Search via browser 的本地化字符串。
+        /// </summary>
+        public static string BrowserSearch {
+            get {
+                return ResourceManager.GetString("BrowserSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Debug 的本地化字符串。
         /// </summary>
         public static string Debug {

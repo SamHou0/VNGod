@@ -20,6 +20,7 @@
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
                 <Button x:Name="getBangumiInfoButton" Click="GetBangumiInfoButton_Click" Content="{x:Static strings:Strings.GetBangumiInfo}" Margin="10"/>
                 <Button x:Name="getVNDBInfoButton" Click="GetVNDBInfoButton_Click" Content="{x:Static strings:Strings.GetVNDBInfo}" Margin="10"/>
+                <Button x:Name="browserSeachButton" Click="BrowserSeachButton_Click" Content="{x:Static strings:Strings.BrowserSearch}" Margin="10"/>
             </StackPanel>
             <TextBox hc:TitleElement.Title="{x:Static strings:Strings.Name}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding Name,Mode=TwoWay}"/>
             <TextBox hc:TitleElement.Title="{x:Static strings:Strings.ExecutableName}" hc:TitleElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" Margin="10" Text="{Binding ExecutableName,Mode=TwoWay}"/>

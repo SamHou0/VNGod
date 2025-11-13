@@ -271,4 +271,7 @@
   <data name="GetIcon" xml:space="preserve">
     <value>获取游戏图标</value>
   </data>
+  <data name="BrowserSearch" xml:space="preserve">
+    <value>浏览器搜索</value>
+  </data>
 </root>

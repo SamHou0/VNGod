@@ -289,4 +289,7 @@
   <data name="GetIcon" xml:space="preserve">
     <value>Get game icons</value>
   </data>
+  <data name="BrowserSearch" xml:space="preserve">
+    <value>Search via browser</value>
+  </data>
 </root>

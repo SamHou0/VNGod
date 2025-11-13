@@ -1,4 +1,5 @@
 ﻿using HandyControl.Controls;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using VNGod.Data;
@@ -41,6 +42,13 @@ namespace VNGod.View
             if (!await NetworkService.GetVNDBInfoAsync(GetGame(), true))
                 Growl.Error(VNGod.Resource.Strings.Strings.GetVNDBInfoFail);
             EnableGetInfoButtons(true);
+        }
+
+        private void BrowserSeachButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Add " to arguments to avoid broken url
+            Process.Start("explorer.exe", "\"https://bgm.tv/subject_search/"+GetGame().DirectoryName.Replace(" ","+")+ "?cat=4\"");
+            Process.Start("explorer.exe", "\"https://vndb.org/v?sq=" + GetGame().DirectoryName.Replace(" ", "+")+"\"");
         }
     }
 }
