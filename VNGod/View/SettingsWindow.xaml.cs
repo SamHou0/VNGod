@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Shapes;
 using VNGod.Properties;
 using VNGod.Data;
-using VNGod.Services;
+using VNGod.Utils;
 
 namespace VNGod
 {
@@ -57,7 +57,7 @@ namespace VNGod
             {
                 DirectoryName = "Summer Pockets"
             };
-            if (await NetworkService.GetBangumiSubjectAsync(testGame, true))
+            if (await NetworkHelper.GetBangumiSubjectAsync(testGame, true))
             {
                 MessageBox.Show(testGame.Name + " " + testGame.BangumiID, "Success");
             }

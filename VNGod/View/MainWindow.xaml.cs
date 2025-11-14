@@ -9,7 +9,7 @@ using VNGod.Data;
 using VNGod.Network;
 using VNGod.Properties;
 using VNGod.Resource.Strings;
-using VNGod.Services;
+using VNGod.Utils;
 using VNGod.View;
 
 namespace VNGod
@@ -35,7 +35,7 @@ namespace VNGod
         #region Tools
         private void InitializeGameRepo(string repoPath)
         {
-            Resources["gameRepo"] = FileService.InitializeRepo(repoPath);
+            Resources["gameRepo"] = FileHelper.InitializeRepo(repoPath);
             EnableGlobalButtons(true);
         }
         private Repo GetRepo()
@@ -108,14 +108,14 @@ namespace VNGod
         {
             Repo repo = GetRepo();
             if (!missingLocal)
-                FileService.SaveMetadata(repo, overwrite);
-            if (WebDavService.IsInitialized)
+                FileHelper.SaveMetadata(repo, overwrite);
+            if (WebDAVHelper.IsInitialized)
             {
-                if (await WebDavService.SyncMetadataAsync(repo))
+                if (await WebDAVHelper.SyncMetadataAsync(repo))
                     Growl.Success(Strings.WebDAVSyncSuccess);
                 else Growl.Warning(Strings.WebDAVSyncFailed);
                 int index = gameList.SelectedIndex;
-                FileService.ReadMetadata(repo);
+                FileHelper.ReadMetadata(repo);
                 if (index >= 0) gameList.SelectedIndex = index;
             }
         }
@@ -132,7 +132,7 @@ namespace VNGod
             }
             syncButton.IsEnabled = false;
             Growl.Info(Strings.StartingSync);
-            if (await WebDavService.SyncGameAsync(GetCurrentGame()))
+            if (await WebDAVHelper.SyncGameAsync(GetCurrentGame()))
                 Growl.Success(Strings.GameSaveSyncSuccess);
             else
                 Growl.Error(Strings.GameSaveSyncFail);
@@ -142,7 +142,7 @@ namespace VNGod
         private void RescanButton_Click(object sender, RoutedEventArgs e)
         {
             EnableGlobalButtons(false);
-            FileService.ScanGames(GetRepo());
+            FileHelper.ScanGames(GetRepo());
             EnableGlobalButtons(true);
         }
 
@@ -160,16 +160,16 @@ namespace VNGod
                 // First try Bangumi, then VNDB
                 if (string.IsNullOrEmpty(game.BangumiID))
                 {
-                    await NetworkService.GetBangumiSubjectAsync(game, true);
+                    await NetworkHelper.GetBangumiSubjectAsync(game, true);
                     if (string.IsNullOrEmpty(game.Name))
                     {
                         Growl.Warning("No Bangumi info found for " + game.DirectoryName + ", trying VNDB...");
-                        await NetworkService.GetVNDBSubjectAsync(game, true);
+                        await NetworkHelper.GetVNDBSubjectAsync(game, true);
                     }
                 }
                 // No need to overwrite
                 if (string.IsNullOrEmpty(game.VNDBID))
-                    await NetworkService.GetVNDBSubjectAsync(game, false);
+                    await NetworkHelper.GetVNDBSubjectAsync(game, false);
                 cnt++;
                 progressBar.Value = (double)cnt / count * 100;
             }
@@ -258,7 +258,7 @@ namespace VNGod
             SettingsWindow settingsWindow = new();
             settingsWindow.ShowDialog();
             // Reinitialize WebDAV client with new settings
-            Task.Run(WebDavService.InitializeClient);
+            Task.Run(WebDAVHelper.InitializeClient);
         }
 
         private async void SyncButton_Click(object sender, RoutedEventArgs e)
@@ -294,7 +294,7 @@ namespace VNGod
                 {
                     InitializeGameRepo(repoPath);
                     // Local may be missing, pull remote changes first
-                    if (await WebDavService.InitializeClient())
+                    if (await WebDAVHelper.InitializeClient())
                     {
                         await SaveAndSync(false, true);
                     }
@@ -318,13 +318,13 @@ namespace VNGod
         private void IgnoreGameItem_Click(object sender, RoutedEventArgs e)
         {
             Repo repo = GetRepo();
-            FileService.AddGameIgnore(repo, GetCurrentGame());
+            FileHelper.AddGameIgnore(repo, GetCurrentGame());
             repo.Remove(GetCurrentGame());
         }
         private void GetIconButton_Click(object sender, RoutedEventArgs e)
         {
             getIconButton.IsEnabled = false;
-            IconService.GetIcons(GetRepo());
+            IconHelper.GetIcons(GetRepo());
             getIconButton.IsEnabled = true;
         }
     }

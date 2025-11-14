@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using log4net;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
 using VNGod.Data;
 using VNGod.Properties;
+using VNGod.Services;
 using WebDav;
-using log4net;
-using log4net.Repository.Hierarchy;
 
-namespace VNGod.Services
+namespace VNGod.Utils
 {
-    static class WebDavService
+    static class WebDAVHelper
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(WebDavService));
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(WebDAVHelper));
         private static WebDavClient? client;
         /// <summary>
         /// Check if the WebDAV client is initialized.
@@ -228,7 +222,7 @@ namespace VNGod.Services
                 if (Directory.Exists(localSavePath))
                 {
                     // Compress local save folder to a temporary zip file
-                    await CompressService.CompressFolderToZipAsync(localSavePath, tempZipPath);
+                    await CompressHelper.CompressFolderToZipAsync(localSavePath, tempZipPath);
                     // Compare file dates to determine which is newer
                     timeComparison = CompareFileDate(remoteSavePath, tempZipPath);
                 }
@@ -253,7 +247,7 @@ namespace VNGod.Services
                         return false;
                     }
                     // Decompress the zip file back to the local save folder
-                    await CompressService.DecompressZipToFolderAsync(tempZipPath, localSavePath);
+                    await CompressHelper.DecompressZipToFolderAsync(tempZipPath, localSavePath);
                 }
                 return true;
             }

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using VNGod.Data;
-using VNGod.Services;
+using VNGod.Utils;
 
 namespace VNGod.View
 {
@@ -30,7 +30,7 @@ namespace VNGod.View
         private async void GetBangumiInfoButton_Click(object sender, RoutedEventArgs e)
         {
             EnableGetInfoButtons(false);
-            if (!await NetworkService.GetBangumiInfoAsync(GetGame(), true))
+            if (!await NetworkHelper.GetBangumiInfoAsync(GetGame(), true))
                 Growl.Error(VNGod.Resource.Strings.Strings.GetBangumiInfoFail);
             EnableGetInfoButtons(true);
 
@@ -39,7 +39,7 @@ namespace VNGod.View
         private async void GetVNDBInfoButton_Click(object sender, RoutedEventArgs e)
         {
             EnableGetInfoButtons(false);
-            if (!await NetworkService.GetVNDBInfoAsync(GetGame(), true))
+            if (!await NetworkHelper.GetVNDBInfoAsync(GetGame(), true))
                 Growl.Error(VNGod.Resource.Strings.Strings.GetVNDBInfoFail);
             EnableGetInfoButtons(true);
         }

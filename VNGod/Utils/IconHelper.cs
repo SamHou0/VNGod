@@ -8,9 +8,9 @@ using VNGod.Data;
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace VNGod.Services
+namespace VNGod.Utils
 {
-    internal static class IconService
+    internal static class IconHelper
     {
         public static async void GetIcons(Repo repo)
         {
@@ -26,7 +26,7 @@ namespace VNGod.Services
                         //Convert to imageSource
                         icon.ToBitmap().Save(ms, System.Drawing.Imaging.ImageFormat.Png);
                         ms.Seek(0, SeekOrigin.Begin);
-                        BitmapImage bitmap = new BitmapImage();
+                        BitmapImage bitmap = new();
                         bitmap.BeginInit();
                         bitmap.CacheOption = BitmapCacheOption.OnLoad;
                         bitmap.StreamSource = ms;

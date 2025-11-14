@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using VNGod.Data;
 using VNGod.Network;
 
-namespace VNGod.Services
+namespace VNGod.Utils
 {
-    static class NetworkService
+    static class NetworkHelper
     {
-        private static readonly ILog logger = LogManager.GetLogger(nameof(NetworkService));
+        private static readonly ILog logger = LogManager.GetLogger(nameof(NetworkHelper));
         /// <summary>
         /// Get info from Bangumi using game directory name as keyword.
         /// </summary>

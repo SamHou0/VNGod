@@ -11,9 +11,9 @@ using log4net;
 
 namespace VNGod.Services
 {
-    internal static class CompressService
+    internal static class CompressHelper
     {
-        private static readonly ILog logger = LogManager.GetLogger(typeof(CompressService));
+        private static readonly ILog logger = LogManager.GetLogger(typeof(CompressHelper));
         public static async Task CompressFolderToZipAsync(string folderPath, string zipFilePath)
         {
             await Task.Run(() =>

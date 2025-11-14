@@ -10,11 +10,11 @@ using log4net.Core;
 using log4net;
 using System.Windows.Media;
 
-namespace VNGod.Services
+namespace VNGod.Utils
 {
-    static class FileService
+    static class FileHelper
     {
-        private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(FileService));
+        private static readonly ILog logger = LogManager.GetLogger(typeof(FileHelper));
         /// <summary>
         /// Initializes a repo at the given path by reading its metadata and scanning for games.
         /// </summary>
