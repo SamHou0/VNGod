@@ -1,7 +1,7 @@
 
 # 简介
 
-![Design](img/design.png)
+![Design](../img/design.png)
 
 ![GitHub License](https://img.shields.io/github/license/SamHou0/VNGod)
 

@@ -17,7 +17,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '主页', link: '/' },
-      { text: '文档', link: '/description' },
+      { text: '文档', link: '/quick-start/description' },
       { text: '下载', link: '/download' }
     ],
     logo: 'favicon.ico',
@@ -25,15 +25,22 @@ export default defineConfig({
       {
         text: '从这里开始',
         items: [
-          { text: '简介', link: '/description' },
-          { text: '快速开始', link: '/start' }
+          { text: '简介', link: '/quick-start/description' },
+          { text: '快速开始', link: '/quick-start/start' }
+        ]
+      },
+      {
+        text: '使用指南',
+        items: [
+          {text: '修改游戏信息',link:'/feature/game-edit'},
+          {text: '图标搜刮',link:'/feature/icon'},
         ]
       },
       {
         text: '开发',
         items: [
-          { text: '开发环境', link: '/development' },
-          { text: '参与贡献', link: '/contribute' }
+          { text: '开发环境', link: '/community/development' },
+          { text: '参与贡献', link: '/community/contribute' }
         ]
       }
     ],

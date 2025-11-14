@@ -12,7 +12,7 @@ hero:
   actions:
     - theme: brand
       text: 快速开始
-      link: /start
+      link: /quick-start/start
     - theme: alt
       text: 下载应用
       link: /download
