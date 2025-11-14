@@ -39,7 +39,7 @@
 
 4. 选择根文件夹，点击 `打开存储库`
 
-![打开存储库](img/repo.png)
+![打开存储库](../img/repo.png)
 
 5. （非必要）在设置中，配置你的 WebDAV 和 Bangumi Token。
 
