@@ -95,7 +95,6 @@ namespace VNGod.Utils
             }
             // Save Repo Metadata
             var repoFilePath = Path.Combine(repo.LocalPath, ".vngodrepo");
-            File.WriteAllText(repoFilePath, repo.RemotePath ?? "");
             // Hide the .vngodrepo file
             //File.SetAttributes(repoFilePath, File.GetAttributes(repoFilePath) | FileAttributes.Hidden);
         }
@@ -153,7 +152,6 @@ namespace VNGod.Utils
                 SaveMetadata(repo, false);
                 return;
             }
-            repo.RemotePath = File.ReadAllText(Path.Combine(repo.LocalPath, ".vngodrepo"));
         }
         
     }

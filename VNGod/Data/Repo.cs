@@ -10,6 +10,5 @@ namespace VNGod.Data
     public class Repo : ObservableCollection<Game>
     {
         public required string LocalPath { get; set; }
-        public string? RemotePath { get; set; } = null;
     }
 }
