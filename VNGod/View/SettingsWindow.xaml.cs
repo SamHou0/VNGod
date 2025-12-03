@@ -23,6 +23,14 @@ namespace VNGod
             bangumiTokenTextBox.Text = Settings.Default.BgmToken;
             vndbTokenTextBox.Text = Settings.Default.VNDBToken;
         }
+        private string HandleUrl(string url)
+        {
+            if (!url.EndsWith("/"))
+            {
+                url += "/";
+            }
+            return url;
+        }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -65,6 +73,11 @@ namespace VNGod
             {
                 MessageBox.Show("Failed to get Bangumi info. Please check your token and network connection.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void WebDavUrlTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            webDavUrlTextBox.Text = HandleUrl(webDavUrlTextBox.Text);
         }
     }
 }

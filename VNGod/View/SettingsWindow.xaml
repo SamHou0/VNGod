@@ -14,7 +14,7 @@
                 <GroupBox Header="{x:Static strings:Strings.WebDAVConfig}">
                     <StackPanel>
                         <TextBlock Text="{x:Static strings:Strings.WebDAVUrl}" Margin="5" TextAlignment="Center"/>
-                        <TextBox x:Name="webDavUrlTextBox" Margin="5"/>
+                        <TextBox x:Name="webDavUrlTextBox" Margin="5" LostFocus="WebDavUrlTextBox_LostFocus"/>
                         <TextBlock Text="{x:Static strings:Strings.Username}" Margin="5" TextAlignment="Center"/>
                         <TextBox x:Name="webDavUsernameTextBox" Margin="5"/>
                         <TextBlock Text="{x:Static strings:Strings.Password}" Margin="5" TextAlignment="Center"/>
