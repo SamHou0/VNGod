@@ -12,8 +12,7 @@ jobs:
   create_release:
     runs-on: windows-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Setup .NET
@@ -23,7 +22,7 @@ jobs:
       - name: Publish
         run: dotnet publish --output '${{ env.PUBLISH_PATH }}'
       - name: Compress release artifact
-        run: 7z a AI.NET.zip ${{ env.PUBLISH_PATH }}
+        run: 7z a VNGod.zip ${{ env.PUBLISH_PATH }}
       - name: Create Release using gh CLI
         run: |
           gh release create ${{ github.ref_name }} --title "Release ${{ github.ref_name }}" --generate-notes
