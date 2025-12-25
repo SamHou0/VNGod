@@ -1,9 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Shapes;
-using VNGod.Properties;
 using VNGod.Data;
+using VNGod.Properties;
 using VNGod.Utils;
 
 namespace VNGod
@@ -22,6 +24,9 @@ namespace VNGod
             webDavPasswordBox.Password = Settings.Default.WebDAVPassword;
             bangumiTokenTextBox.Text = Settings.Default.BgmToken;
             vndbTokenTextBox.Text = Settings.Default.VNDBToken;
+            versionBlock.Text = "Version " + Assembly.GetExecutingAssembly()
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+            ?.InformationalVersion;
         }
         private string HandleUrl(string url)
         {
@@ -78,6 +83,11 @@ namespace VNGod
         private void WebDavUrlTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             webDavUrlTextBox.Text = HandleUrl(webDavUrlTextBox.Text);
+        }
+
+        private void GithubButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("explorer.exe", "https://github.com/SamHou0/VNGod");
         }
     }
 }

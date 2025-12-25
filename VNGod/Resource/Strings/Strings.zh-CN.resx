@@ -274,4 +274,7 @@
   <data name="BrowserSearch" xml:space="preserve">
     <value>浏览器搜索</value>
   </data>
+  <data name="About" xml:space="preserve">
+    <value>关于</value>
+  </data>
 </root>

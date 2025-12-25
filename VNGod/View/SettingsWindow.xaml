@@ -36,6 +36,13 @@
                         <Button x:Name="runTokenTestButton" Content="{x:Static strings:Strings.RunTokenTest}" Click="RunTokenTestButton_Click"/>
                     </StackPanel>
                 </GroupBox>
+                <GroupBox Header="{x:Static strings:Strings.About}">
+                    <StackPanel>
+                        <TextBlock Text="VNGod - Simple and effective Visual Novel manager" TextAlignment="Center"/>
+                        <TextBlock x:Name="versionBlock" TextAlignment="Center"/>
+                        <Button x:Name="githubButton" Content="Github" Click="GithubButton_Click"/>
+                    </StackPanel>
+                </GroupBox>
             </StackPanel>
         </hc:ScrollViewer>
     </Grid>
