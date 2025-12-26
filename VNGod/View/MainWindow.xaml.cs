@@ -323,9 +323,9 @@ namespace VNGod
         }
         private void GetIconButton_Click(object sender, RoutedEventArgs e)
         {
-            getIconButton.IsEnabled = false;
+            gameList.IsEnabled = false;
             IconHelper.GetIcons(GetRepo());
-            getIconButton.IsEnabled = true;
+            gameList.IsEnabled = true;
         }
     }
 }
