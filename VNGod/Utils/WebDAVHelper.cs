@@ -1,7 +1,9 @@
 ﻿using log4net;
 using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using VNGod.Data;
+using VNGod.Models;
 using VNGod.Properties;
 using VNGod.Services;
 using WebDav;
@@ -70,6 +72,19 @@ namespace VNGod.Utils
             catch (Exception ex)
             {
                 Logger.Error($"Exception during WebDAV connection test: {ex.Message}", ex);
+                return false;
+            }
+        }
+        public static async Task<bool> DeleteRemoteAsync(string remoteFilePath)
+        {
+            try
+            {
+                await client!.Delete(remoteFilePath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception during file deletion: {ex.Message}", ex);
                 return false;
             }
         }
@@ -263,6 +278,35 @@ namespace VNGod.Utils
                 {
                     File.Delete(tempZipPath);
                 }
+            }
+        }
+        public static async Task<bool> UploadGameAsync(Repo repo, Game game, IProgress<StagedProgressInfo> progress)
+        {
+            try
+            {
+                string tmpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Temp", game.DirectoryName);
+                if (Directory.Exists(tmpPath))
+                    Directory.Delete(tmpPath, true);
+                if (!await DeleteRemoteAsync($"{game.DirectoryName}/game"))
+                    Logger.Warn("Failed to delete remote game folder before upload. It may not exist.");
+                Directory.CreateDirectory(tmpPath);
+                await CompressHelper.CompressSplitZipFileAsync(Path.Combine(tmpPath, "game"), Path.Combine(repo.LocalPath, game.DirectoryName), progress);
+                progress.Report(new StagedProgressInfo { StagePercentage = 0, StageName = "Preparing upload..." });
+                string[] files = Directory.GetFiles(tmpPath);
+
+                for (int i = 0; i < files.Length; i++)
+                {
+                    if (await UploadFileAsync(files[i], $"{game.DirectoryName}/game/{Path.GetFileName(files[i])}") == false)
+                        throw new Exception($"Error uploading " + files[i]);
+                    progress.Report(new StagedProgressInfo { StagePercentage = (double)(i + 1) / files.Length * 100, StageName = "Uploading files..." });
+                }
+                progress.Report(new StagedProgressInfo { StagePercentage = 100, StageName = "Upload complete" });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error when compressing and uploading game: {ex.Message}", ex);
+                return false;
             }
         }
     }

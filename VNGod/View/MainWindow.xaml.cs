@@ -9,10 +9,10 @@ using VNGod.Data;
 using VNGod.Network;
 using VNGod.Properties;
 using VNGod.Resource.Strings;
+using VNGod.Services;
 using VNGod.Utils;
-using VNGod.View;
 
-namespace VNGod
+namespace VNGod.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,7 +25,7 @@ namespace VNGod
             Interval = new TimeSpan(0, 0, 1)
         };
         private bool firstLaunch = true;
-
+        GameStorageWindow? gameStorageWindow;
         public MainWindow()
         {
             InitializeComponent();
@@ -52,6 +52,7 @@ namespace VNGod
         {
             rescanButton.IsEnabled = enable;
             refreshInfoButton.IsEnabled = enable;
+            storeButton.IsEnabled = enable;
         }
         /// <summary>
         /// Use a dialog to choose the game executable if not set.
@@ -276,6 +277,13 @@ namespace VNGod
             };
             if (openFolderDialog.ShowDialog() == true)
             {
+                // Stop and close game storage window if open
+                if (gameStorageWindow != null)
+                {
+                    CompressHelper.CancelAllCompressionProcesses();
+                    gameStorageWindow.Close();
+                    gameStorageWindow = null;
+                }
                 InitializeGameRepo(openFolderDialog.FolderName);
                 SaveAndSync(false).Wait();
                 // Save repo path to settings
@@ -326,6 +334,18 @@ namespace VNGod
             gameList.IsEnabled = false;
             IconHelper.GetIcons(GetRepo());
             gameList.IsEnabled = true;
+        }
+
+        private void StoreButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (gameStorageWindow == null)
+                gameStorageWindow = new GameStorageWindow(GetRepo());
+            gameStorageWindow.Show();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            CompressHelper.CancelAllCompressionProcesses();
         }
     }
 }

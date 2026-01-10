@@ -106,5 +106,17 @@ namespace VNGod.Properties {
                 this["VNDBToken"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\7-Zip\\7z.exe")]
+        public string SevenZipPath {
+            get {
+                return ((string)(this["SevenZipPath"]));
+            }
+            set {
+                this["SevenZipPath"] = value;
+            }
+        }
     }
 }

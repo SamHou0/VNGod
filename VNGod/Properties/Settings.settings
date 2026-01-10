@@ -23,5 +23,8 @@
     <Setting Name="VNDBToken" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="SevenZipPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\7-Zip\7z.exe</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

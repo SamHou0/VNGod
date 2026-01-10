@@ -8,12 +8,17 @@ using System.IO;
 using HandyControl.Tools.Converter;
 using System.Windows.Media.Animation;
 using log4net;
+using System.Diagnostics;
+using VNGod.Properties;
+using VNGod.Models;
 
 namespace VNGod.Services
 {
     internal static class CompressHelper
     {
         private static readonly ILog logger = LogManager.GetLogger(typeof(CompressHelper));
+        private static List<Process> compressionProcesses = new();
+        // Compression and decompression methods
         public static async Task CompressFolderToZipAsync(string folderPath, string zipFilePath)
         {
             await Task.Run(() =>
@@ -24,7 +29,7 @@ namespace VNGod.Services
                     {
                         File.Delete(zipFilePath);
                     }
-                    ZipFile.CreateFromDirectory(folderPath, zipFilePath, CompressionLevel.SmallestSize, false,Encoding.UTF8);
+                    ZipFile.CreateFromDirectory(folderPath, zipFilePath, CompressionLevel.SmallestSize, false, Encoding.UTF8);
                     File.SetLastWriteTime(zipFilePath, Directory.GetLastWriteTime(folderPath));// Keep the access time consistent
                 }
                 catch (Exception ex)
@@ -51,7 +56,7 @@ namespace VNGod.Services
                     }
                     // Ensure the extraction directory exists
                     Directory.CreateDirectory(extractPath);
-                    ZipFile.ExtractToDirectory(zipFilePath, extractPath,Encoding.UTF8);
+                    ZipFile.ExtractToDirectory(zipFilePath, extractPath, Encoding.UTF8);
                     Directory.SetLastWriteTime(extractPath, Directory.GetLastWriteTime(zipFilePath));// Keep the access time consistent
                     return extractPath;
                 }
@@ -61,6 +66,97 @@ namespace VNGod.Services
                     throw;
                 }
             });
+        }
+        // Split a large zip file into smaller parts
+        public static async Task CompressSplitZipFileAsync(string zipFilePath, string folderPath,  IProgress<StagedProgressInfo> progress,int partSize=200)
+        {
+            string sevenZipPath = Settings.Default.SevenZipPath;
+            ProcessStartInfo processStartInfo = new()
+            {
+                FileName = sevenZipPath,
+                Arguments = $"a -bsp1 -bb1 -v{partSize}m \"{zipFilePath}\" \"{folderPath}\"",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+            using Process process = Process.Start(processStartInfo) ?? throw new Exception("Error starting 7-zip. Check your path.");
+            compressionProcesses.Add(process);
+            process.OutputDataReceived += (sender, e) =>
+            {
+                //Debug.WriteLine(e.Data);
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    int index = e.Data.IndexOf('%');
+                    // Parse output for progress updates
+                    if (index>=0)
+                    {
+                        string percentStr = e.Data.Substring(index-2,2);
+                        if (double.TryParse(percentStr, out double percent))
+                        {
+                            progress.Report(new StagedProgressInfo { StagePercentage = percent, StageName = "Compressing files..." });
+                        }
+                    }
+                }
+            };
+
+            process.BeginOutputReadLine();
+            await process.WaitForExitAsync();
+            compressionProcesses.Remove(process);
+        }
+        // Extract split zip files
+        public static async Task ExtractSplitZipsAsync(string zipFilePath, string extractPath, IProgress<StagedProgressInfo> progress)
+        {
+            string sevenZipPath = Settings.Default.SevenZipPath;
+            ProcessStartInfo processStartInfo = new()
+            {
+                FileName = sevenZipPath,
+                Arguments = $"x -bsp1 -bb1 \"{zipFilePath}\" -o\"{extractPath}\"",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+            using Process process = Process.Start(processStartInfo) ?? throw new Exception("Error starting 7-zip. Check your path.");
+            compressionProcesses.Add(process);
+            process.OutputDataReceived += (sender, e) =>
+            {
+                //Debug.WriteLine(e.Data);
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    int index = e.Data.IndexOf('%');
+                    // Parse output for progress updates
+                    if (index >= 0)
+                    {
+                        string percentStr = e.Data.Substring(index - 2, 2);
+                        if (double.TryParse(percentStr, out double percent))
+                        {
+                            progress.Report(new StagedProgressInfo { StagePercentage = percent, StageName = "Extracting files..." });
+                        }
+                    }
+                }
+            };
+            process.BeginOutputReadLine();
+            await process.WaitForExitAsync();
+            compressionProcesses.Remove(process);
+        }
+        public static void CancelAllCompressionProcesses()
+        {
+            foreach (var process in compressionProcesses)
+            {
+                try
+                {
+                    if (!process.HasExited)
+                    {
+                        process.Kill();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.Error($"Error cancelling compression process: {ex.Message}", ex);
+                }
+            }
+            compressionProcesses.Clear();
         }
     }
 }
