@@ -21,8 +21,6 @@ namespace VNGod
             {
                 // Tells which project in Sentry to send events to:
                 o.Dsn = "https://df662d1fe5a888d639cbe919b4ab24fd@o4510685531734016.ingest.us.sentry.io/4510685538942976";
-                // When configuring for the first time, to see what the SDK is doing:
-                o.Debug = true;
             });
         }
 
