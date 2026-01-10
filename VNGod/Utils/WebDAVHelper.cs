@@ -1,178 +1,27 @@
 ﻿using log4net;
 using System.IO;
-using System.Net;
-using System.Runtime.CompilerServices;
 using VNGod.Data;
 using VNGod.Models;
-using VNGod.Properties;
+using VNGod.Network;
 using VNGod.Services;
-using WebDav;
 
 namespace VNGod.Utils
 {
     static class WebDAVHelper
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(WebDAVHelper));
-        private static WebDavClient? client;
+
         /// <summary>
         /// Check if the WebDAV client is initialized.
         /// </summary>
-        public static bool IsInitialized
-        {
-            get
-            {
-                return client != null;
-            }
-        }
+        public static bool IsInitialized => WebDAVClient.IsInitialized;
+
         /// <summary>
         /// Initialize WebDAV client with settings from configuration.
         /// </summary>
         /// <returns></returns>
-        public async static Task<bool> InitializeClient()
-        {
-            if (string.IsNullOrEmpty(Settings.Default.WebDAVUrl) || string.IsNullOrEmpty(Settings.Default.WebDAVUsername) || string.IsNullOrEmpty(Settings.Default.WebDAVPassword))
-            {
-                // Clear old client
-                client = null;
-                return false;
-            }
-            var clientParams = new WebDavClientParams
-            {
-                BaseAddress = new Uri(Settings.Default.WebDAVUrl),
-                Credentials = new NetworkCredential(Settings.Default.WebDAVUsername, Settings.Default.WebDAVPassword)
-            };
-            var testClient = new WebDavClient(clientParams);
-            for (int i = 1; i <= 4; i++)
-            {
-                if (await TestConnectionAsync(testClient))
-                {
-                    client = testClient;
-                    return true;
-                }
-            }
-            client = null;
-            return false;
-        }
-        public static async Task<bool> TestConnectionAsync(WebDavClient client)
-        {
-            try
-            {
-                var response = await client.Propfind("");
-                if (response.IsSuccessful)
-                {
-                    Logger.Info("WebDAV connection successful.");
-                    return true;
-                }
-                else
-                {
-                    Logger.Error($"WebDAV connection failed. Status code: {response.StatusCode}");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Exception during WebDAV connection test: {ex.Message}", ex);
-                return false;
-            }
-        }
-        public static async Task<bool> DeleteRemoteAsync(string remoteFilePath)
-        {
-            try
-            {
-                await client!.Delete(remoteFilePath);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Exception during file deletion: {ex.Message}", ex);
-                return false;
-            }
-        }
-        public static async Task<bool> UploadFileAsync(string localFilePath, string remoteFilePath)
-        {
-            try
-            {
-                if (!File.Exists(localFilePath))
-                {
-                    Logger.Error($"Local file does not exist: {localFilePath}");
-                    return false;
-                }
-                using var fileStream = File.OpenRead(localFilePath);
-                var response = await client!.PutFile(remoteFilePath, fileStream);
-                if (response.IsSuccessful)
-                {
-                    Logger.Info($"Successfully uploaded {localFilePath} to {remoteFilePath}");
-                    return true;
-                }
-                else
-                {
-                    Logger.Error($"Failed to upload {localFilePath} to {remoteFilePath}. Status code: {response.StatusCode}");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Exception during file upload: {ex.Message}", ex);
-                return false;
-            }
-        }
-        public static async Task<bool> DownloadFileAsync(string remoteFilePath, string localFilePath)
-        {
-            try
-            {
-                var response = await client!.GetRawFile(remoteFilePath);
-                DateTime? time = client.Propfind(remoteFilePath).Result.Resources.First().LastModifiedDate;
-                if (response.IsSuccessful)
-                {
-                    using (var fileStream = File.Create(localFilePath))
-                    {
-                        await response.Stream.CopyToAsync(fileStream);
-                    }
-                    File.SetLastAccessTime(localFilePath, time ?? throw new NullReferenceException("Null Remote Time."));//Keep the access time consistent
-                    Logger.Info($"Successfully downloaded {remoteFilePath} to {localFilePath}");
-                    return true;
-                }
-                else
-                {
-                    Logger.Error($"Failed to download {remoteFilePath}. Status code: {response.StatusCode}");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Exception during file download: {ex.Message}", ex);
-                return false;
-            }
-        }
-        /// <summary>
-        /// Compare the last modified date of the remote file and the local file.
-        /// </summary>
-        /// <param name="remoteFilePath"></param>
-        /// <param name="localFilePath"></param>
-        /// <returns>1 if remote newer, -1 if local newer, 0 if the same, 404 if not found.</returns>
-        /// <exception cref="NullReferenceException"></exception>
-        public static int CompareFileDate(string remoteFilePath, string localFilePath)
-        {
-            var resources = client!.Propfind(remoteFilePath).Result.Resources;
-            if (resources.Count > 0)
-            {
-                DateTime remoteTime = resources.First().LastModifiedDate ?? throw new NullReferenceException("Null Remote Time.");
-                DateTime localTime = File.GetLastWriteTime(localFilePath);
-                if (remoteTime > localTime)
-                {
-                    return 1;//Remote is newer
-                }
-                else if (remoteTime < localTime)
-                {
-                    return -1;//Local is newer
-                }
-                else
-                {
-                    return 0;//Same
-                }
-            }
-            else return 404;//Not found
-        }
+        public static async Task<bool> InitializeClient() => await WebDAVClient.InitializeClient();
+
         /// <summary>
         /// Synchronize metadata files (.vngod) for all games in the repo.
         /// </summary>
@@ -186,11 +35,11 @@ namespace VNGod.Utils
                 {
                     var localMetaPath = Path.Combine(repo.LocalPath, game.DirectoryName, ".vngod");
                     var remoteMetaPath = $"{game.DirectoryName}/.vngod";
-                    var timeComparison = CompareFileDate(remoteMetaPath, localMetaPath);
+                    var timeComparison = WebDAVClient.CompareFileDate(remoteMetaPath, localMetaPath);
                     Logger.Info($"Comparing metadata for game {game.DirectoryName}: Time comparison result = {timeComparison}");
                     if (timeComparison == -1 || timeComparison == 404)
                     {
-                        if (await UploadFileAsync(localMetaPath, remoteMetaPath))
+                        if (await WebDAVClient.UploadFileAsync(localMetaPath, remoteMetaPath))
                         {
                             Logger.Info($"Uploaded metadata for game {game.DirectoryName}.");
                         }
@@ -199,7 +48,7 @@ namespace VNGod.Utils
                     }
                     else if (timeComparison == 1)
                     {
-                        if (await DownloadFileAsync(remoteMetaPath, localMetaPath))
+                        if (await WebDAVClient.DownloadFileAsync(remoteMetaPath, localMetaPath))
                         {
                             Logger.Info($"Downloaded metadata for game {game.DirectoryName}.");
                         }
@@ -239,13 +88,13 @@ namespace VNGod.Utils
                     // Compress local save folder to a temporary zip file
                     await CompressHelper.CompressFolderToZipAsync(localSavePath, tempZipPath);
                     // Compare file dates to determine which is newer
-                    timeComparison = CompareFileDate(remoteSavePath, tempZipPath);
+                    timeComparison = WebDAVClient.CompareFileDate(remoteSavePath, tempZipPath);
                 }
                 if (timeComparison == -1 || timeComparison == 404)
                 {
                     Logger.Info("Local save is newer or remote not found. Uploading...");
                     // Upload the zip file to WebDAV server
-                    var uploadSuccess = await UploadFileAsync(tempZipPath, remoteSavePath);
+                    var uploadSuccess = await WebDAVClient.UploadFileAsync(tempZipPath, remoteSavePath);
                     if (!uploadSuccess)
                     {
                         Logger.Error("Upload failed.");
@@ -255,7 +104,7 @@ namespace VNGod.Utils
                 else
                 {
                     Logger.Info("Remote save is newer or same. Downloading...");
-                    var downloadSuccess = await DownloadFileAsync(remoteSavePath, tempZipPath);
+                    var downloadSuccess = await WebDAVClient.DownloadFileAsync(remoteSavePath, tempZipPath);
                     if (!downloadSuccess)
                     {
                         Logger.Error("Download failed.");
@@ -287,7 +136,7 @@ namespace VNGod.Utils
                 string tmpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Temp", game.DirectoryName);
                 if (Directory.Exists(tmpPath))
                     Directory.Delete(tmpPath, true);
-                if (!await DeleteRemoteAsync($"{game.DirectoryName}/game"))
+                if (!await WebDAVClient.DeleteRemoteAsync($"{game.DirectoryName}/game"))
                     Logger.Warn("Failed to delete remote game folder before upload. It may not exist.");
                 Directory.CreateDirectory(tmpPath);
                 await CompressHelper.CompressSplitZipFileAsync(Path.Combine(tmpPath, "game"), Path.Combine(repo.LocalPath, game.DirectoryName), progress);
@@ -296,7 +145,7 @@ namespace VNGod.Utils
 
                 for (int i = 0; i < files.Length; i++)
                 {
-                    if (await UploadFileAsync(files[i], $"{game.DirectoryName}/game/{Path.GetFileName(files[i])}") == false)
+                    if (await WebDAVClient.UploadFileAsync(files[i], $"{game.DirectoryName}/game/{Path.GetFileName(files[i])}") == false)
                         throw new Exception($"Error uploading " + files[i]);
                     progress.Report(new StagedProgressInfo { StagePercentage = (double)(i + 1) / files.Length * 100, StageName = "Uploading files..." });
                 }
