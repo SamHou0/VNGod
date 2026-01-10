@@ -17,6 +17,13 @@ namespace VNGod
             DispatcherUnhandledException += App_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+            SentrySdk.Init(o =>
+            {
+                // Tells which project in Sentry to send events to:
+                o.Dsn = "https://df662d1fe5a888d639cbe919b4ab24fd@o4510685531734016.ingest.us.sentry.io/4510685538942976";
+                // When configuring for the first time, to see what the SDK is doing:
+                o.Debug = true;
+            });
         }
 
         private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
@@ -28,6 +35,7 @@ namespace VNGod
 
         private static void HandleRestart(Exception? e)
         {
+            SentrySdk.CaptureException(e!);
             if (e != null)
                 MessageBox.Show("An unexpected error occurred:\n" + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             else
