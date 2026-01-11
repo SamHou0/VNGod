@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 using VNGod.Properties;
 using WebDav;
 
@@ -57,7 +58,18 @@ namespace VNGod.Network
             client = null;
             return false;
         }
-
+        private async static Task<string?> GetBaseUriAsync(string requestUri)
+        {
+            var response = await client!.Propfind(requestUri, new() { Headers = new Dictionary<string, string> { { "Depth", "0" } } });
+            if (response.IsSuccessful)
+            {
+                return response.Resources.First().Uri!.ToString();
+            }
+            else
+            {
+                return null;
+            }
+        }
         /// <summary>
         /// Test WebDAV connection.
         /// </summary>
@@ -70,7 +82,7 @@ namespace VNGod.Network
                 var response = await testClient.Propfind("");
                 if (response.IsSuccessful)
                 {
-                    Logger.Info("WebDAV connection successful.");
+                    Logger.Debug("WebDAV connection successful.");
                     return true;
                 }
                 else
@@ -85,7 +97,40 @@ namespace VNGod.Network
                 return false;
             }
         }
-
+        /// <summary>
+        /// List remote directory contents.
+        /// </summary>
+        /// <param name="requestUri">The request uri to search sub dir</param>
+        /// <param name="remoteFileList">The list to add result in</param>
+        /// <returns>If the operation is successful</returns>
+        public static async Task<bool> ListRemoteAsync(string requestUri, List<string> remoteFileList)
+        {
+            try
+            {
+                string? baseUri = await GetBaseUriAsync(requestUri);
+                if (baseUri == null) return false;
+                var response = await client!.Propfind(requestUri);
+                if (response.IsSuccessful)
+                {
+                    foreach (var resource in response.Resources)
+                    {
+                        if (resource.Uri!.ToString() == baseUri) continue; // Skip root dir itself
+                        remoteFileList.Add(resource.Uri!.ToString());
+                    }
+                    Logger.Debug($"Successfully listed files in remote");
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Failed to list files in remote. Status code: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception during listing files: {ex.Message}", ex);
+                return false;
+            }
+        }
         /// <summary>
         /// Delete a file or directory from the WebDAV server.
         /// </summary>
@@ -124,7 +169,7 @@ namespace VNGod.Network
                 var response = await client!.PutFile(remoteFilePath, fileStream);
                 if (response.IsSuccessful)
                 {
-                    Logger.Info($"Successfully uploaded {localFilePath} to {remoteFilePath}");
+                    Logger.Debug($"Successfully uploaded {localFilePath} to {remoteFilePath}");
                     return true;
                 }
                 else
@@ -159,7 +204,7 @@ namespace VNGod.Network
                         await response.Stream.CopyToAsync(fileStream);
                     }
                     File.SetLastAccessTime(localFilePath, time ?? throw new NullReferenceException("Null Remote Time."));//Keep the access time consistent
-                    Logger.Info($"Successfully downloaded {remoteFilePath} to {localFilePath}");
+                    Logger.Debug($"Successfully downloaded {remoteFilePath} to {localFilePath}");
                     return true;
                 }
                 else
@@ -170,7 +215,7 @@ namespace VNGod.Network
             }
             catch (Exception ex)
             {
-                Logger.Error($"Exception during file download: {ex.Message}", ex);
+                Logger.Error($"Exception during file download {remoteFilePath} to {localFilePath}: {ex.Message}", ex);
                 return false;
             }
         }

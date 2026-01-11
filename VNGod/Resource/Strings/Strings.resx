@@ -295,4 +295,10 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="LocalGames" xml:space="preserve">
+    <value>Local Games</value>
+  </data>
+  <data name="RemoteGames" xml:space="preserve">
+    <value>Remote Games (Re-open the window to refresh)</value>
+  </data>
 </root>

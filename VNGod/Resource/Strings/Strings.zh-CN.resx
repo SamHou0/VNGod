@@ -277,4 +277,10 @@
   <data name="About" xml:space="preserve">
     <value>关于</value>
   </data>
+  <data name="LocalGames" xml:space="preserve">
+    <value>本地游戏</value>
+  </data>
+  <data name="RemoteGames" xml:space="preserve">
+    <value>远程游戏（关闭后重新打开此窗口刷新）</value>
+  </data>
 </root>

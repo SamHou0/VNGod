@@ -8,13 +8,14 @@
         xmlns:strings="clr-namespace:VNGod.Resource.Strings"
         xmlns:model="clr-namespace:VNGod.Models"
         mc:Ignorable="d"
-        Closing="Window_Closing"
+        Closing="Window_Closing" IsVisibleChanged="Window_IsVisibleChanged"
         Title="GameStorage" Height="500" Width="800">
     <Window.Resources>
         <model:WindowStatus x:Key="windowStatus"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
@@ -23,7 +24,9 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="localGameList">
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Text="{x:Static strings:Strings.LocalGames}"/>
+        <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Text="{x:Static strings:Strings.RemoteGames}"/>
+        <ListBox x:Name="localGameList" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="5">
@@ -37,14 +40,14 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+        <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
             <Button x:Name="uploadButton" Margin="20" Click="UploadButton_Click" IsEnabled="{DynamicResource WindowStatus.IsBusy}">Upload</Button>
             <Button x:Name="downloadButton" Margin="20" IsEnabled="{DynamicResource WindowStatus.IsBusy}">Download</Button>
             <Button x:Name="deleteLocalButton" Margin="20" IsEnabled="{DynamicResource WindowStatus.IsBusy}">Delete Local</Button>
             <Button x:Name="deleteRemoteButton" Margin="20" IsEnabled="{DynamicResource WindowStatus.IsBusy}">Delete Remote</Button>
             <TextBlock x:Name="statusText" HorizontalAlignment="Center" Margin="20" Text="Status"/>
         </StackPanel>
-        <ListBox x:Name="remoteGameList" Grid.Column="2"></ListBox>
-        <ProgressBar x:Name="workProgress" Grid.Row="1" Grid.ColumnSpan="3" Margin="20,0"/>
+        <ListBox x:Name="remoteGameList" Grid.Column="2" Grid.Row="1"></ListBox>
+        <ProgressBar x:Name="workProgress" Grid.Row="2" Grid.ColumnSpan="3" Margin="20,0"/>
     </Grid>
 </hc:Window>

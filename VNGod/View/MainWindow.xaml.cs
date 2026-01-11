@@ -116,7 +116,7 @@ namespace VNGod.View
                     Growl.Success(Strings.WebDAVSyncSuccess);
                 else Growl.Warning(Strings.WebDAVSyncFailed);
                 int index = gameList.SelectedIndex;
-                FileHelper.ReadMetadata(repo);
+                FileHelper.ReadRepoMetadata(repo);
                 if (index >= 0) gameList.SelectedIndex = index;
             }
         }

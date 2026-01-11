@@ -65,5 +65,13 @@ namespace VNGod.View
             }
             Hide();
         }
+
+        private async void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(e.NewValue is true)
+            {
+                remoteGameList.ItemsSource = await WebDAVHelper.GetRemoteGamesAsync();
+            }
+        }
     }
 }

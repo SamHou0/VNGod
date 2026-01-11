@@ -277,6 +277,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Local Games 的本地化字符串。
+        /// </summary>
+        public static string LocalGames {
+            get {
+                return ResourceManager.GetString("LocalGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Name: 的本地化字符串。
         /// </summary>
         public static string Name {
@@ -390,6 +399,15 @@ namespace VNGod.Resource.Strings {
         public static string RefreshInfo {
             get {
                 return ResourceManager.GetString("RefreshInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Remote Games 的本地化字符串。
+        /// </summary>
+        public static string RemoteGames {
+            get {
+                return ResourceManager.GetString("RemoteGames", resourceCulture);
             }
         }
         

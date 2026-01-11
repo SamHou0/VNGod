@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using HandyControl.Controls;
+using log4net;
 using System.IO;
 using VNGod.Data;
 using VNGod.Models;
@@ -36,12 +37,12 @@ namespace VNGod.Utils
                     var localMetaPath = Path.Combine(repo.LocalPath, game.DirectoryName, ".vngod");
                     var remoteMetaPath = $"{game.DirectoryName}/.vngod";
                     var timeComparison = WebDAVClient.CompareFileDate(remoteMetaPath, localMetaPath);
-                    Logger.Info($"Comparing metadata for game {game.DirectoryName}: Time comparison result = {timeComparison}");
+                    Logger.Debug($"Comparing metadata for game {game.DirectoryName}: Time comparison result = {timeComparison}");
                     if (timeComparison == -1 || timeComparison == 404)
                     {
                         if (await WebDAVClient.UploadFileAsync(localMetaPath, remoteMetaPath))
                         {
-                            Logger.Info($"Uploaded metadata for game {game.DirectoryName}.");
+                            Logger.Debug($"Uploaded metadata for game {game.DirectoryName}.");
                         }
                         else
                             throw new Exception("Upload metadata failed.");
@@ -50,14 +51,14 @@ namespace VNGod.Utils
                     {
                         if (await WebDAVClient.DownloadFileAsync(remoteMetaPath, localMetaPath))
                         {
-                            Logger.Info($"Downloaded metadata for game {game.DirectoryName}.");
+                            Logger.Debug($"Downloaded metadata for game {game.DirectoryName}.");
                         }
                         else
                             throw new Exception("Download metadata failed.");
                     }
                     else
                     {
-                        Logger.Info($"Metadata for game {game.DirectoryName} is up to date.");
+                        Logger.Debug($"Metadata for game {game.DirectoryName} is up to date.");
                     }
                 }
                 catch (Exception ex)
@@ -92,7 +93,7 @@ namespace VNGod.Utils
                 }
                 if (timeComparison == -1 || timeComparison == 404)
                 {
-                    Logger.Info("Local save is newer or remote not found. Uploading...");
+                    Logger.Debug("Local save is newer or remote not found. Uploading...");
                     // Upload the zip file to WebDAV server
                     var uploadSuccess = await WebDAVClient.UploadFileAsync(tempZipPath, remoteSavePath);
                     if (!uploadSuccess)
@@ -103,7 +104,7 @@ namespace VNGod.Utils
                 }
                 else
                 {
-                    Logger.Info("Remote save is newer or same. Downloading...");
+                    Logger.Debug("Remote save is newer or same. Downloading...");
                     var downloadSuccess = await WebDAVClient.DownloadFileAsync(remoteSavePath, tempZipPath);
                     if (!downloadSuccess)
                     {
@@ -133,7 +134,7 @@ namespace VNGod.Utils
         {
             try
             {
-                string tmpPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Temp", game.DirectoryName);
+                string tmpPath = Path.Combine(FileHelper.tmpPath, game.DirectoryName);
                 if (Directory.Exists(tmpPath))
                     Directory.Delete(tmpPath, true);
                 if (!await WebDAVClient.DeleteRemoteAsync($"{game.DirectoryName}/game"))
@@ -157,6 +158,32 @@ namespace VNGod.Utils
                 Logger.Error($"Error when compressing and uploading game: {ex.Message}", ex);
                 return false;
             }
+        }
+        public static async Task<Repo> GetRemoteGamesAsync()
+        {
+            Repo games = new() { LocalPath = "WebDAV" };
+            List<string> remotePaths = new();
+            // Get remote directories under root dir, containg games
+            await WebDAVClient.ListRemoteAsync("", remotePaths);
+            string tmpPath = Path.Combine(FileHelper.tmpPath, ".vngodtmp");
+            // Get remote games
+            foreach (var remotePath in remotePaths)
+            {
+                // Skip if no remote game folder
+                if (await WebDAVClient.ListRemoteAsync($"{remotePath}/game", new()))
+                {
+                    if (await WebDAVClient.DownloadFileAsync($"{remotePath}/.vngod", tmpPath))
+                    {
+                        Game game = FileHelper.ReadGameMetadata(tmpPath);
+                        games.Add(game);
+                    }
+                    else
+                    {
+                        Growl.Warning("Error getting remote games");
+                    }
+                }
+            }
+            return games;
         }
     }
 }
