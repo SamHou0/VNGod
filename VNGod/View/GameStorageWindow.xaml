@@ -42,7 +42,7 @@
         </ListBox>
         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
             <Button x:Name="uploadButton" Margin="20" Click="UploadButton_Click" IsEnabled="{DynamicResource WindowStatus.IsBusy}">Upload</Button>
-            <Button x:Name="downloadButton" Margin="20" IsEnabled="{DynamicResource WindowStatus.IsBusy}">Download</Button>
+            <Button x:Name="downloadButton" Margin="20" IsEnabled="{DynamicResource WindowStatus.IsBusy}" Click="DownloadButton_Click">Download</Button>
             <Button x:Name="deleteLocalButton" Margin="20" IsEnabled="{DynamicResource WindowStatus.IsBusy}">Delete Local</Button>
             <Button x:Name="deleteRemoteButton" Margin="20" IsEnabled="{DynamicResource WindowStatus.IsBusy}">Delete Remote</Button>
             <TextBlock x:Name="statusText" HorizontalAlignment="Center" Margin="20" Text="Status"/>

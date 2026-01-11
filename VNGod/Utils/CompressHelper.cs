@@ -68,13 +68,14 @@ namespace VNGod.Services
             });
         }
         // Split a large zip file into smaller parts
-        public static async Task CompressSplitZipFileAsync(string zipFilePath, string folderPath,  IProgress<StagedProgressInfo> progress,int partSize=200)
+        public static async Task CompressSplitZipFileAsync(string zipFilePath, string folderPath,  IProgress<StagedProgressInfo> progress,int partSize=100)
         {
             string sevenZipPath = Settings.Default.SevenZipPath;
             ProcessStartInfo processStartInfo = new()
             {
                 FileName = sevenZipPath,
-                Arguments = $"a -bsp1 -bb1 -v{partSize}m \"{zipFilePath}\" \"{folderPath}\"",
+                // Compress, and ignore .vngod files, split into parts
+                Arguments = $"a -bsp1 -bb1 -x!*\\.vngod -v{partSize}m \"{zipFilePath}\" \"{folderPath}\"",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -105,13 +106,13 @@ namespace VNGod.Services
             compressionProcesses.Remove(process);
         }
         // Extract split zip files
-        public static async Task ExtractSplitZipsAsync(string zipFilePath, string extractPath, IProgress<StagedProgressInfo> progress)
+        public static async Task DecompressSplitZipsAsync(string zipFilePath, string extractPath, IProgress<StagedProgressInfo> progress)
         {
             string sevenZipPath = Settings.Default.SevenZipPath;
             ProcessStartInfo processStartInfo = new()
             {
                 FileName = sevenZipPath,
-                Arguments = $"x -bsp1 -bb1 \"{zipFilePath}\" -o\"{extractPath}\"",
+                Arguments = $"x -bsp1 -bb1 \"{zipFilePath}\" -o\"{extractPath}\" -y",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,

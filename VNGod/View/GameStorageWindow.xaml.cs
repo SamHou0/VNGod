@@ -53,6 +53,25 @@ namespace VNGod.View
             GetStatus().IsBusy = false;
         }
 
+        private async void DownloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(remoteGameList.SelectedIndex < 0) return;
+            GetStatus().IsBusy = true;
+            var progress = new Progress<StagedProgressInfo>(value =>
+            {
+                workProgress.Value = value.StagePercentage;
+                statusText.Text = value.StageName;
+            });
+            if(await WebDAVHelper.DownloadGameAsync(GetLoaclGames(), remoteGameList.SelectedItem as Game ?? throw new Exception("Error getting selected remote game"), progress))
+            {
+                Growl.Success("Successfully downloaded and extracted!");
+            }
+            else
+            {
+                Growl.Error("Failed to download, see log for more detail.");
+            }
+            GetStatus().IsBusy = false;
+        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
@@ -73,5 +92,6 @@ namespace VNGod.View
                 remoteGameList.ItemsSource = await WebDAVHelper.GetRemoteGamesAsync();
             }
         }
+
     }
 }
