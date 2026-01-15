@@ -138,14 +138,14 @@ namespace VNGod.Utils
                 string tmpPath = Path.Combine(FileHelper.tmpPath, game.DirectoryName);
                 if (Directory.Exists(tmpPath))
                     Directory.Delete(tmpPath, true);
-                if (!await RemoveRemoteGameAsync(game))
-                    Logger.Warn("Failed to delete remote game folder before upload. It may not exist.");
                 Directory.CreateDirectory(tmpPath);
                 // Compress game folder into split zip files
                 await CompressHelper.CompressSplitZipFileAsync(Path.Combine(tmpPath, "game"), Path.Combine(repo.LocalPath, game.DirectoryName), progress);
                 progress.Report(new StagedProgressInfo { StagePercentage = 0, StageName = "Preparing upload..." });
                 string[] files = Directory.GetFiles(tmpPath);
-                // Upload each split zip file
+                // Upload each split zip file, first remove remote
+                if (!await RemoveRemoteGameAsync(game))
+                    Logger.Warn("Failed to delete remote game folder before upload. It may not exist.");
                 for (int i = 0; i < files.Length; i++)
                 {
                     progress.Report(new StagedProgressInfo { StagePercentage = (double)i / files.Length * 100, StageName = "Uploading files..." });

@@ -36,7 +36,7 @@ namespace VNGod.View
         private async void UploadButton_Click(object sender, RoutedEventArgs e)
         {
             if (localGameList.SelectedIndex < 0) return;
-            GetStatus().IsBusy = true;
+            GetStatus().IsIdle = false;
             var progress = new Progress<StagedProgressInfo>(value =>
             {
                 workProgress.Value = value.StagePercentage;
@@ -50,7 +50,7 @@ namespace VNGod.View
             {
                 Growl.Error("Failed to upload, see log for more detail.");
             }
-            GetStatus().IsBusy = false;
+            GetStatus().IsIdle = true;
             await RefreshRemoteData();
         }
 
@@ -58,7 +58,7 @@ namespace VNGod.View
         {
             if (remoteGameList.SelectedIndex < 0) return;
             HandyControl.Controls.MessageBox.Show("Before downloading, if the game is present at local, please backup the user content (like saves) inside the game dir. Downloading will overrite all conflicting files!");
-            GetStatus().IsBusy = true;
+            GetStatus().IsIdle = false;
             var progress = new Progress<StagedProgressInfo>(value =>
             {
                 workProgress.Value = value.StagePercentage;
@@ -72,12 +72,12 @@ namespace VNGod.View
             {
                 Growl.Error("Failed to download, see log for more detail.");
             }
-            GetStatus().IsBusy = false;
+            GetStatus().IsIdle = true;
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            if (GetStatus().IsBusy)
+            if (!GetStatus().IsIdle)
             {
                 if (HandyControl.Controls.MessageBox.Show("An operation is in progress. Are you sure you want to close the window? The work will be running in background.", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 {
