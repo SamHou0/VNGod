@@ -68,7 +68,7 @@
                 <Button x:Name="rescanButton" Content="{x:Static strings:Strings.RescanGames}" Margin="5" Click="RescanButton_Click"/>
                 <Button x:Name="refreshInfoButton" Content="{x:Static strings:Strings.RefreshInfo}" Margin="5" Click="RefreshInfoButton_Click"/>
                 <Button x:Name="repoButton" Content="{x:Static strings:Strings.OpenRepo}" Margin="5" Click="RepoButton_Click"/>
-                <Button x:Name="storeButton" Content="Game Storage" Margin="5" Click="StoreButton_Click"/>
+                <Button x:Name="storeButton" Content="{x:Static strings:Strings.GameStorage}" Margin="5" Click="StoreButton_Click"/>
                 <Button x:Name="settingsButton" Content="{x:Static strings:Strings.Settings}" Margin="5" Click="SettingsButton_Click"/>
             </StackPanel>
             <StackPanel hc:FlexPanel.FlexShrink="0">

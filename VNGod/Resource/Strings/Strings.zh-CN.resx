@@ -283,4 +283,52 @@
   <data name="RemoteGames" xml:space="preserve">
     <value>远程游戏（关闭后重新打开此窗口刷新）</value>
   </data>
+  <data name="GameStorage" xml:space="preserve">
+    <value>游戏管理</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>上传</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="DeleteLocal" xml:space="preserve">
+    <value>删除本地</value>
+  </data>
+  <data name="DeleteRemote" xml:space="preserve">
+    <value>删除远程</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="SuccessfullyZippedAndUploaded" xml:space="preserve">
+    <value>压缩并上传成功！</value>
+  </data>
+  <data name="FailedToUpload" xml:space="preserve">
+    <value>上传失败，请参阅日志了解更多信息。</value>
+  </data>
+  <data name="BeforeDownloadInfo" xml:space="preserve">
+    <value>在下载之前，如果游戏已存在于本地，请先备份游戏文件夹内的数据（例如存档）。下载会直接覆盖所有冲突的文件！</value>
+  </data>
+  <data name="SuccessDownloadInfo" xml:space="preserve">
+    <value>下载并解压成功！</value>
+  </data>
+  <data name="FailDownloadInfo" xml:space="preserve">
+    <value>下载失败，检查日志了解更多信息。</value>
+  </data>
+  <data name="OperationInProgressWarn" xml:space="preserve">
+    <value>有一项操作正在进行中。确定要关闭窗口吗？这项操作会在后台继续运行。</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="DeleteRemoteWarning" xml:space="preserve">
+    <value>确定要删除选定的远程游戏吗？这个操作无法撤销。</value>
+  </data>
+  <data name="ConfirmDeletion" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="DeleteLocalWarning" xml:space="preserve">
+    <value>确定要删除选定的本地游戏吗？这个操作无法撤销。</value>
+  </data>
 </root>

@@ -106,6 +106,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Before downloading, if the game is present at local, please backup the user content (like saves) inside the game dir. Downloading will overrite all conflicting files! 的本地化字符串。
+        /// </summary>
+        public static string BeforeDownloadInfo {
+            get {
+                return ResourceManager.GetString("BeforeDownloadInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Search via browser 的本地化字符串。
         /// </summary>
         public static string BrowserSearch {
@@ -115,11 +124,65 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Confirm 的本地化字符串。
+        /// </summary>
+        public static string Confirm {
+            get {
+                return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Confirm Deletion 的本地化字符串。
+        /// </summary>
+        public static string ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Debug 的本地化字符串。
         /// </summary>
         public static string Debug {
             get {
                 return ResourceManager.GetString("Debug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete Local 的本地化字符串。
+        /// </summary>
+        public static string DeleteLocal {
+            get {
+                return ResourceManager.GetString("DeleteLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Are you sure you want to delete the selected local game? This action cannot be undone. 的本地化字符串。
+        /// </summary>
+        public static string DeleteLocalWarning {
+            get {
+                return ResourceManager.GetString("DeleteLocalWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete Remote 的本地化字符串。
+        /// </summary>
+        public static string DeleteRemote {
+            get {
+                return ResourceManager.GetString("DeleteRemote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Are you sure you want to delete the selected remote game? This action cannot be undone. 的本地化字符串。
+        /// </summary>
+        public static string DeleteRemoteWarning {
+            get {
+                return ResourceManager.GetString("DeleteRemoteWarning", resourceCulture);
             }
         }
         
@@ -142,6 +205,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Download 的本地化字符串。
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Edit Info 的本地化字符串。
         /// </summary>
         public static string EditInfo {
@@ -156,6 +228,24 @@ namespace VNGod.Resource.Strings {
         public static string ExecutableName {
             get {
                 return ResourceManager.GetString("ExecutableName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to download, see log for more detail. 的本地化字符串。
+        /// </summary>
+        public static string FailDownloadInfo {
+            get {
+                return ResourceManager.GetString("FailDownloadInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to upload, see log for more detail. 的本地化字符串。
+        /// </summary>
+        public static string FailedToUpload {
+            get {
+                return ResourceManager.GetString("FailedToUpload", resourceCulture);
             }
         }
         
@@ -192,6 +282,15 @@ namespace VNGod.Resource.Strings {
         public static string GameSaveSyncSuccess {
             get {
                 return ResourceManager.GetString("GameSaveSyncSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Game Storage 的本地化字符串。
+        /// </summary>
+        public static string GameStorage {
+            get {
+                return ResourceManager.GetString("GameStorage", resourceCulture);
             }
         }
         
@@ -358,6 +457,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 An operation is in progress. Are you sure you want to close the window? The work will be running in background. 的本地化字符串。
+        /// </summary>
+        public static string OperationInProgressWarn {
+            get {
+                return ResourceManager.GetString("OperationInProgressWarn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Password: 的本地化字符串。
         /// </summary>
         public static string Password {
@@ -403,7 +511,7 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Remote Games 的本地化字符串。
+        ///   查找类似 Remote Games (Re-open the window to refresh) 的本地化字符串。
         /// </summary>
         public static string RemoteGames {
             get {
@@ -475,6 +583,33 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Status 的本地化字符串。
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Successfully downloaded and extracted! 的本地化字符串。
+        /// </summary>
+        public static string SuccessDownloadInfo {
+            get {
+                return ResourceManager.GetString("SuccessDownloadInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Successfully zipped and uploaded! 的本地化字符串。
+        /// </summary>
+        public static string SuccessfullyZippedAndUploaded {
+            get {
+                return ResourceManager.GetString("SuccessfullyZippedAndUploaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Sync 的本地化字符串。
         /// </summary>
         public static string Sync {
@@ -498,6 +633,15 @@ namespace VNGod.Resource.Strings {
         public static string Unknown {
             get {
                 return ResourceManager.GetString("Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Upload 的本地化字符串。
+        /// </summary>
+        public static string Upload {
+            get {
+                return ResourceManager.GetString("Upload", resourceCulture);
             }
         }
         

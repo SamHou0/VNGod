@@ -301,4 +301,52 @@
   <data name="RemoteGames" xml:space="preserve">
     <value>Remote Games (Re-open the window to refresh)</value>
   </data>
+  <data name="GameStorage" xml:space="preserve">
+    <value>Game Storage</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DeleteLocal" xml:space="preserve">
+    <value>Delete Local</value>
+  </data>
+  <data name="DeleteRemote" xml:space="preserve">
+    <value>Delete Remote</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="SuccessfullyZippedAndUploaded" xml:space="preserve">
+    <value>Successfully zipped and uploaded!</value>
+  </data>
+  <data name="FailedToUpload" xml:space="preserve">
+    <value>Failed to upload, see log for more detail.</value>
+  </data>
+  <data name="BeforeDownloadInfo" xml:space="preserve">
+    <value>Before downloading, if the game is present at local, please backup the user content (like saves) inside the game dir. Downloading will overrite all conflicting files!</value>
+  </data>
+  <data name="SuccessDownloadInfo" xml:space="preserve">
+    <value>Successfully downloaded and extracted!</value>
+  </data>
+  <data name="FailDownloadInfo" xml:space="preserve">
+    <value>Failed to download, see log for more detail.</value>
+  </data>
+  <data name="OperationInProgressWarn" xml:space="preserve">
+    <value>An operation is in progress. Are you sure you want to close the window? The work will be running in background.</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="DeleteRemoteWarning" xml:space="preserve">
+    <value>Are you sure you want to delete the selected remote game? This action cannot be undone.</value>
+  </data>
+  <data name="ConfirmDeletion" xml:space="preserve">
+    <value>Confirm Deletion</value>
+  </data>
+  <data name="DeleteLocalWarning" xml:space="preserve">
+    <value>Are you sure you want to delete the selected local game? This action cannot be undone.</value>
+  </data>
 </root>

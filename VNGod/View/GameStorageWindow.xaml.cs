@@ -17,6 +17,7 @@ using VNGod.Data;
 using VNGod.Models;
 using VNGod.Services;
 using VNGod.Utils;
+using VNGod.Resource.Strings;
 
 namespace VNGod.View
 {
@@ -44,11 +45,11 @@ namespace VNGod.View
             });
             if (await WebDAVHelper.UploadGameAsync(GetLoaclGames(), GetLoaclSeletecedGame(), progress))
             {
-                Growl.Success("Successfully zipped and uploaded!");
+                Growl.Success(Strings.SuccessfullyZippedAndUploaded);
             }
             else
             {
-                Growl.Error("Failed to upload, see log for more detail.");
+                Growl.Error(Strings.FailedToUpload);
             }
             GetStatus().IsIdle = true;
             await RefreshRemoteData();
@@ -57,7 +58,7 @@ namespace VNGod.View
         private async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             if (remoteGameList.SelectedIndex < 0) return;
-            HandyControl.Controls.MessageBox.Show("Before downloading, if the game is present at local, please backup the user content (like saves) inside the game dir. Downloading will overrite all conflicting files!");
+            HandyControl.Controls.MessageBox.Show(Strings.BeforeDownloadInfo);
             GetStatus().IsIdle = false;
             var progress = new Progress<StagedProgressInfo>(value =>
             {
@@ -66,11 +67,11 @@ namespace VNGod.View
             });
             if (await WebDAVHelper.DownloadGameAsync(GetLoaclGames(), remoteGameList.SelectedItem as Game ?? throw new Exception("Error getting selected remote game"), progress))
             {
-                Growl.Success("Successfully downloaded and extracted!");
+                Growl.Success(Strings.SuccessDownloadInfo);
             }
             else
             {
-                Growl.Error("Failed to download, see log for more detail.");
+                Growl.Error(Strings.FailDownloadInfo);
             }
             GetStatus().IsIdle = true;
         }
@@ -79,7 +80,7 @@ namespace VNGod.View
             e.Cancel = true;
             if (!GetStatus().IsIdle)
             {
-                if (HandyControl.Controls.MessageBox.Show("An operation is in progress. Are you sure you want to close the window? The work will be running in background.", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                if (HandyControl.Controls.MessageBox.Show(Strings.OperationInProgressWarn, Strings.Confirm, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 {
                     return;
                 }
@@ -103,7 +104,7 @@ namespace VNGod.View
         private async void DeleteRemoteButton_Click(object sender, RoutedEventArgs e)
         {
             if (remoteGameList.SelectedIndex < 0) return;
-            if (HandyControl.Controls.MessageBox.Show("Are you sure you want to delete the selected remote game? This action cannot be undone.", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (HandyControl.Controls.MessageBox.Show(Strings.DeleteRemoteWarning, Strings.ConfirmDeletion, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 await WebDAVHelper.RemoveRemoteGameAsync(GetRemoteSeletedGame());
                 await RefreshRemoteData();
@@ -118,7 +119,7 @@ namespace VNGod.View
         private void DeleteLocalButton_Click(object sender, RoutedEventArgs e)
         {
             if (localGameList.SelectedIndex < 0) return;
-            if (HandyControl.Controls.MessageBox.Show("Are you sure you want to delete the selected local game? This action cannot be undone.", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            if (HandyControl.Controls.MessageBox.Show(Strings.DeleteLocalWarning, Strings.ConfirmDeletion, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 FileHelper.RemoveGameAsync(GetLoaclGames(), GetLoaclSeletecedGame());
             }
