@@ -23,7 +23,6 @@ namespace VNGod
             webDavUsernameTextBox.Text = Settings.Default.WebDAVUsername;
             webDavPasswordBox.Password = Settings.Default.WebDAVPassword;
             bangumiTokenTextBox.Text = Settings.Default.BgmToken;
-            vndbTokenTextBox.Text = Settings.Default.VNDBToken;
             versionBlock.Text = "Version " + Assembly.GetExecutingAssembly()
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
             ?.InformationalVersion;
@@ -45,7 +44,6 @@ namespace VNGod
             Settings.Default.WebDAVPassword = webDavPasswordBox.Password;
             // Tokens
             Settings.Default.BgmToken = bangumiTokenTextBox.Text;
-            Settings.Default.VNDBToken = vndbTokenTextBox.Text;
             Settings.Default.Save();
         }
         private void OpenLogButton_Click(object sender, RoutedEventArgs e)

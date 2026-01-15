@@ -33,10 +33,10 @@ namespace VNGod.View
             timer.Tick += Timer_Tick;
         }
         #region Tools
-        private void InitializeGameRepo(string repoPath)
+        private async Task InitializeGameRepoAsync(string repoPath)
         {
             Resources["gameRepo"] = FileHelper.InitializeRepo(repoPath);
-            IconHelper.GetIcons(GetRepo());
+            await IconHelper.GetIcons(GetRepo());
             EnableGlobalButtons(true);
         }
         private Repo GetRepo()
@@ -146,11 +146,11 @@ namespace VNGod.View
             syncButton.IsEnabled = true;
         }
         #endregion
-        private void RescanButton_Click(object sender, RoutedEventArgs e)
+        private async void RescanButton_Click(object sender, RoutedEventArgs e)
         {
             EnableGlobalButtons(false);
             FileHelper.ScanGames(GetRepo());
-            IconHelper.GetIcons(GetRepo());
+            await IconHelper.GetIcons(GetRepo());
             EnableGlobalButtons(true);
         }
 
@@ -276,7 +276,7 @@ namespace VNGod.View
         }
 
 
-        private void RepoButton_Click(object sender, RoutedEventArgs e)
+        private async void RepoButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFolderDialog openFolderDialog = new()
             {
@@ -292,8 +292,8 @@ namespace VNGod.View
                     gameStorageWindow.Close();
                     gameStorageWindow = null;
                 }
-                InitializeGameRepo(openFolderDialog.FolderName);
-                SaveAndSync(false).Wait();
+                await InitializeGameRepoAsync(openFolderDialog.FolderName);
+                await SaveAndSync(false);
                 // Save repo path to settings
                 Settings.Default.Repo = openFolderDialog.FolderName;
                 Settings.Default.Save();
@@ -308,7 +308,7 @@ namespace VNGod.View
                 string repoPath = Settings.Default.Repo;
                 if (!string.IsNullOrWhiteSpace(repoPath) && Directory.Exists(repoPath))
                 {
-                    InitializeGameRepo(repoPath);
+                    await InitializeGameRepoAsync(repoPath);
                     // Local may be missing, pull remote changes first
                     if (await WebDAVHelper.InitializeClient())
                     {
@@ -319,7 +319,7 @@ namespace VNGod.View
                         Growl.Warning(Strings.WebDAVInitFailed);
                     }
                 }
-                GetIconButton_Click(this, new());
+                await UpdateIconsAsync();
                 firstLaunch = false;
             }
             if (IsVisible == true)
@@ -337,10 +337,15 @@ namespace VNGod.View
             FileHelper.AddGameIgnore(repo, GetCurrentGame());
             repo.Remove(GetCurrentGame());
         }
-        private void GetIconButton_Click(object sender, RoutedEventArgs e)
+        private async void GetIconButton_Click(object sender, RoutedEventArgs e)
+        {
+            await UpdateIconsAsync();
+        }
+
+        private async Task UpdateIconsAsync()
         {
             gameList.IsEnabled = false;
-            IconHelper.GetIcons(GetRepo());
+            await IconHelper.GetIcons(GetRepo());
             gameList.IsEnabled = true;
         }
 

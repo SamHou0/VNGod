@@ -12,7 +12,7 @@ namespace VNGod.Utils
 {
     internal static class IconHelper
     {
-        public static async void GetIcons(Repo repo)
+        public static async Task GetIcons(Repo repo)
         {
             foreach (var game in repo)
             {

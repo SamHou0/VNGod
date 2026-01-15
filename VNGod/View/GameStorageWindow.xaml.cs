@@ -76,7 +76,7 @@ namespace VNGod.View
                 // Load the metadata on disk
                 FileHelper.ReadRepoMetadata(games);
                 // Read icons from executable
-                IconHelper.GetIcons(games);
+                await IconHelper.GetIcons(games);
             }
             else
             {
