@@ -331,4 +331,7 @@
   <data name="DeleteLocalWarning" xml:space="preserve">
     <value>确定要删除选定的本地游戏吗？这个操作无法撤销。</value>
   </data>
+  <data name="WebDAVNotEnabledWarn" xml:space="preserve">
+    <value>没有启用 WebDAV</value>
+  </data>
 </root>

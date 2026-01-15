@@ -700,6 +700,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 WebDAV not enabled. 的本地化字符串。
+        /// </summary>
+        public static string WebDAVNotEnabledWarn {
+            get {
+                return ResourceManager.GetString("WebDAVNotEnabledWarn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 WebDAV metadata sync failed. See logs for more detail. 的本地化字符串。
         /// </summary>
         public static string WebDAVSyncFailed {

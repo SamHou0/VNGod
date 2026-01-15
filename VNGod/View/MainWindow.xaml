@@ -9,7 +9,7 @@
         xmlns:strings="clr-namespace:VNGod.Resource.Strings"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
-        Title="VNGod" Height="600" Width="800"
+        Title="VNGod" Height="650" Width="900"
            IsVisibleChanged="Window_IsVisibleChanged"
            Closing="Window_Closing">
     <Window.Resources>

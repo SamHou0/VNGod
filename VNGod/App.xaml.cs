@@ -35,10 +35,22 @@ namespace VNGod
         {
             SentrySdk.CaptureException(e!);
             if (e != null)
-                MessageBox.Show("An unexpected error occurred:\n" + e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            {
+                if (
+                MessageBox.Show("遇到了未经处理的异常，已自动发送错误报告，要重启吗？", "Error", MessageBoxButton.OKCancel, MessageBoxImage.Error) == MessageBoxResult.OK)
+                {
+                    Process.Start("VNGod.exe");
+                }
+            }
             else
-                MessageBox.Show("An unexpected error occurred.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            Process.Start("VNGod.exe");
+            {
+                if (
+                MessageBox.Show("遇到了未经处理的异常，已自动发送错误报告，要重启吗？", "Error", MessageBoxButton.OKCancel, MessageBoxImage.Error) == MessageBoxResult.OK)
+                {
+                    Process.Start("VNGod.exe");
+                }
+
+            }
             Environment.Exit(1);
         }
 

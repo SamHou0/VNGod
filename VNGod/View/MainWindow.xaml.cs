@@ -36,6 +36,7 @@ namespace VNGod.View
         private void InitializeGameRepo(string repoPath)
         {
             Resources["gameRepo"] = FileHelper.InitializeRepo(repoPath);
+            IconHelper.GetIcons(GetRepo());
             EnableGlobalButtons(true);
         }
         private Repo GetRepo()
@@ -128,7 +129,12 @@ namespace VNGod.View
         {
             if (string.IsNullOrEmpty(GetCurrentGame().SavePath))
             {
-                Growl.Warning(Strings.NoSavePath);
+                Growl.Error(Strings.NoSavePath);
+                return;
+            }
+            if (!WebDAVHelper.IsInitialized)
+            {
+                Growl.Error(Strings.WebDAVNotEnabledWarn);
                 return;
             }
             syncButton.IsEnabled = false;
@@ -144,6 +150,7 @@ namespace VNGod.View
         {
             EnableGlobalButtons(false);
             FileHelper.ScanGames(GetRepo());
+            IconHelper.GetIcons(GetRepo());
             EnableGlobalButtons(true);
         }
 
@@ -184,7 +191,7 @@ namespace VNGod.View
         private void OpenGameFolderButton_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("explorer.exe", gameList.SelectedItem is Game game ?
-                System.IO.Path.Combine(GetRepo().LocalPath, game.DirectoryName) :
+                Path.Combine(GetRepo().LocalPath, game.DirectoryName) :
                 throw new Exception("No game selected."));
         }
 
@@ -254,12 +261,13 @@ namespace VNGod.View
             }
         }
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             SettingsWindow settingsWindow = new();
             settingsWindow.ShowDialog();
             // Reinitialize WebDAV client with new settings
-            Task.Run(WebDAVHelper.InitializeClient);
+            if (!await WebDAVHelper.InitializeClient())
+                Growl.Warning(Strings.WebDAVInitFailed);
         }
 
         private async void SyncButton_Click(object sender, RoutedEventArgs e)

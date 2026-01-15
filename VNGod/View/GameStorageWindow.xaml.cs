@@ -98,7 +98,16 @@ namespace VNGod.View
 
         private async Task RefreshRemoteData()
         {
-            remoteGameList.ItemsSource = await WebDAVHelper.GetRemoteGamesAsync();
+            if (WebDAVHelper.IsInitialized)
+                remoteGameList.ItemsSource = await WebDAVHelper.GetRemoteGamesAsync();
+            else
+            {
+                // Completely hide upload and download buttons
+                Growl.Warning(Strings.WebDAVNotEnabledWarn);
+                uploadButton.Visibility = Visibility.Collapsed;
+                downloadButton.Visibility = Visibility.Collapsed;
+                deleteRemoteButton.Visibility = Visibility.Collapsed;
+            }
         }
 
         private async void DeleteRemoteButton_Click(object sender, RoutedEventArgs e)

@@ -36,28 +36,42 @@ namespace VNGod.Network
         /// <returns></returns>
         public async static Task<bool> InitializeClient()
         {
-            if (string.IsNullOrEmpty(Settings.Default.WebDAVUrl) || string.IsNullOrEmpty(Settings.Default.WebDAVUsername) || string.IsNullOrEmpty(Settings.Default.WebDAVPassword))
+            if (string.IsNullOrEmpty(Settings.Default.WebDAVUrl)||
+                Settings.Default.WebDAVUrl=="/" // Auto addition, avoid this
+                || string.IsNullOrEmpty(Settings.Default.WebDAVUsername) || string.IsNullOrEmpty(Settings.Default.WebDAVPassword))
             {
                 // Clear old client
                 client = null;
                 return false;
             }
-            var clientParams = new WebDavClientParams
+            try
             {
-                BaseAddress = new Uri(Settings.Default.WebDAVUrl),
-                Credentials = new NetworkCredential(Settings.Default.WebDAVUsername, Settings.Default.WebDAVPassword)
-            };
-            var testClient = new WebDavClient(clientParams);
-            for (int i = 1; i <= 4; i++)
-            {
-                if (await TestConnectionAsync(testClient))
+                var clientParams = new WebDavClientParams
                 {
-                    client = testClient;
-                    return true;
+                    BaseAddress = new Uri(Settings.Default.WebDAVUrl),
+                    Credentials = new NetworkCredential(Settings.Default.WebDAVUsername, Settings.Default.WebDAVPassword)
+                };
+                var testClient = new WebDavClient(clientParams);
+                for (int i = 1; i <= 4; i++)
+                {
+                    if (await TestConnectionAsync(testClient))
+                    {
+                        client = testClient;
+                        return true;
+                    }
                 }
+
             }
-            client = null;
+            catch (Exception ex)
+            {
+                Logger.Error($"Exception during WebDAV client initialization: {ex.Message}", ex);
+            }
+            finally
+            {
+                client = null;
+            }
             return false;
+
         }
         private async static Task<string?> GetBaseUriAsync(string requestUri)
         {

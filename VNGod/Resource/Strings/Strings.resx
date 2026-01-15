@@ -349,4 +349,7 @@
   <data name="DeleteLocalWarning" xml:space="preserve">
     <value>Are you sure you want to delete the selected local game? This action cannot be undone.</value>
   </data>
+  <data name="WebDAVNotEnabledWarn" xml:space="preserve">
+    <value>WebDAV not enabled.</value>
+  </data>
 </root>
