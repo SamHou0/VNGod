@@ -65,9 +65,6 @@ namespace VNGod.Network
             catch (Exception ex)
             {
                 Logger.Error($"Exception during WebDAV client initialization: {ex.Message}", ex);
-            }
-            finally
-            {
                 client = null;
             }
             return false;

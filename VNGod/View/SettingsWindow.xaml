@@ -25,8 +25,6 @@
                     <StackPanel>
                         <TextBlock Text="{x:Static strings:Strings.BangumiToken}" Margin="5" TextAlignment="Center"/>
                         <TextBox x:Name="bangumiTokenTextBox" Margin="5"/>
-                        <TextBlock Text="{x:Static strings:Strings.VNDBToken}" Margin="5" TextAlignment="Center"/>
-                        <TextBox x:Name="vndbTokenTextBox" Margin="5"/>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="{x:Static strings:Strings.Debug}">

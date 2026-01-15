@@ -68,6 +68,15 @@ namespace VNGod.View
             if (await WebDAVHelper.DownloadGameAsync(GetLoaclGames(), remoteGameList.SelectedItem as Game ?? throw new Exception("Error getting selected remote game"), progress))
             {
                 Growl.Success(Strings.SuccessDownloadInfo);
+                Repo games = GetLoaclGames();
+                // Add the game to local games
+                FileHelper.ScanGames(games);
+                // Save metadata from remote
+                await WebDAVHelper.SyncMetadataAsync(games);
+                // Load the metadata on disk
+                FileHelper.ReadRepoMetadata(games);
+                // Read icons from executable
+                IconHelper.GetIcons(games);
             }
             else
             {
@@ -99,7 +108,13 @@ namespace VNGod.View
         private async Task RefreshRemoteData()
         {
             if (WebDAVHelper.IsInitialized)
+            {
                 remoteGameList.ItemsSource = await WebDAVHelper.GetRemoteGamesAsync();
+                uploadButton.Visibility = Visibility.Visible;
+                downloadButton.Visibility = Visibility.Visible;
+                deleteRemoteButton.Visibility = Visibility.Visible;
+
+            }
             else
             {
                 // Completely hide upload and download buttons
