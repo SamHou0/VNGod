@@ -106,11 +106,35 @@ namespace VNGod.Utils
         /// Ensure that the repository and game objects are valid before calling this method.</remarks>
         /// <param name="repo">The repository to which the game will be added to the ignore list. Cannot be null.</param>
         /// <param name="game">The game to be added to the ignore list. Cannot be null.</param>
-        public static void AddGameIgnore(Repo repo,Game game)
+        public static void AddGameIgnore(Repo repo, Game game)
         {
             File.Create(Path.Combine(repo.LocalPath, game.DirectoryName, ".vngodignore")).Dispose();
         }
-
+        /// <summary>
+        /// Remove local game dir
+        /// </summary>
+        /// <param name="repo">The repo containing the game.</param>
+        /// <param name="game">The game to remove.</param>
+        /// <returns>If the operation is successful.</returns>
+        public static bool RemoveGameAsync(Repo repo, Game game)
+        {
+            try
+            {
+                logger.Debug("Removing game directory: " + game.DirectoryName);
+                var gameDir = Path.Combine(repo.LocalPath, game.DirectoryName);
+                if (Directory.Exists(gameDir))
+                {
+                    Directory.Delete(gameDir, true);
+                }
+                repo.Remove(game);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Failed to remove game directory.", ex);
+                return false;
+            }
+            return true;
+        }
         /// <summary>
         /// Load metadata for all games in the repo from their .vngod files.
         /// </summary>
@@ -170,6 +194,6 @@ namespace VNGod.Utils
                 return;
             }
         }
-        
+
     }
 }

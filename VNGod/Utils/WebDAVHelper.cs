@@ -138,7 +138,7 @@ namespace VNGod.Utils
                 string tmpPath = Path.Combine(FileHelper.tmpPath, game.DirectoryName);
                 if (Directory.Exists(tmpPath))
                     Directory.Delete(tmpPath, true);
-                if (!await WebDAVClient.DeleteRemoteAsync($"{game.DirectoryName}/game"))
+                if (!await RemoveRemoteGameAsync(game))
                     Logger.Warn("Failed to delete remote game folder before upload. It may not exist.");
                 Directory.CreateDirectory(tmpPath);
                 // Compress game folder into split zip files
@@ -148,9 +148,15 @@ namespace VNGod.Utils
                 // Upload each split zip file
                 for (int i = 0; i < files.Length; i++)
                 {
-                    if (await WebDAVClient.UploadFileAsync(files[i], $"{game.DirectoryName}/game/{Path.GetFileName(files[i])}") == false)
-                        throw new Exception($"Error uploading " + files[i]);
-                    progress.Report(new StagedProgressInfo { StagePercentage = (double)(i + 1) / files.Length * 100, StageName = "Uploading files..." });
+                    progress.Report(new StagedProgressInfo { StagePercentage = (double)i / files.Length * 100, StageName = "Uploading files..." });
+                    uint retryCount = 0;
+                    while (await WebDAVClient.UploadFileAsync(files[i], $"{game.DirectoryName}/game/{Path.GetFileName(files[i])}") == false)
+                    {
+                        // Retry upload up to 5 times
+                        if (++retryCount > 5)
+                            throw new Exception($"Error uploading " + files[i]);
+                        Thread.Sleep(1000);
+                    }
                 }
                 Directory.Delete(tmpPath, true);
                 progress.Report(new StagedProgressInfo { StagePercentage = 100, StageName = "Upload complete" });
@@ -162,6 +168,12 @@ namespace VNGod.Utils
                 return false;
             }
         }
+
+        public static async Task<bool> RemoveRemoteGameAsync(Game game)
+        {
+            return await WebDAVClient.DeleteRemoteAsync($"{game.DirectoryName}/game");
+        }
+
         public static async Task<bool> DownloadGameAsync(Repo repo, Game game, IProgress<StagedProgressInfo> progress)
         {
             try
@@ -174,9 +186,15 @@ namespace VNGod.Utils
                 await WebDAVClient.ListRemoteAsync($"{game.DirectoryName}/game", remoteFiles);
                 for (int i = 0; i < remoteFiles.Count; i++)
                 {
-                    if (await WebDAVClient.DownloadFileAsync(remoteFiles[i], Path.Combine(tmpPath, Path.GetFileName(remoteFiles[i]))) == false)
-                        throw new Exception($"Error downloading " + remoteFiles[i]);
-                    progress.Report(new StagedProgressInfo { StagePercentage = (double)(i + 1) / remoteFiles.Count * 100, StageName = "Downloading files..." });
+                    uint retryCount = 0;
+                    progress.Report(new StagedProgressInfo { StagePercentage = (double)i / remoteFiles.Count * 100, StageName = "Downloading files..." });
+                    while (await WebDAVClient.DownloadFileAsync(remoteFiles[i], Path.Combine(tmpPath, Path.GetFileName(remoteFiles[i]))) == false)
+                    {
+                        // Retry download up to 5 times
+                        if (++retryCount > 5)
+                            throw new Exception($"Error downloading " + remoteFiles[i]);
+                        Thread.Sleep(1000);
+                    }
                 }
                 progress.Report(new StagedProgressInfo { StagePercentage = 100, StageName = "Decompressing files..." });
                 await CompressHelper.DecompressSplitZipsAsync(Path.Combine(tmpPath, "game.7z.001"),repo.LocalPath, progress);

@@ -51,18 +51,20 @@ namespace VNGod.View
                 Growl.Error("Failed to upload, see log for more detail.");
             }
             GetStatus().IsBusy = false;
+            await RefreshRemoteData();
         }
 
         private async void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
-            if(remoteGameList.SelectedIndex < 0) return;
+            if (remoteGameList.SelectedIndex < 0) return;
+            HandyControl.Controls.MessageBox.Show("Before downloading, if the game is present at local, please backup the user content (like saves) inside the game dir. Downloading will overrite all conflicting files!");
             GetStatus().IsBusy = true;
             var progress = new Progress<StagedProgressInfo>(value =>
             {
                 workProgress.Value = value.StagePercentage;
                 statusText.Text = value.StageName;
             });
-            if(await WebDAVHelper.DownloadGameAsync(GetLoaclGames(), remoteGameList.SelectedItem as Game ?? throw new Exception("Error getting selected remote game"), progress))
+            if (await WebDAVHelper.DownloadGameAsync(GetLoaclGames(), remoteGameList.SelectedItem as Game ?? throw new Exception("Error getting selected remote game"), progress))
             {
                 Growl.Success("Successfully downloaded and extracted!");
             }
@@ -87,11 +89,39 @@ namespace VNGod.View
 
         private async void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if(e.NewValue is true)
+            if (e.NewValue is true)
             {
-                remoteGameList.ItemsSource = await WebDAVHelper.GetRemoteGamesAsync();
+                await RefreshRemoteData();
             }
         }
 
+        private async Task RefreshRemoteData()
+        {
+            remoteGameList.ItemsSource = await WebDAVHelper.GetRemoteGamesAsync();
+        }
+
+        private async void DeleteRemoteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (remoteGameList.SelectedIndex < 0) return;
+            if (HandyControl.Controls.MessageBox.Show("Are you sure you want to delete the selected remote game? This action cannot be undone.", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                await WebDAVHelper.RemoveRemoteGameAsync(GetRemoteSeletedGame());
+                await RefreshRemoteData();
+            }
+        }
+
+        private Game GetRemoteSeletedGame()
+        {
+            return remoteGameList.SelectedItem as Game ?? throw new Exception("Error getting selected remote game");
+        }
+
+        private void DeleteLocalButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (localGameList.SelectedIndex < 0) return;
+            if (HandyControl.Controls.MessageBox.Show("Are you sure you want to delete the selected local game? This action cannot be undone.", "Confirm Deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                FileHelper.RemoveGameAsync(GetLoaclGames(), GetLoaclSeletecedGame());
+            }
+        }
     }
 }
