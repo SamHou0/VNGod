@@ -127,7 +127,7 @@
     <value>Description:</value>
   </data>
   <data name="Welcome" xml:space="preserve">
-    <value>Welcome to VNGod! It looks like this is your first time running a game. Please note that VNGod will hide during playing, and it will showup if you close the game. If that doesn't work properly, please edit the process name in 'edit info'.</value>
+    <value>Welcome to VNGod! It looks like this is your first time running a game. Please note that VNGod will hide during playing, and it will showup if you close the game. If that doesn't work properly, please edit the process name in 'edit info'. If you have no idea how to use it, please see docs in settings!</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name:</value>
@@ -351,5 +351,47 @@
   </data>
   <data name="WebDAVNotEnabledWarn" xml:space="preserve">
     <value>WebDAV not enabled.</value>
+  </data>
+  <data name="PreparingUploadProgress" xml:space="preserve">
+    <value>Preparing upload...</value>
+  </data>
+  <data name="UploadingFilesProgress" xml:space="preserve">
+    <value>Uploading files...</value>
+  </data>
+  <data name="UploadCompleteProgress" xml:space="preserve">
+    <value>Upload complete</value>
+  </data>
+  <data name="DownloadingFilesProgress" xml:space="preserve">
+    <value>Downloading files...</value>
+  </data>
+  <data name="DecompressingFilesProgress" xml:space="preserve">
+    <value>Decompressing files...</value>
+  </data>
+  <data name="DownloadCompleteProgress" xml:space="preserve">
+    <value>Download complete</value>
+  </data>
+  <data name="CompressingFilesProgress" xml:space="preserve">
+    <value>Compressing files...</value>
+  </data>
+  <data name="ExtractingFilesProgress" xml:space="preserve">
+    <value>Extracting files...</value>
+  </data>
+  <data name="Docs" xml:space="preserve">
+    <value>Docs</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="SevenZipPath" xml:space="preserve">
+    <value>7-zip Path</value>
+  </data>
+  <data name="SevenZipNotFound" xml:space="preserve">
+    <value>7-zip not found</value>
+  </data>
+  <data name="InitWebDAV" xml:space="preserve">
+    <value>Initializing WebDAV in background...</value>
+  </data>
+  <data name="WebDAVInitSuccess" xml:space="preserve">
+    <value>WebDAV config Valid!</value>
   </data>
 </root>

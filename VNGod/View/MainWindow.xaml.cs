@@ -265,9 +265,7 @@ namespace VNGod.View
         {
             SettingsWindow settingsWindow = new();
             settingsWindow.ShowDialog();
-            // Reinitialize WebDAV client with new settings
-            if (!await WebDAVHelper.InitializeClient())
-                Growl.Warning(Strings.WebDAVInitFailed);
+            await SettingHelper.CheckSettingsAsync();
         }
 
         private async void SyncButton_Click(object sender, RoutedEventArgs e)

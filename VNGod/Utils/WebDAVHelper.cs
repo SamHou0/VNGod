@@ -4,6 +4,7 @@ using System.IO;
 using VNGod.Data;
 using VNGod.Models;
 using VNGod.Network;
+using VNGod.Resource.Strings;
 using VNGod.Services;
 
 namespace VNGod.Utils
@@ -141,14 +142,14 @@ namespace VNGod.Utils
                 Directory.CreateDirectory(tmpPath);
                 // Compress game folder into split zip files
                 await CompressHelper.CompressSplitZipFileAsync(Path.Combine(tmpPath, "game"), Path.Combine(repo.LocalPath, game.DirectoryName), progress);
-                progress.Report(new StagedProgressInfo { StagePercentage = 0, StageName = "Preparing upload..." });
+                progress.Report(new StagedProgressInfo { StagePercentage = 0, StageName = Strings.PreparingUploadProgress });
                 string[] files = Directory.GetFiles(tmpPath);
                 // Upload each split zip file, first remove remote
                 if (!await RemoveRemoteGameAsync(game))
                     Logger.Warn("Failed to delete remote game folder before upload. It may not exist.");
                 for (int i = 0; i < files.Length; i++)
                 {
-                    progress.Report(new StagedProgressInfo { StagePercentage = (double)i / files.Length * 100, StageName = "Uploading files..." });
+                    progress.Report(new StagedProgressInfo { StagePercentage = (double)i / files.Length * 100, StageName = Strings.UploadingFilesProgress });
                     uint retryCount = 0;
                     while (await WebDAVClient.UploadFileAsync(files[i], $"{game.DirectoryName}/game/{Path.GetFileName(files[i])}") == false)
                     {
@@ -159,7 +160,7 @@ namespace VNGod.Utils
                     }
                 }
                 Directory.Delete(tmpPath, true);
-                progress.Report(new StagedProgressInfo { StagePercentage = 100, StageName = "Upload complete" });
+                progress.Report(new StagedProgressInfo { StagePercentage = 100, StageName = Strings.UploadCompleteProgress });
                 return true;
             }
             catch (Exception ex)
@@ -187,7 +188,7 @@ namespace VNGod.Utils
                 for (int i = 0; i < remoteFiles.Count; i++)
                 {
                     uint retryCount = 0;
-                    progress.Report(new StagedProgressInfo { StagePercentage = (double)i / remoteFiles.Count * 100, StageName = "Downloading files..." });
+                    progress.Report(new StagedProgressInfo { StagePercentage = (double)i / remoteFiles.Count * 100, StageName = Strings.DownloadingFilesProgress });
                     while (await WebDAVClient.DownloadFileAsync(remoteFiles[i], Path.Combine(tmpPath, Path.GetFileName(remoteFiles[i]))) == false)
                     {
                         // Retry download up to 5 times
@@ -196,10 +197,10 @@ namespace VNGod.Utils
                         Thread.Sleep(1000);
                     }
                 }
-                progress.Report(new StagedProgressInfo { StagePercentage = 100, StageName = "Decompressing files..." });
+                progress.Report(new StagedProgressInfo { StagePercentage = 100, StageName = Strings.DecompressingFilesProgress });
                 await CompressHelper.DecompressSplitZipsAsync(Path.Combine(tmpPath, "game.7z.001"),repo.LocalPath, progress);
                 Directory.Delete(tmpPath,true);
-                progress.Report(new StagedProgressInfo { StagePercentage = 100, StageName = "Download complete" });
+                progress.Report(new StagedProgressInfo { StagePercentage = 100, StageName = Strings.DownloadCompleteProgress });
                 return true;
             }
             catch (Exception ex)

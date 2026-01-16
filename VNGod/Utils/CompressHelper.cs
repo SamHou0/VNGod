@@ -11,6 +11,7 @@ using log4net;
 using System.Diagnostics;
 using VNGod.Properties;
 using VNGod.Models;
+using VNGod.Resource.Strings;
 
 namespace VNGod.Services
 {
@@ -95,7 +96,7 @@ namespace VNGod.Services
                         string percentStr = e.Data.Substring(index-2,2);
                         if (double.TryParse(percentStr, out double percent))
                         {
-                            progress.Report(new StagedProgressInfo { StagePercentage = percent, StageName = "Compressing files..." });
+                            progress.Report(new StagedProgressInfo { StagePercentage = percent, StageName = Strings.CompressingFilesProgress });
                         }
                     }
                 }
@@ -132,7 +133,7 @@ namespace VNGod.Services
                         string percentStr = e.Data.Substring(index - 2, 2);
                         if (double.TryParse(percentStr, out double percent))
                         {
-                            progress.Report(new StagedProgressInfo { StagePercentage = percent, StageName = "Extracting files..." });
+                            progress.Report(new StagedProgressInfo { StagePercentage = percent, StageName = Strings.ExtractingFilesProgress });
                         }
                     }
                 }

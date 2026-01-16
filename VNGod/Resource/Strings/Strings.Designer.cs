@@ -124,6 +124,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Compressing files... 的本地化字符串。
+        /// </summary>
+        public static string CompressingFilesProgress {
+            get {
+                return ResourceManager.GetString("CompressingFilesProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Confirm 的本地化字符串。
         /// </summary>
         public static string Confirm {
@@ -147,6 +156,15 @@ namespace VNGod.Resource.Strings {
         public static string Debug {
             get {
                 return ResourceManager.GetString("Debug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Decompressing files... 的本地化字符串。
+        /// </summary>
+        public static string DecompressingFilesProgress {
+            get {
+                return ResourceManager.GetString("DecompressingFilesProgress", resourceCulture);
             }
         }
         
@@ -205,11 +223,38 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Docs 的本地化字符串。
+        /// </summary>
+        public static string Docs {
+            get {
+                return ResourceManager.GetString("Docs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Download 的本地化字符串。
         /// </summary>
         public static string Download {
             get {
                 return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download complete 的本地化字符串。
+        /// </summary>
+        public static string DownloadCompleteProgress {
+            get {
+                return ResourceManager.GetString("DownloadCompleteProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Downloading files... 的本地化字符串。
+        /// </summary>
+        public static string DownloadingFilesProgress {
+            get {
+                return ResourceManager.GetString("DownloadingFilesProgress", resourceCulture);
             }
         }
         
@@ -228,6 +273,15 @@ namespace VNGod.Resource.Strings {
         public static string ExecutableName {
             get {
                 return ResourceManager.GetString("ExecutableName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extracting files... 的本地化字符串。
+        /// </summary>
+        public static string ExtractingFilesProgress {
+            get {
+                return ResourceManager.GetString("ExtractingFilesProgress", resourceCulture);
             }
         }
         
@@ -376,6 +430,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Initializing WebDAV in background... 的本地化字符串。
+        /// </summary>
+        public static string InitWebDAV {
+            get {
+                return ResourceManager.GetString("InitWebDAV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Local Games 的本地化字符串。
         /// </summary>
         public static string LocalGames {
@@ -466,6 +529,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Other 的本地化字符串。
+        /// </summary>
+        public static string Other {
+            get {
+                return ResourceManager.GetString("Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Password: 的本地化字符串。
         /// </summary>
         public static string Password {
@@ -489,6 +561,15 @@ namespace VNGod.Resource.Strings {
         public static string PlayTime {
             get {
                 return ResourceManager.GetString("PlayTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Preparing upload... 的本地化字符串。
+        /// </summary>
+        public static string PreparingUploadProgress {
+            get {
+                return ResourceManager.GetString("PreparingUploadProgress", resourceCulture);
             }
         }
         
@@ -561,6 +642,24 @@ namespace VNGod.Resource.Strings {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 7-zip not found 的本地化字符串。
+        /// </summary>
+        public static string SevenZipNotFound {
+            get {
+                return ResourceManager.GetString("SevenZipNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 7-zip Path 的本地化字符串。
+        /// </summary>
+        public static string SevenZipPath {
+            get {
+                return ResourceManager.GetString("SevenZipPath", resourceCulture);
             }
         }
         
@@ -646,6 +745,24 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 Upload complete 的本地化字符串。
+        /// </summary>
+        public static string UploadCompleteProgress {
+            get {
+                return ResourceManager.GetString("UploadCompleteProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uploading files... 的本地化字符串。
+        /// </summary>
+        public static string UploadingFilesProgress {
+            get {
+                return ResourceManager.GetString("UploadingFilesProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Username: 的本地化字符串。
         /// </summary>
         public static string Username {
@@ -700,6 +817,15 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
+        ///   查找类似 WebDAV config Valid! 的本地化字符串。
+        /// </summary>
+        public static string WebDAVInitSuccess {
+            get {
+                return ResourceManager.GetString("WebDAVInitSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 WebDAV not enabled. 的本地化字符串。
         /// </summary>
         public static string WebDAVNotEnabledWarn {
@@ -736,7 +862,7 @@ namespace VNGod.Resource.Strings {
         }
         
         /// <summary>
-        ///   查找类似 Welcome to VNGod! It looks like this is your first time running a game. Please note that VNGod will hide during playing, and it will showup if you close the game. If that doesn&apos;t work properly, please edit the process name in &apos;edit info&apos;. 的本地化字符串。
+        ///   查找类似 Welcome to VNGod! It looks like this is your first time running a game. Please note that VNGod will hide during playing, and it will showup if you close the game. If that doesn&apos;t work properly, please edit the process name in &apos;edit info&apos;. If you have no idea how to use it, please see docs in settings! 的本地化字符串。
         /// </summary>
         public static string Welcome {
             get {

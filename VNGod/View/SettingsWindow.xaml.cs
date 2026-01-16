@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HandyControl.Controls;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -7,6 +8,7 @@ using System.Windows.Shapes;
 using VNGod.Data;
 using VNGod.Properties;
 using VNGod.Utils;
+using VNGod.Resource.Strings;
 
 namespace VNGod
 {
@@ -22,6 +24,7 @@ namespace VNGod
             webDavUrlTextBox.Text = Settings.Default.WebDAVUrl;
             webDavUsernameTextBox.Text = Settings.Default.WebDAVUsername;
             webDavPasswordBox.Password = Settings.Default.WebDAVPassword;
+            sevenZipPathTextBox.Text = Settings.Default.SevenZipPath;
             bangumiTokenTextBox.Text = Settings.Default.BgmToken;
             versionBlock.Text = "Version " + Assembly.GetExecutingAssembly()
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
@@ -44,6 +47,9 @@ namespace VNGod
             Settings.Default.WebDAVPassword = webDavPasswordBox.Password;
             // Tokens
             Settings.Default.BgmToken = bangumiTokenTextBox.Text;
+            // Other
+            Settings.Default.SevenZipPath = sevenZipPathTextBox.Text;
+            
             Settings.Default.Save();
         }
         private void OpenLogButton_Click(object sender, RoutedEventArgs e)
@@ -70,11 +76,11 @@ namespace VNGod
             };
             if (await NetworkHelper.GetBangumiSubjectAsync(testGame, true))
             {
-                MessageBox.Show(testGame.Name + " " + testGame.BangumiID, "Success");
+               HandyControl.Controls.MessageBox.Show(testGame.Name + " " + testGame.BangumiID, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show("Failed to get Bangumi info. Please check your token and network connection.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                HandyControl.Controls.MessageBox.Show("Failed to get Bangumi info. Please check your token and network connection.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -86,6 +92,11 @@ namespace VNGod
         private void GithubButton_Click(object sender, RoutedEventArgs e)
         {
             Process.Start("explorer.exe", "https://github.com/SamHou0/VNGod");
+        }
+
+        private void DocsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("explorer.exe", "https://vngod.samhou.moe");
         }
     }
 }

@@ -127,7 +127,7 @@
     <value>信息：</value>
   </data>
   <data name="Welcome" xml:space="preserve">
-    <value>哦我的上帝，欢迎来到 VNGod！看起来您是第一次启动游戏。一旦启动，主窗口会自动隐藏，直到那个游戏退出。如果程序表现异常，那么请您在“编辑信息”中调整一下进程名称。</value>
+    <value>哦我的上帝，欢迎来到 VNGod！看起来您是第一次启动游戏。一旦启动，主窗口会自动隐藏，直到那个游戏退出。如果程序表现异常，那么请您在“编辑信息”中调整一下进程名称。如果你不知道怎么使用，可以去设置里面查看文档！</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>名称：</value>
@@ -333,5 +333,47 @@
   </data>
   <data name="WebDAVNotEnabledWarn" xml:space="preserve">
     <value>没有启用 WebDAV。</value>
+  </data>
+  <data name="PreparingUploadProgress" xml:space="preserve">
+    <value>准备上传...</value>
+  </data>
+  <data name="UploadingFilesProgress" xml:space="preserve">
+    <value>上传文件...</value>
+  </data>
+  <data name="UploadCompleteProgress" xml:space="preserve">
+    <value>上传完成</value>
+  </data>
+  <data name="DownloadingFilesProgress" xml:space="preserve">
+    <value>下载文件...</value>
+  </data>
+  <data name="DecompressingFilesProgress" xml:space="preserve">
+    <value>解压文件...</value>
+  </data>
+  <data name="DownloadCompleteProgress" xml:space="preserve">
+    <value>下载完成</value>
+  </data>
+  <data name="CompressingFilesProgress" xml:space="preserve">
+    <value>压缩文件...</value>
+  </data>
+  <data name="ExtractingFilesProgress" xml:space="preserve">
+    <value>提取文件...</value>
+  </data>
+  <data name="Docs" xml:space="preserve">
+    <value>文档</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>杂项</value>
+  </data>
+  <data name="SevenZipPath" xml:space="preserve">
+    <value>7-zip 路径</value>
+  </data>
+  <data name="SevenZipNotFound" xml:space="preserve">
+    <value>找不到 7-zip</value>
+  </data>
+  <data name="InitWebDAV" xml:space="preserve">
+    <value>正在后台初始化 WebDAV...</value>
+  </data>
+  <data name="WebDAVInitSuccess" xml:space="preserve">
+    <value>WebDAV 配置有效！</value>
   </data>
 </root>
