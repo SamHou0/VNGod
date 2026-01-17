@@ -1,5 +1,7 @@
 # 下载
 
+下载之前，我们强烈推荐您先看看[快速开始](./quick-start/start.md)。如果遇到问题了，也可以点击右上角加入我们的讨论群。
+
 ## 正式版
 
 前往 [GitHub Release](https://github.com/SamHou0/VNGod/releases)，下载最新版本的 zip 文件。

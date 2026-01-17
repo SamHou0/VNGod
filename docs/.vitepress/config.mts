@@ -18,7 +18,8 @@ export default defineConfig({
     nav: [
       { text: '主页', link: '/' },
       { text: '文档', link: '/quick-start/description' },
-      { text: '下载', link: '/download' }
+      { text: '下载', link: '/download' },
+      { text: '讨论群',link: 'https://t.me/+s38gO1NIdw0zNTI1'}
     ],
     logo: 'favicon.ico',
     sidebar: [
@@ -34,6 +35,9 @@ export default defineConfig({
         items: [
           {text: '修改游戏信息',link:'/feature/game-edit'},
           {text: '图标搜刮',link:'/feature/icon'},
+          {text: '游戏管理',link:'/feature/game-store'},
+          {text: '隐藏游戏',link:'/feature/game-hide'},
+          {text: '调试',link:'/feature/debug'},
         ]
       },
       {
@@ -46,7 +50,7 @@ export default defineConfig({
     ],
     socialLinks: [
       { icon: 'github', link: 'https://github.com/SamHou0/VNGod' },
-      { icon: 'bilibili', link: 'https://space.bilibili.com/456964528' },
+      { icon: 'telegram', link: 'https://t.me/PatriciaBySamHou' },
       { icon: 'rss', link: 'https://blog.samhou.top' }
     ]
   }
