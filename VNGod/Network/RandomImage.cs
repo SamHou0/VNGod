@@ -12,7 +12,7 @@ namespace VNGod.Network
 {
     internal static class RandomImage
     {
-        private static readonly string baseUrl = "https://www.loliapi.com/acg/pc/";
+        private static readonly string baseUrl = "https://moe.samhou.moe";
         private static ILog logger=LogManager.GetLogger(typeof(RandomImage));
         public async static Task<BitmapImage?> GetImageAsync()
         {
