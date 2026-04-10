@@ -63,6 +63,10 @@ namespace VNGod.Utils
                             DirectoryName = new DirectoryInfo(dir).Name
                         };
                         repo.Add(game);
+                        // Save an empty file to prevent file problem
+                        using StreamWriter writer = new(Path.Combine(dir, ".vngod"));
+                        XmlSerializer serializer = new(typeof(Game));
+                        serializer.Serialize(writer, game);
                     }
                 }
                 catch (Exception ex)
